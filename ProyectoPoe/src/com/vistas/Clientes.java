@@ -2,6 +2,7 @@
 package com.vistas;
 
 import com.dao.DaoCliente;
+import com.dao.DaoUsuario;
 import com.pojos.Cliente;
 import com.pojos.Usuario;
 import com.utils.ComboItem;
@@ -22,13 +23,14 @@ import javax.swing.table.DefaultTableModel;
 public class Clientes extends javax.swing.JFrame {
     DaoCliente daoC = new DaoCliente();
     Cliente cli = new Cliente();
+    DaoUsuario daoU = new DaoUsuario();
     
     public Clientes() {
         initComponents();
         mostrar();
         super.setExtendedState(Frame.MAXIMIZED_BOTH);
         cerrarVentana();
-        cargarCombo(comboUsuario, daoC.mostrarClientes());
+        cargarCombo(comboUsuario, daoU.mostrarUsuarios());
     }
     
     public void mostrar() {
@@ -57,17 +59,16 @@ public class Clientes extends javax.swing.JFrame {
         }
     }
 
-    private void cargarCombo(JComboBox combo, List<Cliente> list) {
-        for (Cliente item : list) {
-            combo.addItem(new ComboItem(item.getIdCliente(),
-                    item.getNombreCliente()));
+    private void cargarCombo(JComboBox combo, List<Usuario> list) {
+        for (Usuario item : list) {
+            combo.addItem(new ComboItem(item.getIdUsuario(),
+                    item.getNombreUsuario()));
         }
     }
 
     public void insertar() {
         try {
             cli.setIdCliente(Integer.parseInt(this.txtCodigo.getText()));
-            cli.setNombreCliente(this.txtNombre.getText());
             cli.setNombreCliente(this.txtNombre.getText());
             cli.setDireccionCliente(this.txtDireccion.getText());
             cli.setTelefonoCliente(this.txtTelefono.getText());
@@ -82,6 +83,7 @@ public class Clientes extends javax.swing.JFrame {
             cli.setUsuario(prov);
             daoC.insertarCliente(cli);
             JOptionPane.showMessageDialog(null, "Insertado correctamente");
+            mostrar();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al insertar" + e.getMessage());
         }
@@ -93,6 +95,8 @@ public class Clientes extends javax.swing.JFrame {
         this.txtDireccion.setText("");
         this.txtTelefono.setText("");
         this.comboUsuario.setSelectedIndex(0);
+        this.txtCodigo.setEnabled(true);
+        this.btnFoto.setIcon(null);
     }
 
     public void llenarTabla() {
@@ -104,7 +108,9 @@ public class Clientes extends javax.swing.JFrame {
             this.txtTelefono.setText(String.valueOf(this.tablaClientes.getValueAt(fila, 3)));
             String usu = String.valueOf(this.tablaClientes.getValueAt(fila, 4));
             comboUsuario.getModel().setSelectedItem(usu);
-            //Agregar foto
+            ImageIcon imageIcon = new ImageIcon(new ImageIcon(tablaClientes.getValueAt(fila, 5).toString()).getImage().getScaledInstance(190, 190, Image.SCALE_DEFAULT));
+            btnFoto.setText("");
+            btnFoto.setIcon(imageIcon);
             this.txtCodigo.setEnabled(false);
         }
     }
@@ -192,13 +198,12 @@ public class Clientes extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         txtDireccion = new javax.swing.JTextField();
         jSeparator12 = new javax.swing.JSeparator();
-        jLabel5 = new javax.swing.JLabel();
+        btnEditarUsuario = new javax.swing.JLabel();
         comboUsuario = new javax.swing.JComboBox<>();
         txtUsuarioid = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jSeparator10 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -349,8 +354,13 @@ public class Clientes extends javax.swing.JFrame {
         jSeparator12.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 95, 346, 10));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_edit_36px.png"))); // NOI18N
-        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, -1, -1));
+        btnEditarUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_edit_36px.png"))); // NOI18N
+        btnEditarUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditarUsuarioMouseClicked(evt);
+            }
+        });
+        jPanel3.add(btnEditarUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, -1, -1));
 
         jPanel3.add(comboUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 0, 210, 40));
 
@@ -365,9 +375,6 @@ public class Clientes extends javax.swing.JFrame {
 
         jSeparator10.setForeground(new java.awt.Color(49, 57, 69));
         jPanel4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 445, 10));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_save_36px_1.png"))); // NOI18N
-        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 0, -1, -1));
 
         txtBuscar.setBackground(new java.awt.Color(233, 235, 237));
         txtBuscar.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
@@ -387,12 +394,27 @@ public class Clientes extends javax.swing.JFrame {
         jPanel4.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 0, 66, 26));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_add_36px.png"))); // NOI18N
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
         jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 0, -1, -1));
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_delete_bin_36px.png"))); // NOI18N
+        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel13MouseClicked(evt);
+            }
+        });
         jPanel4.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, -1, -1));
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_refresh_36px.png"))); // NOI18N
+        jLabel14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel14MouseClicked(evt);
+            }
+        });
         jPanel4.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 0, -1, -1));
 
         btnFoto.setText("Foto");
@@ -501,14 +523,38 @@ public class Clientes extends javax.swing.JFrame {
             txtCodigo.setText(tablaClientes.getValueAt(row, 0).toString());
             //txtUsuario.setText((String)tablaClientes.getValueAt(row, 1));
             //txtDescripcion.setText((String) jTDatos.getValueAt(row, 2));
-            ImageIcon imageIcon = new ImageIcon(new ImageIcon(tablaClientes.getValueAt(row, 3).toString()).getImage().getScaledInstance(190, 190, Image.SCALE_DEFAULT));
-            btnFoto.setText("");
-            btnFoto.setIcon(imageIcon);
+
 
         } else {
             JOptionPane.showMessageDialog(this,"No hay filas por mostrar");
         }*/
     }//GEN-LAST:event_tablaClientesMouseClicked
+
+    private void jLabel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MouseClicked
+        mostrar();
+        limpiar();
+    }//GEN-LAST:event_jLabel14MouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        insertar();
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+        eliminar();
+    }//GEN-LAST:event_jLabel13MouseClicked
+
+    private void btnEditarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditarUsuarioMouseClicked
+        String usuario = comboUsuario.getSelectedItem().toString();
+        ComboItem item = new ComboItem();
+        for (int i = 0; i < comboUsuario.getItemCount(); i++) {
+            if (usuario.equals(comboUsuario.getItemAt(i).toString())) {
+                item = comboUsuario.getModel().getElementAt(i);
+            }
+        }
+        System.out.println("ID 2:"+item.getValue());
+        Usuarios u = new Usuarios(item.getValue(), "Cliente");
+        u.setVisible(true);
+    }//GEN-LAST:event_btnEditarUsuarioMouseClicked
 
      public void cerrarVentana(){
         super.setVisible(false);
@@ -548,9 +594,9 @@ public class Clientes extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JLabel btnEditarUsuario;
     private javax.swing.JButton btnFoto;
     private javax.swing.JComboBox<ComboItem> comboUsuario;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -559,7 +605,6 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;

@@ -29,11 +29,11 @@ public class Test {
         List<Usuario> usuarios = daoU.mostrarUsuarios();
         System.out.println(usuarios.size());*/
         
-        List<Cliente> cliente = cli.buscarCliente(2);
-        if(cliente != null)
+        //List<Cliente> cliente = cli.buscarCliente(2);
+        /*if(cliente != null)
         System.out.println("Cliente: "+cliente.get(0).getNombreCliente());
         else
-            System.out.println("NULL");
+            System.out.println("NULL");*/
         
         /*Usuario usu = new Usuario();
         usu.setIdUsuario(1);

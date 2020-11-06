@@ -78,14 +78,13 @@ public class DaoCliente {
         return listaClientes;
     }
     
-    public List<Cliente> buscarCliente(int id){
-        //Cliente cli = new Cliente();
-        List<Cliente>cli = new ArrayList();
+    public Cliente buscarCliente(int id){
+        Cliente cli = new Cliente();
         Session session = null;
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         try {
-            //cli = (Cliente) session.load(Cliente.class, id);
+            cli = (Cliente) session.load(Cliente.class, id);
             t.commit();
             session.close();
         } catch (HibernateException e) {

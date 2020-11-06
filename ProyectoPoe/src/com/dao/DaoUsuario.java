@@ -30,17 +30,17 @@ public class DaoUsuario {
         }
     }
     
-    public String modificarUsuario(Usuario cli){
+    public String modificarUsuario(Usuario usu){
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            session.update(cli);
+            session.update(usu);
             session.getTransaction().commit();
-            return "Insertado correctamente";
+            return "Modificado correctamente";
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            return "No se ha insertado";
+            return "No se ha modificado "+e.getMessage();
         } finally {
             session.close();
         }
@@ -63,19 +63,34 @@ public class DaoUsuario {
     }
     
     public List<Usuario> mostrarUsuarios(){
-        System.out.println("Hola");
         List<Usuario> listaUsuarios = new ArrayList();
         Session session = null;
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        String sql = "from usuario";
+        String sql = "FROM Usuario";
         try {
             listaUsuarios = session.createQuery(sql).list();
-            System.out.println("Usuarios:"+ listaUsuarios.size());
             t.commit();
+            session.close();
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
+            t.rollback();
         }
         return listaUsuarios;
+    }
+    
+    public Usuario buscarUsuario(int id){
+        Usuario cli = new Usuario();
+        Session session = null;
+        session = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            cli = (Usuario) session.load(Usuario.class, id);
+            t.commit();
+            session.close();
+        } catch (HibernateException e) {
+            cli = null;
+            t.rollback();
+        }
+        return cli;
     }
 }
