@@ -26,6 +26,11 @@ public class Vehiculos extends javax.swing.JFrame {
         //cargar();
         super.setExtendedState(Frame.MAXIMIZED_BOTH);
         cerrarVentana();
+        validarUsuario();
+    }
+    
+    public void validarUsuario(){
+        
     }
     
     @SuppressWarnings("unchecked")

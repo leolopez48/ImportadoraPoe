@@ -7,8 +7,6 @@ create table usuario
 id_usuario INT AUTO_INCREMENT PRIMARY KEY,
 nombre_usuario varchar(200) not null,
 correo_usuario varchar(200) not null,
-fecha_creacion date,
-fecha_modificacion date,
 contra varchar(11) not null,
 tipo_usuario int not null,
 foto varchar(150) not null
@@ -105,16 +103,16 @@ alter table vehiculo add constraint fk_id_unidad_medida foreign key(id_unidad_me
 references unidad_medida(id_unidad_medida);
 
 /*Datos de prueba*/
-insert into usuario values(1,'pedroM35', 'pedrom35@gmail.com', '2020-03-25', '', '3356pedro', 1, 'foto'),
-						  (2,'juan36', 'juan36@gmail.com', '2020-03-25', '', 'juan36', 2, 'foto'),
-						  (3,'robertoP37', 'robertoP37@gmail.com', '2020-03-25', '', 'robertoP37', 3, 'foto'),
-						  (4,'marcosLS', 'marcosLS@gmail.com', '2020-03-25', '', 'marcosLS', 4, 'foto'),
-						  (5,'segioR', 'segioR@gmail.com', '2020-03-25', '', 'segioR', 1, 'foto'),
-						  (6,'marlonSF', 'marlonSF@gmail.com', '2020-03-25', '', 'marlonSF', 2, 'foto'),
-						  (7,'miguel67', 'miguel67@gmail.com', '2020-03-25', '', 'miguel67', 3, 'foto'),
-						  (8,'martaL35', 'martaL35@gmail.com', '2020-03-25', '', 'martaL35', 4, 'foto'),
-						  (9,'Franco123', 'Franco123@gmail.com', '2020-03-25', '', 'Franco123', 1, 'foto'),
-						  (10,'Ronaldo7', 'Ronaldo7@gmail.com', '2020-03-25', '', 'Ronaldo7', 2, 'foto');	
+insert into usuario values(1,'pedroM35', 'pedrom35@gmail.com', '3356pedro', 1, 'foto'),
+						  (2,'juan36', 'juan36@gmail.com', 'juan36', 2, 'foto'),
+						  (3,'robertoP37', 'robertoP37@gmail.com', 'robertoP37', 3, 'foto'),
+						  (4,'marcosLS', 'marcosLS@gmail.com', 'marcosLS', 4, 'foto'),
+						  (5,'segioR', 'segioR@gmail.com', 'segioR', 1, 'foto'),
+						  (6,'marlonSF', 'marlonSF@gmail.com', 'marlonSF', 2, 'foto'),
+						  (7,'miguel67', 'miguel67@gmail.com', 'miguel67', 3, 'foto'),
+						  (8,'martaL35', 'martaL35@gmail.com', 'martaL35', 4, 'foto'),
+						  (9,'Franco123', 'Franco123@gmail.com', 'Franco123', 1, 'foto'),
+						  (10,'Ronaldo7', 'Ronaldo7@gmail.com', 'Ronaldo7', 2, 'foto');	
 select * from usuario;
 
 insert into cliente values (1, 1, 'Pedro Martinez', '1234-5678', 'Santa Tecla'),

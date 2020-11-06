@@ -1,6 +1,10 @@
 
 package com.vistas;
 
+import com.dao.DaoCliente;
+import com.pojos.Cliente;
+import com.pojos.Usuario;
+import com.utils.ComboItem;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -11,21 +15,155 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Clientes extends javax.swing.JFrame {
-
-    String []columnas ={"CODIGO","NOMBRE_EMPRESA","DESCRIPCION","FOTO URL", "ID USUARIO"};
-    DefaultTableModel modelo = new DefaultTableModel(columnas,0);
-
-   
+    DaoCliente daoC = new DaoCliente();
+    Cliente cli = new Cliente();
     
     public Clientes() {
         initComponents();
-        //cargar();
+        mostrar();
         super.setExtendedState(Frame.MAXIMIZED_BOTH);
         cerrarVentana();
+        cargarCombo(comboUsuario, daoC.mostrarClientes());
+    }
+    
+    public void mostrar() {
+        DefaultTableModel tabla;
+        String []columnas ={"Código","Nombre","Dirección","Teléfono", "Usuario", "Foto"};
+        tabla = new DefaultTableModel(null, columnas);
+        Object datos[] = new Object[7];
+
+        try {
+            List lista;
+            lista = daoC.mostrarClientes();
+            System.out.println(lista.size());
+            for (int i = 0; i < lista.size(); i++) {
+                cli = (Cliente) lista.get(i);
+                datos[0] = cli.getIdCliente();
+                datos[1] = cli.getNombreCliente();
+                datos[2] = cli.getDireccionCliente();
+                datos[3] = cli.getTelefonoCliente();
+                datos[4] = cli.getUsuario().getNombreUsuario();
+                datos[5] = cli.getUsuario().getFoto();
+                tabla.addRow(datos);
+            }
+            this.tablaClientes.setModel(tabla);
+        } catch (Exception e) {
+           JOptionPane.showMessageDialog(null, "Error al mostrar en formulario " + e.getMessage());
+        }
+    }
+
+    private void cargarCombo(JComboBox combo, List<Cliente> list) {
+        for (Cliente item : list) {
+            combo.addItem(new ComboItem(item.getIdCliente(),
+                    item.getNombreCliente()));
+        }
+    }
+
+    public void insertar() {
+        try {
+            cli.setIdCliente(Integer.parseInt(this.txtCodigo.getText()));
+            cli.setNombreCliente(this.txtNombre.getText());
+            cli.setNombreCliente(this.txtNombre.getText());
+            cli.setDireccionCliente(this.txtDireccion.getText());
+            cli.setTelefonoCliente(this.txtTelefono.getText());
+            String usuario = comboUsuario.getSelectedItem().toString();
+            ComboItem item = new ComboItem();
+            for (int i = 0; i < comboUsuario.getItemCount(); i++) {
+                if (usuario.equals(comboUsuario.getItemAt(i).toString())) {
+                    item = comboUsuario.getModel().getElementAt(i);
+                }
+            }
+            Usuario prov = new Usuario(item.getValue());
+            cli.setUsuario(prov);
+            daoC.insertarCliente(cli);
+            JOptionPane.showMessageDialog(null, "Insertado correctamente");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al insertar" + e.getMessage());
+        }
+    }
+
+    public void limpiar() {
+        this.txtCodigo.setText("");
+        this.txtNombre.setText("");
+        this.txtDireccion.setText("");
+        this.txtTelefono.setText("");
+        this.comboUsuario.setSelectedIndex(0);
+    }
+
+    public void llenarTabla() {
+        int fila = this.tablaClientes.getSelectedRow();
+        if (fila > -1) {
+            this.txtCodigo.setText(String.valueOf(this.tablaClientes.getValueAt(fila, 0)));
+            this.txtNombre.setText(String.valueOf(this.tablaClientes.getValueAt(fila, 1)));
+            this.txtDireccion.setText(String.valueOf(this.tablaClientes.getValueAt(fila, 2)));
+            this.txtTelefono.setText(String.valueOf(this.tablaClientes.getValueAt(fila, 3)));
+            String usu = String.valueOf(this.tablaClientes.getValueAt(fila, 4));
+            comboUsuario.getModel().setSelectedItem(usu);
+            //Agregar foto
+            this.txtCodigo.setEnabled(false);
+        }
+    }
+
+    public void modificar() {
+        try {
+            cli.setIdCliente(Integer.parseInt(this.txtCodigo.getText()));
+            cli.setNombreCliente(this.txtNombre.getText());
+            cli.setNombreCliente(this.txtNombre.getText());
+            cli.setDireccionCliente(this.txtDireccion.getText());
+            cli.setTelefonoCliente(this.txtTelefono.getText());
+            String usuario = comboUsuario.getSelectedItem().toString();
+            ComboItem item = new ComboItem();
+            
+            //Agregar linea para combobox
+            Usuario usu = new Usuario(item.getValue());
+            
+            for (int i = 0; i < comboUsuario.getItemCount(); i++) {
+                if (usuario.equals(comboUsuario.getItemAt(i).toString())) {
+                    item = comboUsuario.getModel().getElementAt(i);
+                    usu.setIdUsuario(item.getValue());
+                }
+            }
+            
+            cli.setUsuario(usu);
+            
+            int respuesta = JOptionPane.showConfirmDialog(this, "Desea modificar el producto",
+                    "Modificar", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.OK_OPTION) {
+                daoC.modificarCliente(cli);
+                JOptionPane.showMessageDialog(null, "Datos modificados con exito");
+                mostrar();
+                limpiar();
+            } else {
+                mostrar();
+                limpiar();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al modificar en formulario");
+        }
+    }
+    
+    public void eliminar(){
+        try {
+            cli.setIdCliente(Integer.parseInt(this.txtCodigo.getText()));
+            int respuesta = JOptionPane.showConfirmDialog(this, "Desea eliminar el producto",
+                    "Eliminar", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.OK_OPTION) {
+                daoC.eliminarCliente(cli);
+                JOptionPane.showMessageDialog(null, "Datos eliminados con exito");
+                mostrar();
+                limpiar();
+            } else {
+                mostrar();
+                limpiar();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar en formulario");
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -35,9 +173,8 @@ public class Clientes extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTDatos = new javax.swing.JTable();
+        tablaClientes = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -45,25 +182,28 @@ public class Clientes extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
         jSeparator8 = new javax.swing.JSeparator();
-        txtNombre1 = new javax.swing.JTextField();
+        txtTelefono = new javax.swing.JTextField();
         jSeparator9 = new javax.swing.JSeparator();
         jLabel8 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtNombre2 = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         jSeparator11 = new javax.swing.JSeparator();
         jLabel9 = new javax.swing.JLabel();
-        txtNombre3 = new javax.swing.JTextField();
+        txtDireccion = new javax.swing.JTextField();
         jSeparator12 = new javax.swing.JSeparator();
+        jLabel5 = new javax.swing.JLabel();
+        comboUsuario = new javax.swing.JComboBox<>();
         txtUsuarioid = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jSeparator10 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
         btnFoto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -77,8 +217,8 @@ public class Clientes extends javax.swing.JFrame {
         jLabel2.setText("Clientes");
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jTDatos.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jTDatos.setModel(new javax.swing.table.DefaultTableModel(
+        tablaClientes.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -89,34 +229,21 @@ public class Clientes extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTDatos.setToolTipText("Para ver el detalle completo, seleccione una empresa y presione Enter.");
-        jTDatos.setRowHeight(25);
-        jTDatos.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaClientes.setToolTipText("Para ver el detalle completo, seleccione una empresa y presione Enter.");
+        tablaClientes.setRowHeight(25);
+        tablaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTDatosMouseClicked(evt);
+                tablaClientesMouseClicked(evt);
             }
         });
-        jTDatos.addKeyListener(new java.awt.event.KeyAdapter() {
+        tablaClientes.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 Enter(evt);
             }
         });
-        jScrollPane1.setViewportView(jTDatos);
+        jScrollPane1.setViewportView(tablaClientes);
 
         jPanel1.setBackground(new java.awt.Color(49, 57, 69));
-
-        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Inicio");
-        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
-            }
-        });
 
         jLabel10.setBackground(new java.awt.Color(255, 255, 255));
         jLabel10.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
@@ -142,8 +269,6 @@ public class Clientes extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42))
@@ -154,7 +279,6 @@ public class Clientes extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -175,23 +299,18 @@ public class Clientes extends javax.swing.JFrame {
         jPanel3.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 111, 263, 28));
 
         jLabel6.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jLabel6.setText("ID");
+        jLabel6.setText("Usuario");
         jLabel6.setToolTipText("");
         jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 16, -1, -1));
 
-        txtId.setBackground(new java.awt.Color(233, 235, 237));
-        txtId.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtId.setBorder(null);
-        jPanel3.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 11, 281, 28));
-
         jSeparator8.setForeground(new java.awt.Color(49, 57, 69));
-        jPanel3.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 45, 303, 10));
+        jPanel3.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 45, 340, 10));
 
-        txtNombre1.setBackground(new java.awt.Color(233, 235, 237));
-        txtNombre1.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtNombre1.setBorder(null);
-        jPanel3.add(txtNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 61, 267, 28));
+        txtTelefono.setBackground(new java.awt.Color(233, 235, 237));
+        txtTelefono.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtTelefono.setBorder(null);
+        jPanel3.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 61, 267, 28));
 
         jSeparator9.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 95, 343, 10));
@@ -208,10 +327,10 @@ public class Clientes extends javax.swing.JFrame {
         jLabel7.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 16, -1, -1));
 
-        txtNombre2.setBackground(new java.awt.Color(233, 235, 237));
-        txtNombre2.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtNombre2.setBorder(null);
-        jPanel3.add(txtNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(427, 11, 281, 28));
+        txtNombre.setBackground(new java.awt.Color(233, 235, 237));
+        txtNombre.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtNombre.setBorder(null);
+        jPanel3.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(427, 11, 281, 28));
 
         jSeparator11.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 45, 337, 10));
@@ -222,13 +341,18 @@ public class Clientes extends javax.swing.JFrame {
         jLabel9.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 66, -1, -1));
 
-        txtNombre3.setBackground(new java.awt.Color(233, 235, 237));
-        txtNombre3.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtNombre3.setBorder(null);
-        jPanel3.add(txtNombre3, new org.netbeans.lib.awtextra.AbsoluteConstraints(436, 61, 281, 28));
+        txtDireccion.setBackground(new java.awt.Color(233, 235, 237));
+        txtDireccion.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtDireccion.setBorder(null);
+        jPanel3.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(436, 61, 281, 28));
 
         jSeparator12.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 95, 346, 10));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_edit_36px.png"))); // NOI18N
+        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, -1, -1));
+
+        jPanel3.add(comboUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 0, 210, 40));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -242,11 +366,8 @@ public class Clientes extends javax.swing.JFrame {
         jSeparator10.setForeground(new java.awt.Color(49, 57, 69));
         jPanel4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 445, 10));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_add_48px.png"))); // NOI18N
-        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, -1, -1));
-
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_refresh_48px.png"))); // NOI18N
-        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 0, -1, -1));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_save_36px_1.png"))); // NOI18N
+        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 0, -1, -1));
 
         txtBuscar.setBackground(new java.awt.Color(233, 235, 237));
         txtBuscar.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
@@ -264,6 +385,15 @@ public class Clientes extends javax.swing.JFrame {
             }
         });
         jPanel4.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 0, 66, 26));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_add_36px.png"))); // NOI18N
+        jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 0, -1, -1));
+
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_delete_bin_36px.png"))); // NOI18N
+        jPanel4.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, -1, -1));
+
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_refresh_36px.png"))); // NOI18N
+        jPanel4.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 0, -1, -1));
 
         btnFoto.setText("Foto");
         btnFoto.setBorderPainted(false);
@@ -289,13 +419,13 @@ public class Clientes extends javax.swing.JFrame {
                 .addComponent(btnFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 626, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(129, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(100, 100, 100)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 684, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(36, Short.MAX_VALUE))))
+                        .addContainerGap(36, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 699, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -351,16 +481,11 @@ public class Clientes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jLabel11MouseClicked
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        super.dispose();
-        //new home().setVisible(true);
-    }//GEN-LAST:event_jLabel3MouseClicked
-
     private void Enter(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Enter
 
         if (evt.getKeyCode()==KeyEvent.VK_ENTER){
-            int row = jTDatos.getSelectedRow();
-            Integer id_empresa=(Integer)jTDatos.getValueAt(row, 0);
+            int row = tablaClientes.getSelectedRow();
+            Integer id_empresa=(Integer)tablaClientes.getValueAt(row, 0);
 
             //new Detalle_Empresa(id_empresa).setVisible(true);
 
@@ -368,21 +493,22 @@ public class Clientes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_Enter
 
-    private void jTDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTDatosMouseClicked
-        int row = jTDatos.getSelectedRow();
+    private void tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMouseClicked
+        llenarTabla();
+        /*int row = tablaClientes.getSelectedRow();
 
         if (row != -1) {
-            txtCodigo.setText(jTDatos.getValueAt(row, 0).toString());
-            txtId.setText((String)jTDatos.getValueAt(row, 1));
+            txtCodigo.setText(tablaClientes.getValueAt(row, 0).toString());
+            //txtUsuario.setText((String)tablaClientes.getValueAt(row, 1));
             //txtDescripcion.setText((String) jTDatos.getValueAt(row, 2));
-            ImageIcon imageIcon = new ImageIcon(new ImageIcon(jTDatos.getValueAt(row, 3).toString()).getImage().getScaledInstance(190, 190, Image.SCALE_DEFAULT));
+            ImageIcon imageIcon = new ImageIcon(new ImageIcon(tablaClientes.getValueAt(row, 3).toString()).getImage().getScaledInstance(190, 190, Image.SCALE_DEFAULT));
             btnFoto.setText("");
             btnFoto.setIcon(imageIcon);
 
         } else {
             JOptionPane.showMessageDialog(this,"No hay filas por mostrar");
-        }
-    }//GEN-LAST:event_jTDatosMouseClicked
+        }*/
+    }//GEN-LAST:event_tablaClientesMouseClicked
 
      public void cerrarVentana(){
         super.setVisible(false);
@@ -423,10 +549,13 @@ public class Clientes extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnFoto;
+    private javax.swing.JComboBox<ComboItem> comboUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -446,13 +575,12 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
-    private javax.swing.JTable jTDatos;
+    private javax.swing.JTable tablaClientes;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCodigo;
-    private javax.swing.JTextField txtId;
-    private javax.swing.JTextField txtNombre1;
-    private javax.swing.JTextField txtNombre2;
-    private javax.swing.JTextField txtNombre3;
+    private javax.swing.JTextField txtDireccion;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtTelefono;
     private javax.swing.JLabel txtUsuarioid;
     // End of variables declaration//GEN-END:variables
 }
