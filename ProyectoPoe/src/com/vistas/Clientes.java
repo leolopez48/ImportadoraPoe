@@ -11,7 +11,6 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -552,7 +551,7 @@ public class Clientes extends javax.swing.JFrame {
             }
         }
         System.out.println("ID 2:"+item.getValue());
-        Usuarios u = new Usuarios(item.getValue(), "Cliente");
+        Usuarios u = new Usuarios(item.getValue(), 0);
         u.setVisible(true);
     }//GEN-LAST:event_btnEditarUsuarioMouseClicked
 

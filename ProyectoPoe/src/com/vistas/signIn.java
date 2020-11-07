@@ -11,6 +11,7 @@ public class signIn extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -23,8 +24,8 @@ public class signIn extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JSeparator();
         jLabel10 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jPasswordField2 = new javax.swing.JPasswordField();
+        txtContra = new javax.swing.JPasswordField();
+        txtContraRepetida = new javax.swing.JPasswordField();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jPanel1 = new javax.swing.JPanel();
@@ -71,18 +72,20 @@ public class signIn extends javax.swing.JFrame {
 
         jSeparator2.setForeground(new java.awt.Color(49, 57, 69));
 
-        jPasswordField1.setBackground(new java.awt.Color(233, 235, 237));
-        jPasswordField1.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        jPasswordField1.setBorder(null);
+        txtContra.setBackground(new java.awt.Color(233, 235, 237));
+        txtContra.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtContra.setBorder(null);
 
-        jPasswordField2.setBackground(new java.awt.Color(233, 235, 237));
-        jPasswordField2.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        jPasswordField2.setBorder(null);
+        txtContraRepetida.setBackground(new java.awt.Color(233, 235, 237));
+        txtContraRepetida.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtContraRepetida.setBorder(null);
 
         jRadioButton1.setBackground(new java.awt.Color(233, 235, 237));
+        buttonGroup1.add(jRadioButton1);
         jRadioButton1.setText("Cliente");
 
         jRadioButton2.setBackground(new java.awt.Color(233, 235, 237));
+        buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("Proveedor");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -97,7 +100,7 @@ public class signIn extends javax.swing.JFrame {
                             .addComponent(jLabel10)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addComponent(jPasswordField2))
+                                .addComponent(txtContraRepetida))
                             .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(30, 30, 30)
@@ -117,7 +120,7 @@ public class signIn extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPasswordField1)))))
+                                .addComponent(txtContra)))))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(62, 62, 62)
@@ -152,13 +155,13 @@ public class signIn extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPasswordField1))
+                    .addComponent(txtContra))
                 .addGap(8, 8, 8)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField2)
+                .addComponent(txtContraRepetida)
                 .addGap(8, 8, 8)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
@@ -244,6 +247,7 @@ public class signIn extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -255,13 +259,13 @@ public class signIn extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JPasswordField txtContra;
+    private javax.swing.JPasswordField txtContraRepetida;
     // End of variables declaration//GEN-END:variables
 }

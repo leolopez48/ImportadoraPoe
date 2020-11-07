@@ -1,6 +1,7 @@
 
 package com.vistas;
 
+import com.dao.DaoUsuario;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -15,7 +16,10 @@ import javax.swing.JOptionPane;
 
 
 public class Login extends javax.swing.JFrame {
-
+    
+    String usuario;
+    DaoUsuario daoU = new DaoUsuario();
+    
     public Login() throws Exception {
         initComponents();
     }
@@ -167,7 +171,17 @@ public class Login extends javax.swing.JFrame {
 
     //Botón login
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        
+        usuario = txtUsuario.getText();
+        System.out.println(usuario);
+        String contra = new String(txtContra.getPassword());
+        System.out.println(contra);
+        if(daoU.login(usuario, contra)){
+            VistaPrincipal vp = new VistaPrincipal();
+            vp.setVisible(true);
+            this.dispose();
+        }else{
+            JOptionPane.showMessageDialog(this, "Las credenciales son incorrectas.", "Usuario no válido.", 0);
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

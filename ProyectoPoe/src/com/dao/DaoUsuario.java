@@ -3,6 +3,7 @@ package com.dao;
 
 import com.pojos.Usuario;
 import com.utils.HibernateUtil;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -85,6 +86,7 @@ public class DaoUsuario {
         Transaction t = session.beginTransaction();
         try {
             cli = (Usuario) session.load(Usuario.class, id);
+            System.out.println(cli.getNombreUsuario());
             t.commit();
             session.close();
         } catch (HibernateException e) {
@@ -92,5 +94,26 @@ public class DaoUsuario {
             t.rollback();
         }
         return cli;
+    }
+    
+    public boolean login(String nombre, String contra){
+        Session session = null;
+        boolean validado = false;
+        session = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        String sql = "FROM Usuario where nombreUsuario = :nombre AND contra = :contra";
+        try {
+            Usuario usu = (Usuario) session.createQuery(sql).setString("nombre", nombre).setString("contra", contra).uniqueResult();
+            t.commit();
+            if(usu != null){
+                if (usu.getNombreUsuario().equals(nombre) && usu.getContra().equals(contra)) {
+                    validado = true;
+                }   
+            }
+            session.close();
+        } catch (HibernateException e) {
+            t.rollback();
+        }
+        return validado;
     }
 }

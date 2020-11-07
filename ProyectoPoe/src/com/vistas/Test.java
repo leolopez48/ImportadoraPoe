@@ -23,13 +23,14 @@ public class Test {
         //JOptionPane.showMessageDialog(null, "Conecto? "+con.conectar());
         DaoCliente cli = new DaoCliente();
         DaoUsuario daoU = new DaoUsuario();
+        Usuario usu = new Usuario();
         /*List<Cliente> clientes = cli.mostrarClientes();
         System.out.println(clientes.size());
         
         List<Usuario> usuarios = daoU.mostrarUsuarios();
         System.out.println(usuarios.size());*/
-        
-        //List<Cliente> cliente = cli.buscarCliente(2);
+        System.out.println(daoU.login("pedroM35", "123456"));
+        //System.out.println(cliente.getCorreoUsuario());
         /*if(cliente != null)
         System.out.println("Cliente: "+cliente.get(0).getNombreCliente());
         else

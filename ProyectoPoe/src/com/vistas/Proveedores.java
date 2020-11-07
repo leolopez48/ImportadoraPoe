@@ -696,7 +696,7 @@ public class Proveedores extends javax.swing.JFrame {
             }
         }
         System.out.println("ID 3: "+item.getValue());
-        Usuarios u = new Usuarios(item.getValue(), "Proveedor");
+        Usuarios u = new Usuarios(item.getValue(), 1);
         u.setVisible(true);
        
     }//GEN-LAST:event_btnEditarUsuarioMouseClicked
