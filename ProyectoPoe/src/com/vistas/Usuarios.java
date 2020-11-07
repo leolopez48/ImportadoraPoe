@@ -36,6 +36,7 @@ public class Usuarios extends javax.swing.JFrame {
     }
     
     private void modificarUsuario(int idUsuario, int rol){
+        this.cbPrioridad.setEnabled(false);
         txtTitulo.setText("Modificar usuario");
         cbPrioridad.setSelectedIndex(rol);
         Usuario u = daoU.buscarUsuario(idUsuario);
