@@ -29,7 +29,7 @@ public class Test {
         
         List<Usuario> usuarios = daoU.mostrarUsuarios();
         System.out.println(usuarios.size());*/
-        System.out.println(daoU.login("pedroM35", "123456"));
+        System.out.println(daoU.ultimoId());
         //System.out.println(cliente.getCorreoUsuario());
         /*if(cliente != null)
         System.out.println("Cliente: "+cliente.get(0).getNombreCliente());

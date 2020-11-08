@@ -21,23 +21,35 @@ public class Usuarios extends javax.swing.JFrame {
     Usuario usu = new Usuario();
     DaoUsuario daoU = new DaoUsuario();
     String rutaModificado;
+    String accion;
     
     public Usuarios() {
         initComponents();
-        //nuevoUsuario();
-        //llenarCmbGenero();
+        txtId.setEnabled(false);
+        txtId.setText(String.valueOf(daoU.ultimoId()));
     }
     
-    public Usuarios(int idUsuario, int rol) {
+    public Usuarios(String accion) {
         initComponents();
-        //nuevoUsuario();
-        //llenarCmbGenero();
-        modificarUsuario(idUsuario, rol);
+        txtId.setText(String.valueOf(daoU.ultimoId()));
+        txtTitulo.setText("Nuevo usuario");
+        this.accion = accion;
+    }
+    
+    public Usuarios(int idUsuario, int rol, String accion) {
+        initComponents();
+        if (accion.equals("modificar")) {
+            txtTitulo.setText("Modificar usuario");
+            modificarUsuario(idUsuario, rol);
+        } else {
+            txtId.setText(String.valueOf(daoU.ultimoId()));
+            txtTitulo.setText("Nuevo usuario");
+        }
+        this.accion = accion;
     }
     
     private void modificarUsuario(int idUsuario, int rol){
         this.cbPrioridad.setEnabled(false);
-        txtTitulo.setText("Modificar usuario");
         cbPrioridad.setSelectedIndex(rol);
         Usuario u = daoU.buscarUsuario(idUsuario);
         txtNombre.setText(u.getNombreUsuario());
@@ -81,7 +93,7 @@ public class Usuarios extends javax.swing.JFrame {
         }
     }
     
-        public void insertar() {
+    public void insertar() {
         try {
             usu.setIdUsuario(Integer.parseInt(this.txtId.getText()));
             if(this.txtNombre.getText().equals("Administrador")){
@@ -93,12 +105,23 @@ public class Usuarios extends javax.swing.JFrame {
             }else if(this.txtNombre.getText().equals("Empleado")){
                 usu.setTipoUsuario(4);
             }
-            
+            usu.setNombreUsuario(txtNombre.getText());
             usu.setCorreoUsuario(this.txtCorreo.getText());
+            usu.setTipoUsuario(cbPrioridad.getSelectedIndex());
+            usu.setFoto(rutaModificado);
             usu.setContra(this.txtContra.getPassword().toString());
-            daoU.modificarUsuario(usu);
-            JOptionPane.showMessageDialog(null, "Insertado correctamente");
-            //this.dispose();
+            
+            if(cbPrioridad.getSelectedItem().equals("Cliente")){
+                //System.out.println("CLiente");
+                NuevoCliente nCli = new NuevoCliente(usu);
+                nCli.setVisible(true);
+                //daoU.modificarUsuario(usu);
+                //JOptionPane.showMessageDialog(null, "Insertado correctamente");
+            }else{
+                NuevoProveedor nPro = new NuevoProveedor(usu);
+                nPro.setVisible(true);
+            }
+            this.dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al insertar" + e.getMessage());
         }
@@ -240,7 +263,9 @@ public class Usuarios extends javax.swing.JFrame {
         Nombre1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         Nombre1.setText("ID");
 
-        cbPrioridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Proveedor", "Usuario" }));
+        cbPrioridad.setBackground(new java.awt.Color(255, 255, 255));
+        cbPrioridad.setForeground(new java.awt.Color(0, 0, 0));
+        cbPrioridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Proveedor" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -275,12 +300,11 @@ public class Usuarios extends javax.swing.JFrame {
                                 .addGap(34, 34, 34)
                                 .addComponent(txtCorreo))
                             .addComponent(jSeparator11, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel9)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(cbPrioridad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(18, 18, 18)
+                                .addComponent(cbPrioridad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -386,7 +410,6 @@ public class Usuarios extends javax.swing.JFrame {
     private void btnEditarFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarFotoActionPerformed
         String extension;
         JFileChooser guardar = new JFileChooser();
-            //guardar.setFileSelectionMode(JFileChooser.);
         guardar.setAcceptAllFileFilterUsed(false);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files","png", "jpeg", "jpg");
         
@@ -415,7 +438,7 @@ public class Usuarios extends javax.swing.JFrame {
                 ImageIcon imageIcon = new ImageIcon(new ImageIcon(rutaModificado).getImage().getScaledInstance(190, 190, Image.SCALE_DEFAULT));
                 btnFoto.setText("");
                 btnFoto.setIcon(imageIcon);
-                Files.copy(Paths.get(rutaModificado), Paths.get(root+"/src/recursos/fotosUsuarios").resolve(archivo.getName()), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(Paths.get(rutaModificado), Paths.get(root+"/src/com/recursos/fotosUsuarios").resolve(archivo.getName()), StandardCopyOption.REPLACE_EXISTING);
             } catch (Exception e) {
                 System.out.println("Error: "+e);
             }
@@ -423,7 +446,11 @@ public class Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarFotoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        modificar();
+       if(accion.equals("modificar")){
+           modificar();
+       }else{
+           insertar();
+       }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private String getFileExtension(String name) {

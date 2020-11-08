@@ -5,6 +5,7 @@ import com.pojos.Cliente;
 import com.utils.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -24,6 +25,7 @@ public class DaoCliente {
             return "Insertado correctamente";
         } catch (HibernateException e) {
             session.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, e.getMessage());
             return "No se ha insertado";
         } finally {
             session.close();
@@ -40,6 +42,7 @@ public class DaoCliente {
             return "Modificado correctamente";
         } catch (HibernateException e) {
             session.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, e.getMessage());
             return "No se ha insertado";
         } finally {
             session.close();
@@ -56,6 +59,7 @@ public class DaoCliente {
             return "Eliminado correctamente";
         } catch (HibernateException e) {
             session.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, e.getMessage());
             return "No se ha insertado";
         } finally {
             session.close();
@@ -73,6 +77,7 @@ public class DaoCliente {
             t.commit();
             session.close();
         } catch (HibernateException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
             t.rollback();
         }
         return listaClientes;
@@ -92,5 +97,27 @@ public class DaoCliente {
             t.rollback();
         }
         return cli;
+    }
+    
+    public int ultimoId() {
+        List<Cliente> listaClientes = new ArrayList();
+        Session session = null;
+        int id = 0;
+        session = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        String sql = "FROM Cliente";
+        try {
+            listaClientes = session.createQuery(sql).list();
+            for (Cliente usu : listaClientes) {
+                id = usu.getIdCliente();
+            }
+            t.commit();
+            session.close();
+        } catch (HibernateException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            t.rollback();
+        }
+        id++;
+        return id;
     }
 }

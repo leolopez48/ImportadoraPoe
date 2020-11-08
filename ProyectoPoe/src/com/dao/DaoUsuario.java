@@ -6,6 +6,7 @@ import com.utils.HibernateUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -25,6 +26,7 @@ public class DaoUsuario {
             return "Insertado correctamente";
         } catch (HibernateException e) {
             session.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, e.getMessage());
             return "No se ha insertado";
         } finally {
             session.close();
@@ -41,6 +43,7 @@ public class DaoUsuario {
             return "Modificado correctamente";
         } catch (HibernateException e) {
             session.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, e.getMessage());
             return "No se ha modificado "+e.getMessage();
         } finally {
             session.close();
@@ -57,6 +60,7 @@ public class DaoUsuario {
             return "Insertado correctamente";
         } catch (HibernateException e) {
             session.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, e.getMessage());
             return "No se ha insertado";
         } finally {
             session.close();
@@ -74,6 +78,7 @@ public class DaoUsuario {
             t.commit();
             session.close();
         } catch (HibernateException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
             t.rollback();
         }
         return listaUsuarios;
@@ -91,6 +96,7 @@ public class DaoUsuario {
             session.close();
         } catch (HibernateException e) {
             cli = null;
+            JOptionPane.showMessageDialog(null, e.getMessage());
             t.rollback();
         }
         return cli;
@@ -112,8 +118,31 @@ public class DaoUsuario {
             }
             session.close();
         } catch (HibernateException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
             t.rollback();
         }
         return validado;
+    }
+    
+    public int ultimoId(){
+        List<Usuario> listaUsuarios = new ArrayList();
+        Session session = null;
+        int id = 0;
+        session = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        String sql = "FROM Usuario";
+        try {
+            listaUsuarios = session.createQuery(sql).list();
+            for(Usuario usu: listaUsuarios){
+               id = usu.getIdUsuario();
+            }
+            t.commit();
+            session.close();
+        } catch (HibernateException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            t.rollback();
+        }
+        id++;
+        return id;
     }
 }

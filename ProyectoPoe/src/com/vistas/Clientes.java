@@ -551,7 +551,7 @@ public class Clientes extends javax.swing.JFrame {
             }
         }
         System.out.println("ID 2:"+item.getValue());
-        Usuarios u = new Usuarios(item.getValue(), 0);
+        Usuarios u = new Usuarios(item.getValue(), 0, "modificar");
         u.setVisible(true);
     }//GEN-LAST:event_btnEditarUsuarioMouseClicked
 
