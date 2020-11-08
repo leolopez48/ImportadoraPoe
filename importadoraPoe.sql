@@ -122,6 +122,7 @@ insert into cliente values (1, 1, 'Pedro Martinez', '1234-5678', 'Santa Tecla'),
 						   (5,5, 'Sergio Ramirez', '1234-5678', 'Zacatecoluca');
 
 select * from cliente;
+select * from cliente where nombre_cliente like '%Pedro%';
 
 insert into proveedor values(1,6, 'Marlon Saravia', '1234-5678', 'La palma'),
 						   (2,7, 'Miguel López', '1234-5678', 'Ciudad merliot'),

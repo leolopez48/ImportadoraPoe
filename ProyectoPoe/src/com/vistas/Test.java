@@ -29,7 +29,9 @@ public class Test {
         
         List<Usuario> usuarios = daoU.mostrarUsuarios();
         System.out.println(usuarios.size());*/
-        System.out.println(daoU.ultimoId());
+        //System.out.println(daoU.ultimoId());
+        List<Cliente> clientes1 = cli.buscarCliente("Pedro");
+        System.out.println(clientes1.get(0).getNombreCliente());
         //System.out.println(cliente.getCorreoUsuario());
         /*if(cliente != null)
         System.out.println("Cliente: "+cliente.get(0).getNombreCliente());

@@ -120,4 +120,23 @@ public class DaoCliente {
         id++;
         return id;
     }
+    
+    public List<Cliente> buscarCliente(String nombre){
+        List<Cliente> listaClientes = new ArrayList();
+        Session session = null;
+        int id = 0;
+        session = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        String sql = "FROM Cliente WHERE nombreCliente LIKE :nombre";
+        try {
+            listaClientes = session.createQuery(sql).setString("nombre", "%"+nombre+"%").list();
+            t.commit();
+            session.close();
+        } catch (HibernateException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            t.rollback();
+        }
+        id++;
+        return listaClientes;
+    }
 }

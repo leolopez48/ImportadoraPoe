@@ -26,22 +26,19 @@ public class Clientes extends javax.swing.JFrame {
     
     public Clientes() {
         initComponents();
-        mostrar();
+        mostrar(daoC.mostrarClientes());
         super.setExtendedState(Frame.MAXIMIZED_BOTH);
         cerrarVentana();
         cargarCombo(comboUsuario, daoU.mostrarUsuarios());
     }
     
-    public void mostrar() {
+    public void mostrar(List<Cliente> lista) {
         DefaultTableModel tabla;
         String []columnas ={"Código","Nombre","Dirección","Teléfono", "Usuario", "Foto"};
         tabla = new DefaultTableModel(null, columnas);
         Object datos[] = new Object[7];
 
         try {
-            List lista;
-            lista = daoC.mostrarClientes();
-            System.out.println(lista.size());
             for (int i = 0; i < lista.size(); i++) {
                 cli = (Cliente) lista.get(i);
                 datos[0] = cli.getIdCliente();
@@ -82,7 +79,7 @@ public class Clientes extends javax.swing.JFrame {
             cli.setUsuario(prov);
             daoC.insertarCliente(cli);
             JOptionPane.showMessageDialog(null, "Insertado correctamente");
-            mostrar();
+            mostrar(daoC.mostrarClientes());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al insertar" + e.getMessage());
         }
@@ -141,10 +138,10 @@ public class Clientes extends javax.swing.JFrame {
             if (respuesta == JOptionPane.OK_OPTION) {
                 daoC.modificarCliente(cli);
                 JOptionPane.showMessageDialog(null, "Datos modificados con exito");
-                mostrar();
+                mostrar(daoC.mostrarClientes());
                 limpiar();
             } else {
-                mostrar();
+                mostrar(daoC.mostrarClientes());
                 limpiar();
             }
         } catch (Exception e) {
@@ -160,10 +157,10 @@ public class Clientes extends javax.swing.JFrame {
             if (respuesta == JOptionPane.OK_OPTION) {
                 daoC.eliminarCliente(cli);
                 JOptionPane.showMessageDialog(null, "Datos eliminados con exito");
-                mostrar();
+                mostrar(daoC.mostrarClientes());
                 limpiar();
             } else {
-                mostrar();
+                mostrar(daoC.mostrarClientes());
                 limpiar();
             }
         } catch (Exception e) {
@@ -205,9 +202,10 @@ public class Clientes extends javax.swing.JFrame {
         jSeparator10 = new javax.swing.JSeparator();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
+        btnInsertar = new javax.swing.JLabel();
+        btnModificar = new javax.swing.JLabel();
+        btnRefrescar = new javax.swing.JLabel();
+        btnEliminar = new javax.swing.JLabel();
         btnFoto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -367,10 +365,10 @@ public class Clientes extends javax.swing.JFrame {
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel12.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jLabel12.setText("Buscar ID");
+        jLabel12.setText("Buscar nombre");
         jLabel12.setToolTipText("");
         jLabel12.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jPanel4.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+        jPanel4.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jSeparator10.setForeground(new java.awt.Color(49, 57, 69));
         jPanel4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 445, 10));
@@ -392,29 +390,37 @@ public class Clientes extends javax.swing.JFrame {
         });
         jPanel4.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 0, 66, 26));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_add_36px.png"))); // NOI18N
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_add_36px.png"))); // NOI18N
+        btnInsertar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                btnInsertarMouseClicked(evt);
             }
         });
-        jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 0, -1, -1));
+        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 0, -1, -1));
 
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_delete_bin_36px.png"))); // NOI18N
-        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_save_36px_1.png"))); // NOI18N
+        btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel13MouseClicked(evt);
+                btnModificarMouseClicked(evt);
             }
         });
-        jPanel4.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, -1, -1));
+        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 0, -1, -1));
 
-        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_refresh_36px.png"))); // NOI18N
-        jLabel14.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnRefrescar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_refresh_36px.png"))); // NOI18N
+        btnRefrescar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel14MouseClicked(evt);
+                btnRefrescarMouseClicked(evt);
             }
         });
-        jPanel4.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 0, -1, -1));
+        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 0, -1, -1));
+
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_delete_bin_36px.png"))); // NOI18N
+        btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEliminarMouseClicked(evt);
+            }
+        });
+        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, -1, -1));
 
         btnFoto.setText("Foto");
         btnFoto.setBorderPainted(false);
@@ -473,17 +479,7 @@ public class Clientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        /*this.modelo.setRowCount(0);
-        emp = pro.seleccionarEmpresa(Integer.parseInt(txtBuscar.getText()));
-        this.modelo.setRowCount(0);
-        Object [] obj = new Object[5];
-        obj[0] = emp.getId_empresa();
-        obj[1] = emp.getNombre_empresa();
-        obj[2] = emp.getDescripcion();
-        obj[3] = emp.getUsuario().getFoto();
-        obj[4] = emp.getUsuario().getId_usuario();
-        this.modelo.addRow(obj);
-        this.jTDatos.setModel(modelo);*/
+        mostrar(daoC.buscarCliente(txtBuscar.getText()));
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFotoActionPerformed
@@ -516,31 +512,20 @@ public class Clientes extends javax.swing.JFrame {
 
     private void tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMouseClicked
         llenarTabla();
-        /*int row = tablaClientes.getSelectedRow();
-
-        if (row != -1) {
-            txtCodigo.setText(tablaClientes.getValueAt(row, 0).toString());
-            //txtUsuario.setText((String)tablaClientes.getValueAt(row, 1));
-            //txtDescripcion.setText((String) jTDatos.getValueAt(row, 2));
-
-
-        } else {
-            JOptionPane.showMessageDialog(this,"No hay filas por mostrar");
-        }*/
     }//GEN-LAST:event_tablaClientesMouseClicked
 
-    private void jLabel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MouseClicked
-        mostrar();
+    private void btnRefrescarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefrescarMouseClicked
+        mostrar(daoC.mostrarClientes());
         limpiar();
-    }//GEN-LAST:event_jLabel14MouseClicked
+    }//GEN-LAST:event_btnRefrescarMouseClicked
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+    private void btnInsertarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsertarMouseClicked
         insertar();
-    }//GEN-LAST:event_jLabel3MouseClicked
+    }//GEN-LAST:event_btnInsertarMouseClicked
 
-    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
-        eliminar();
-    }//GEN-LAST:event_jLabel13MouseClicked
+    private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
+        modificar();
+    }//GEN-LAST:event_btnModificarMouseClicked
 
     private void btnEditarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditarUsuarioMouseClicked
         String usuario = comboUsuario.getSelectedItem().toString();
@@ -555,6 +540,10 @@ public class Clientes extends javax.swing.JFrame {
         u.setVisible(true);
     }//GEN-LAST:event_btnEditarUsuarioMouseClicked
 
+    private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
+        eliminar();
+    }//GEN-LAST:event_btnEliminarMouseClicked
+
      public void cerrarVentana(){
         super.setVisible(false);
         addWindowListener(new WindowAdapter() {
@@ -566,6 +555,7 @@ public class Clientes extends javax.swing.JFrame {
             }
         });
     }
+    
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -594,15 +584,16 @@ public class Clientes extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JLabel btnEditarUsuario;
+    private javax.swing.JLabel btnEliminar;
     private javax.swing.JButton btnFoto;
+    private javax.swing.JLabel btnInsertar;
+    private javax.swing.JLabel btnModificar;
+    private javax.swing.JLabel btnRefrescar;
     private javax.swing.JComboBox<ComboItem> comboUsuario;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
