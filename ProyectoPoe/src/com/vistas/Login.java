@@ -191,8 +191,20 @@ public class Login extends javax.swing.JFrame {
         String contra = new String(txtContra.getPassword());
         System.out.println(contra);
         if(daoU.login(usuario, contra)){
-            VistaPrincipal vp = new VistaPrincipal();
-            vp.setVisible(true);
+            int tipo = daoU.tipoUsuario(usuario);
+            if(tipo == 1){
+                PrincipalAdministrador pri = new PrincipalAdministrador();
+                pri.setVisible(true);
+            }else if(tipo == 2){
+                PrincipalCliente pri = new PrincipalCliente();
+                pri.setVisible(true);
+            }else if(tipo == 3){
+                PrincipalProveedor pri = new PrincipalProveedor();
+                pri.setVisible(true);
+            }else if(tipo == 4){
+                PrincipalEmpleado pri = new PrincipalEmpleado();
+                pri.setVisible(true);
+            }
             this.dispose();
         }else{
             JOptionPane.showMessageDialog(this, "Las credenciales son incorrectas.", "Usuario no válido.", 0);

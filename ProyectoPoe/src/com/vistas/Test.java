@@ -32,6 +32,8 @@ public class Test {
         //System.out.println(daoU.ultimoId());
         List<Cliente> clientes1 = cli.buscarCliente("Pedro");
         System.out.println(clientes1.get(0).getNombreCliente());
+        int tipo = daoU.tipoUsuario("pedroM35");
+        System.out.println(tipo);
         //System.out.println(cliente.getCorreoUsuario());
         /*if(cliente != null)
         System.out.println("Cliente: "+cliente.get(0).getNombreCliente());

@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
-public class Proveedores extends javax.swing.JFrame {
+public class Proveedores extends javax.swing.JInternalFrame {
 
     Proveedor pro;
     DaoProveedor daoP=new DaoProveedor();
@@ -35,11 +35,8 @@ public class Proveedores extends javax.swing.JFrame {
     public Proveedores() {
        
         initComponents();
-        //cargar();
         mostrar();
-        super.setExtendedState(Frame.MAXIMIZED_BOTH);
         cargarCombo(comboUsuario, daoUsu.mostrarUsuarios());
-        cerrarVentana();
     }
     
     
@@ -238,7 +235,11 @@ public class Proveedores extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JLabel();
         btnModificar = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
         getContentPane().setLayout(new java.awt.CardLayout());
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -692,40 +693,6 @@ public class Proveedores extends javax.swing.JFrame {
         u.setVisible(true);
        
     }//GEN-LAST:event_btnEditarUsuarioMouseClicked
-
-     public void cerrarVentana(){
-        super.setVisible(false);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                int input = JOptionPane.showConfirmDialog(rootPane, "Desea salir de la apicación?", "Salir", JOptionPane.YES_NO_OPTION);
-                if(input == 0){
-                    System.exit(0);
-                }
-            }
-        });
-    }
-    public static void main(String args[]) throws UnsupportedLookAndFeelException {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Proveedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Proveedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Proveedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Proveedores().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnActualizar;

@@ -35,6 +35,17 @@ public class NuevoUsuario extends javax.swing.JFrame {
         txtId.setText(String.valueOf(daoU.ultimoId()));
         txtTitulo.setText("Nuevo usuario");
         this.accion = accion;
+        setCombo();
+    }
+    
+    public void setCombo(){
+        if(accion.equals("insertarUsuario")){
+            cbPrioridad.removeAllItems();
+            cbPrioridad.addItem("Administrador");
+            cbPrioridad.addItem("Cliente");
+            cbPrioridad.addItem("Proveedor");
+            cbPrioridad.addItem("Empleado");
+        }
     }
     
     public NuevoUsuario(int idUsuario, int rol, String accion) {
@@ -98,32 +109,36 @@ public class NuevoUsuario extends javax.swing.JFrame {
     public void insertar() {
         try {
             usu.setIdUsuario(Integer.parseInt(this.txtId.getText()));
-            if(this.txtNombre.getText().equals("Administrador")){
+            if(this.cbPrioridad.getSelectedItem().equals("Administrador")){
                 usu.setTipoUsuario(1);
-            }else if(this.txtNombre.getText().equals("Cliente")){
+            }else if(this.cbPrioridad.getSelectedItem().equals("Cliente")){
                 usu.setTipoUsuario(2);
-            }else if(this.txtNombre.getText().equals("Proveedor")){
+            }else if(this.cbPrioridad.getSelectedItem().equals("Proveedor")){
                 usu.setTipoUsuario(3);
-            }else if(this.txtNombre.getText().equals("Empleado")){
+            }else if(this.cbPrioridad.getSelectedItem().equals("Empleado")){
                 usu.setTipoUsuario(4);
             }
             usu.setNombreUsuario(txtNombre.getText());
             usu.setCorreoUsuario(this.txtCorreo.getText());
-            usu.setTipoUsuario(cbPrioridad.getSelectedIndex());
             usu.setFoto(rutaModificado);
             usu.setContra(new String(this.txtContra.getPassword()));
             
-            if(cbPrioridad.getSelectedItem().equals("Cliente")){
-                //System.out.println("CLiente");
-                NuevoCliente nCli = new NuevoCliente(usu);
-                nCli.setVisible(true);
-                //daoU.modificarUsuario(usu);
-                //JOptionPane.showMessageDialog(null, "Insertado correctamente");
+            if(accion.equals("insertarUsuario")){
+                daoU.insertarUsuario(usu);
+                JOptionPane.showMessageDialog(null, "Insertado correctamente");
             }else{
-                NuevoProveedor nPro = new NuevoProveedor(usu);
-                nPro.setVisible(true);
+                if (cbPrioridad.getSelectedItem().equals("Cliente")) {
+                    //System.out.println("CLiente");
+                    NuevoCliente nCli = new NuevoCliente(usu);
+                    nCli.setVisible(true);
+                    //daoU.modificarUsuario(usu);
+                    //JOptionPane.showMessageDialog(null, "Insertado correctamente");
+                } else {
+                    NuevoProveedor nPro = new NuevoProveedor(usu);
+                    nPro.setVisible(true);
+                }
+                this.dispose();
             }
-            this.dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al insertar" + e.getMessage());
         }
@@ -135,8 +150,6 @@ public class NuevoUsuario extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        lblUsuario = new javax.swing.JLabel();
         txtTitulo = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jSeparator3 = new javax.swing.JSeparator();
@@ -165,31 +178,6 @@ public class NuevoUsuario extends javax.swing.JFrame {
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        jPanel2.setBackground(new java.awt.Color(49, 57, 69));
-
-        lblUsuario.setBackground(new java.awt.Color(255, 255, 255));
-        lblUsuario.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        lblUsuario.setForeground(new java.awt.Color(255, 255, 255));
-        lblUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblUsuario.setText("Nombre usuario");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(540, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addComponent(lblUsuario)
-                .addContainerGap())
-        );
 
         txtTitulo.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
         txtTitulo.setForeground(new java.awt.Color(49, 57, 69));
@@ -297,7 +285,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel16)
@@ -370,16 +358,14 @@ public class NuevoUsuario extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(txtTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -392,16 +378,14 @@ public class NuevoUsuario extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 747, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 507, Short.MAX_VALUE)
+            .addGap(0, 456, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
@@ -511,14 +495,12 @@ public class NuevoUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JLabel lblUsuario;
     private javax.swing.JPasswordField txtContra;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtId;

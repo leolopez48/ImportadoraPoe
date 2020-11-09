@@ -1,9 +1,8 @@
 
-package com.dao;
+package Dao;
 
-import com.pojos.Usuario;
+import com.pojos.Impuesto;
 import com.utils.HibernateUtil;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -13,15 +12,16 @@ import org.hibernate.Transaction;
 
 /**
  *
- * @author Leonel
+ * @author Natalia
  */
-public class DaoUsuario {
-        public String insertarUsuario(Usuario cli){
+public class DaoImpuestos {
+    
+     public String insertarImpuesto(Impuesto imp){
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            session.save(cli);
+            session.save(imp);
             session.getTransaction().commit();
             return "Insertado correctamente";
         } catch (HibernateException e) {
@@ -33,31 +33,31 @@ public class DaoUsuario {
         }
     }
     
-    public String modificarUsuario(Usuario usu){
+    public String modificarImpuesto(Impuesto imp){
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            session.update(usu);
+            session.update(imp);
             session.getTransaction().commit();
             return "Modificado correctamente";
         } catch (HibernateException e) {
             session.getTransaction().rollback();
             JOptionPane.showMessageDialog(null, e.getMessage());
-            return "No se ha modificado "+e.getMessage();
+            return "No se ha insertado";
         } finally {
             session.close();
         }
     }
-        
-    public String eliminarUsuario(Usuario cli){
+    
+    public String eliminarImpuesto(Impuesto imp){
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            session.delete(cli);
+            session.delete(imp);
             session.getTransaction().commit();
-            return "Insertado correctamente";
+            return "Eliminado correctamente";
         } catch (HibernateException e) {
             session.getTransaction().rollback();
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -67,74 +67,50 @@ public class DaoUsuario {
         }
     }
     
-    public List<Usuario> mostrarUsuarios(){
-        List<Usuario> listaUsuarios = new ArrayList();
+    public List<Impuesto> mostrarImpuesto(){
+        List<Impuesto> listaImpuesto = new ArrayList();
         Session session = null;
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        String sql = "FROM Usuario";
+        String sql = "FROM impuesto";
         try {
-            listaUsuarios = session.createQuery(sql).list();
+            listaImpuesto = session.createQuery(sql).list();
             t.commit();
             session.close();
         } catch (HibernateException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             t.rollback();
         }
-        return listaUsuarios;
+        return listaImpuesto;
     }
     
-    public Usuario buscarUsuario(int id){
-        Usuario cli = new Usuario();
+    public Impuesto buscarImpuesto(int id){
+        Impuesto imp = new Impuesto();
         Session session = null;
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         try {
-            cli = (Usuario) session.load(Usuario.class, id);
-            System.out.println(cli.getNombreUsuario());
+            imp = (Impuesto) session.load(Impuesto.class, id);
             t.commit();
             session.close();
         } catch (HibernateException e) {
-            cli = null;
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            imp = null;
             t.rollback();
         }
-        return cli;
+        return imp;
     }
     
-    public boolean login(String nombre, String contra){
-        Session session = null;
-        boolean validado = false;
-        session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
-        String sql = "FROM Usuario where nombreUsuario = :nombre AND contra = :contra";
-        try {
-            Usuario usu = (Usuario) session.createQuery(sql).setString("nombre", nombre).setString("contra", contra).uniqueResult();
-            t.commit();
-            if(usu != null){
-                if (usu.getNombreUsuario().equals(nombre) && usu.getContra().equals(contra)) {
-                    validado = true;
-                }   
-            }
-            session.close();
-        } catch (HibernateException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            t.rollback();
-        }
-        return validado;
-    }
-    
-    public int ultimoId(){
-        List<Usuario> listaUsuarios = new ArrayList();
+    public int ultimoId() {
+        List<Impuesto> listaImpuesto = new ArrayList();
         Session session = null;
         int id = 0;
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        String sql = "FROM Usuario";
+        String sql = "FROM impuesto";
         try {
-            listaUsuarios = session.createQuery(sql).list();
-            for(Usuario usu: listaUsuarios){
-               id = usu.getIdUsuario();
+            listaImpuesto = session.createQuery(sql).list();
+            for (Impuesto usu : listaImpuesto) {
+                id = usu.getIdImpuesto();
             }
             t.commit();
             session.close();
@@ -146,15 +122,15 @@ public class DaoUsuario {
         return id;
     }
     
-    public List<Usuario> buscarUsuario(String nombre) {
-        List<Usuario> listaUsuarios = new ArrayList();
+    public List<Impuesto> buscarImpuesto(String nombre){
+        List<Impuesto> listaImpuesto = new ArrayList();
         Session session = null;
         int id = 0;
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        String sql = "FROM Usuario WHERE nombreUsuario LIKE :nombre";
+        String sql = "FROM impuesto WHERE nombre LIKE :nombre";
         try {
-            listaUsuarios = session.createQuery(sql).setString("nombre", "%" + nombre + "%").list();
+            listaImpuesto = session.createQuery(sql).setString("nombre", "%"+nombre+"%").list();
             t.commit();
             session.close();
         } catch (HibernateException e) {
@@ -162,24 +138,6 @@ public class DaoUsuario {
             t.rollback();
         }
         id++;
-        return listaUsuarios;
-    }
-    
-    public int tipoUsuario(String nombre) {
-        Usuario usu = new Usuario();
-        Session session = null;
-        int id = 0;
-        session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
-        String sql = "FROM Usuario WHERE nombreUsuario LIKE :nombre";
-        try {
-            usu = (Usuario)session.createQuery(sql).setString("nombre", "%" + nombre + "%").uniqueResult();
-            t.commit();
-            session.close();
-        } catch (HibernateException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            t.rollback();
-        }
-        return usu.getTipoUsuario();
+        return listaImpuesto;
     }
 }
