@@ -145,4 +145,23 @@ public class DaoUsuario {
         id++;
         return id;
     }
+    
+    public List<Usuario> buscarUsuario(String nombre) {
+        List<Usuario> listaUsuarios = new ArrayList();
+        Session session = null;
+        int id = 0;
+        session = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        String sql = "FROM Usuario WHERE nombreUsuario LIKE :nombre";
+        try {
+            listaUsuarios = session.createQuery(sql).setString("nombre", "%" + nombre + "%").list();
+            t.commit();
+            session.close();
+        } catch (HibernateException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            t.rollback();
+        }
+        id++;
+        return listaUsuarios;
+    }
 }

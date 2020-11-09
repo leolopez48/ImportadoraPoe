@@ -8,6 +8,7 @@ import com.pojos.Usuario;
 import com.utils.ComboItem;
 import java.awt.Frame;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -30,6 +31,13 @@ public class Clientes extends javax.swing.JFrame {
         super.setExtendedState(Frame.MAXIMIZED_BOTH);
         cerrarVentana();
         cargarCombo(comboUsuario, daoU.mostrarUsuarios());
+    }
+    
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("com/recursos/logo.png"));
+        return retValue;
     }
     
     public void mostrar(List<Cliente> lista) {
@@ -209,6 +217,7 @@ public class Clientes extends javax.swing.JFrame {
         btnFoto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
         getContentPane().setLayout(new java.awt.CardLayout());
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -425,11 +434,6 @@ public class Clientes extends javax.swing.JFrame {
         btnFoto.setText("Foto");
         btnFoto.setBorderPainted(false);
         btnFoto.setContentAreaFilled(false);
-        btnFoto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFotoActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -482,10 +486,6 @@ public class Clientes extends javax.swing.JFrame {
         mostrar(daoC.buscarCliente(txtBuscar.getText()));
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void btnFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFotoActionPerformed
-
-    }//GEN-LAST:event_btnFotoActionPerformed
-
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
         int input = JOptionPane.showConfirmDialog(rootPane, "Desea cerrar sesión?", "Salir", JOptionPane.YES_NO_OPTION);
         if(input == 0){
@@ -500,14 +500,6 @@ public class Clientes extends javax.swing.JFrame {
 
     private void Enter(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Enter
 
-        if (evt.getKeyCode()==KeyEvent.VK_ENTER){
-            int row = tablaClientes.getSelectedRow();
-            Integer id_empresa=(Integer)tablaClientes.getValueAt(row, 0);
-
-            //new Detalle_Empresa(id_empresa).setVisible(true);
-
-            super.dispose();
-        }
     }//GEN-LAST:event_Enter
 
     private void tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMouseClicked
@@ -535,8 +527,7 @@ public class Clientes extends javax.swing.JFrame {
                 item = comboUsuario.getModel().getElementAt(i);
             }
         }
-        System.out.println("ID 2:"+item.getValue());
-        Usuarios u = new Usuarios(item.getValue(), 0, "modificar");
+        NuevoUsuario u = new NuevoUsuario(item.getValue(), 0, "modificar");
         u.setVisible(true);
     }//GEN-LAST:event_btnEditarUsuarioMouseClicked
 

@@ -86,7 +86,7 @@ alter table unidad_medida add constraint pk_id_unidad_medida primary key(id_unid
 
 /*Llaves foraneas*/
 alter table cliente add constraint fk_id_usuario foreign key(id_usuario)
-references usuario(id_usuario);
+references usuario(id_usuario) on delete cascade;
 alter table proveedor add constraint fk_id_usuario_proveedor foreign key(id_usuario)
 references usuario(id_usuario);
 /*alter table oferta add constraint fk_id_cliente foreign key(id_cliente)

@@ -2,6 +2,10 @@
 package com.vistas;
 
 import com.dao.DaoUsuario;
+import java.awt.Image;
+import static java.awt.SystemColor.window;
+import java.awt.Toolkit;
+import java.io.File;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -12,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 
@@ -19,9 +24,17 @@ public class Login extends javax.swing.JFrame {
     
     String usuario;
     DaoUsuario daoU = new DaoUsuario();
+    String rutaModificado;
     
     public Login() throws Exception {
         initComponents();
+    }
+    
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("com/recursos/logo.png"));
+        return retValue;
     }
 
     @SuppressWarnings("unchecked")
@@ -46,7 +59,9 @@ public class Login extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Iniciar sesión");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setIconImage(getIconImage());
         setResizable(false);
         setSize(new java.awt.Dimension(0, 0));
         setType(java.awt.Window.Type.POPUP);
@@ -185,7 +200,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Usuarios u = new Usuarios("insertar");
+        NuevoUsuario u = new NuevoUsuario("insertar");
         u.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
     
