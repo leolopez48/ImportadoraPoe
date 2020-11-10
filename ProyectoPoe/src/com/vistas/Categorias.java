@@ -1,6 +1,8 @@
 
 package com.vistas;
 
+import Dao.DaoCategoria;
+import com.pojos.Categoria;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -14,15 +16,103 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class Categoria extends javax.swing.JInternalFrame {
-
-    String []columnas ={"CODIGO","NOMBRE_EMPRESA","DESCRIPCION","FOTO URL", "ID USUARIO"};
-    DefaultTableModel modelo = new DefaultTableModel(columnas,0);
-
-   
+public class Categorias extends javax.swing.JInternalFrame {
+     
+    DaoCategoria daoCat = new DaoCategoria();
+    Categoria cat;
     
-    public Categoria() {
+    public Categorias() {
         initComponents();
+        mostrar(daoCat.mostrarCategoria());
+    }
+    
+    public void mostrar(List<Categoria> lista) {
+        DefaultTableModel tabla;
+        String []columnas ={"ID Categoria","Nombre Categoria"};
+        tabla = new DefaultTableModel(null, columnas);
+        Object datos[] = new Object[2];
+
+        try {
+            for (int i = 0; i < lista.size(); i++) {
+                cat = (Categoria) lista.get(i);
+                datos[0] = cat.getIdCategoria();
+                datos[1] = cat.getNombreCategoria();
+                
+                tabla.addRow(datos);
+            }
+            this.tablaCategoria.setModel(tabla);
+        } catch (Exception e) {
+           JOptionPane.showMessageDialog(null, "Error al mostrar en formulario " + e.getMessage());
+        }
+    }
+    
+    public void insertar() {
+        try {
+            cat.setIdCategoria(Integer.parseInt(this.txtIdCategoria.getText()));
+            cat.setNombreCategoria(this.txtNombreCategoria.getText());
+            
+            daoCat.insertarCategoria(cat);
+            JOptionPane.showMessageDialog(null, "Insertado correctamente");
+            mostrar(daoCat.mostrarCategoria());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al insertar" + e.getMessage());
+        }
+    }
+
+    public void limpiar() {
+        this.txtIdCategoria.setText("");
+        this.txtNombreCategoria.setText("");
+        this.txtBuscarNombreCat.setText("");
+        this.txtIdCategoria.setEnabled(true);  
+    }
+
+    public void llenarTabla() {
+        int fila = this.tablaCategoria.getSelectedRow();
+        if (fila > -1) {
+            this.txtIdCategoria.setText(String.valueOf(this.tablaCategoria.getValueAt(fila, 0)));
+            this.txtNombreCategoria.setText(String.valueOf(this.tablaCategoria.getValueAt(fila, 1)));
+            this.txtIdCategoria.setEnabled(false);
+        }
+    }
+
+    public void modificar() {
+        try {
+            cat.setIdCategoria(Integer.parseInt(this.txtIdCategoria.getText()));
+            cat.setNombreCategoria(this.txtNombreCategoria.getText());
+            
+            int respuesta = JOptionPane.showConfirmDialog(this, "Desea modificar la categoria",
+                    "Modificar", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.OK_OPTION) {
+                daoCat.modificarCategoria(cat);
+                JOptionPane.showMessageDialog(null, "Datos modificados con exito");
+                mostrar(daoCat.mostrarCategoria());
+                limpiar();
+            } else {
+                mostrar(daoCat.mostrarCategoria());
+                limpiar();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al modificar en formulario");
+        }
+    }
+    
+    public void eliminar(){
+        try {
+            cat.setIdCategoria(Integer.parseInt(this.txtIdCategoria.getText()));
+            int respuesta = JOptionPane.showConfirmDialog(this, "Desea eliminar la categoria",
+                    "Eliminar", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.OK_OPTION) {
+                daoCat.eliminarCategoria(cat);
+                JOptionPane.showMessageDialog(null, "Datos eliminados con exito");
+                mostrar(daoCat.mostrarCategoria());
+                limpiar();
+            } else {
+                mostrar(daoCat.mostrarCategoria());
+                limpiar();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar en formulario");
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -32,26 +122,28 @@ public class Categoria extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTDatos = new javax.swing.JTable();
+        tablaCategoria = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
+        txtIdCategoria = new javax.swing.JTextField();
         jSeparator8 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
-        txtNombreImpuesto = new javax.swing.JTextField();
+        txtNombreCategoria = new javax.swing.JTextField();
         jSeparator11 = new javax.swing.JSeparator();
         txtUsuarioid = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jSeparator10 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        txtBuscar = new javax.swing.JTextField();
+        txtBuscarNombreCat = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
+        btnRefrescar = new javax.swing.JLabel();
+        btnInsertar = new javax.swing.JLabel();
+        btnEliminar = new javax.swing.JLabel();
+        btnModificar = new javax.swing.JLabel();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -68,8 +160,8 @@ public class Categoria extends javax.swing.JInternalFrame {
         jLabel2.setText("Categoria");
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jTDatos.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jTDatos.setModel(new javax.swing.table.DefaultTableModel(
+        tablaCategoria.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        tablaCategoria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -80,19 +172,19 @@ public class Categoria extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTDatos.setToolTipText("Para ver el detalle completo, seleccione una empresa y presione Enter.");
-        jTDatos.setRowHeight(25);
-        jTDatos.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaCategoria.setToolTipText("Para ver el detalle completo, seleccione una empresa y presione Enter.");
+        tablaCategoria.setRowHeight(25);
+        tablaCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTDatosMouseClicked(evt);
+                tablaCategoriaMouseClicked(evt);
             }
         });
-        jTDatos.addKeyListener(new java.awt.event.KeyAdapter() {
+        tablaCategoria.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 Enter(evt);
             }
         });
-        jScrollPane1.setViewportView(jTDatos);
+        jScrollPane1.setViewportView(tablaCategoria);
 
         jPanel1.setBackground(new java.awt.Color(49, 57, 69));
 
@@ -159,10 +251,10 @@ public class Categoria extends javax.swing.JInternalFrame {
         jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 16, -1, -1));
 
-        txtId.setBackground(new java.awt.Color(233, 235, 237));
-        txtId.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtId.setBorder(null);
-        jPanel3.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 11, 281, 28));
+        txtIdCategoria.setBackground(new java.awt.Color(233, 235, 237));
+        txtIdCategoria.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtIdCategoria.setBorder(null);
+        jPanel3.add(txtIdCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 11, 281, 28));
 
         jSeparator8.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 45, 303, 10));
@@ -173,36 +265,30 @@ public class Categoria extends javax.swing.JInternalFrame {
         jLabel7.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 16, -1, -1));
 
-        txtNombreImpuesto.setBackground(new java.awt.Color(233, 235, 237));
-        txtNombreImpuesto.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtNombreImpuesto.setBorder(null);
-        jPanel3.add(txtNombreImpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(427, 11, 281, 28));
+        txtNombreCategoria.setBackground(new java.awt.Color(233, 235, 237));
+        txtNombreCategoria.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtNombreCategoria.setBorder(null);
+        jPanel3.add(txtNombreCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(427, 11, 490, 28));
 
         jSeparator11.setForeground(new java.awt.Color(49, 57, 69));
-        jPanel3.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 45, 337, 10));
+        jPanel3.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 45, 550, 10));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel12.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jLabel12.setText("Buscar ID");
+        jLabel12.setText("Buscar nombre");
         jLabel12.setToolTipText("");
         jLabel12.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jPanel4.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+        jPanel4.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
 
         jSeparator10.setForeground(new java.awt.Color(49, 57, 69));
-        jPanel4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 445, 10));
+        jPanel4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 660, 10));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_add_48px.png"))); // NOI18N
-        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, -1, -1));
-
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_refresh_48px.png"))); // NOI18N
-        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 0, -1, -1));
-
-        txtBuscar.setBackground(new java.awt.Color(233, 235, 237));
-        txtBuscar.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtBuscar.setBorder(null);
-        jPanel4.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 278, -1));
+        txtBuscarNombreCat.setBackground(new java.awt.Color(233, 235, 237));
+        txtBuscarNombreCat.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtBuscarNombreCat.setBorder(null);
+        jPanel4.add(txtBuscarNombreCat, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, 510, -1));
 
         btnBuscar.setBackground(new java.awt.Color(255, 255, 255));
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_search_24px.png"))); // NOI18N
@@ -214,7 +300,39 @@ public class Categoria extends javax.swing.JInternalFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
-        jPanel4.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 0, 66, 26));
+        jPanel4.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 0, 66, 26));
+
+        btnRefrescar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_refresh_36px.png"))); // NOI18N
+        btnRefrescar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRefrescarMouseClicked(evt);
+            }
+        });
+        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 0, -1, -1));
+
+        btnInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_add_36px.png"))); // NOI18N
+        btnInsertar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnInsertarMouseClicked(evt);
+            }
+        });
+        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 0, -1, -1));
+
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_delete_bin_36px.png"))); // NOI18N
+        btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEliminarMouseClicked(evt);
+            }
+        });
+        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 0, -1, -1));
+
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_save_36px_1.png"))); // NOI18N
+        btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnModificarMouseClicked(evt);
+            }
+        });
+        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 0, -1, -1));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -224,15 +342,15 @@ public class Categoria extends javax.swing.JInternalFrame {
             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(193, 193, 193)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 626, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 241, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addContainerGap()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 932, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 104, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(169, 169, 169)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 684, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 896, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -241,12 +359,12 @@ public class Categoria extends javax.swing.JInternalFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -256,17 +374,10 @@ public class Categoria extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        /*this.modelo.setRowCount(0);
-        emp = pro.seleccionarEmpresa(Integer.parseInt(txtBuscar.getText()));
-        this.modelo.setRowCount(0);
-        Object [] obj = new Object[5];
-        obj[0] = emp.getId_empresa();
-        obj[1] = emp.getNombre_empresa();
-        obj[2] = emp.getDescripcion();
-        obj[3] = emp.getUsuario().getFoto();
-        obj[4] = emp.getUsuario().getId_usuario();
-        this.modelo.addRow(obj);
-        this.jTDatos.setModel(modelo);*/
+        mostrar(daoCat.buscarCategoria(txtBuscarNombreCat.getText()));
+        this.txtIdCategoria.setText("");
+        this.txtNombreCategoria.setText("");
+        this.txtIdCategoria.setEnabled(true);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
@@ -282,46 +393,45 @@ public class Categoria extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jLabel11MouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        super.dispose();
-        //new home().setVisible(true);
+
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void Enter(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Enter
 
-        if (evt.getKeyCode()==KeyEvent.VK_ENTER){
-            int row = jTDatos.getSelectedRow();
-            Integer id_empresa=(Integer)jTDatos.getValueAt(row, 0);
-
-            //new Detalle_Empresa(id_empresa).setVisible(true);
-
-            super.dispose();
-        }
     }//GEN-LAST:event_Enter
 
-    private void jTDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTDatosMouseClicked
-        int row = jTDatos.getSelectedRow();
+    private void tablaCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCategoriaMouseClicked
+        llenarTabla();
+    }//GEN-LAST:event_tablaCategoriaMouseClicked
 
-        if (row != -1) {
-            //txtCodigo.setText(jTDatos.getValueAt(row, 0).toString());
-            txtId.setText((String)jTDatos.getValueAt(row, 1));
-            //txtDescripcion.setText((String) jTDatos.getValueAt(row, 2));
-            ImageIcon imageIcon = new ImageIcon(new ImageIcon(jTDatos.getValueAt(row, 3).toString()).getImage().getScaledInstance(190, 190, Image.SCALE_DEFAULT));
-            
+    private void btnRefrescarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefrescarMouseClicked
+        mostrar(daoCat.mostrarCategoria());
+        limpiar();
+    }//GEN-LAST:event_btnRefrescarMouseClicked
 
-        } else {
-            JOptionPane.showMessageDialog(this,"No hay filas por mostrar");
-        }
-    }//GEN-LAST:event_jTDatosMouseClicked
+    private void btnInsertarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsertarMouseClicked
+        insertar();
+    }//GEN-LAST:event_btnInsertarMouseClicked
+
+    private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
+        eliminar();
+    }//GEN-LAST:event_btnEliminarMouseClicked
+
+    private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
+        modificar();
+    }//GEN-LAST:event_btnModificarMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel btnEliminar;
+    private javax.swing.JLabel btnInsertar;
+    private javax.swing.JLabel btnModificar;
+    private javax.swing.JLabel btnRefrescar;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
@@ -332,10 +442,10 @@ public class Categoria extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator8;
-    private javax.swing.JTable jTDatos;
-    private javax.swing.JTextField txtBuscar;
-    private javax.swing.JTextField txtId;
-    private javax.swing.JTextField txtNombreImpuesto;
+    private javax.swing.JTable tablaCategoria;
+    private javax.swing.JTextField txtBuscarNombreCat;
+    private javax.swing.JTextField txtIdCategoria;
+    private javax.swing.JTextField txtNombreCategoria;
     private javax.swing.JLabel txtUsuarioid;
     // End of variables declaration//GEN-END:variables
 }

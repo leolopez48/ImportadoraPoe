@@ -1,5 +1,5 @@
 
-package Dao;
+package com.dao;
 
 import com.pojos.DetalleOferta;
 import com.utils.HibernateUtil;
@@ -72,7 +72,7 @@ public class DaoDetalleOferta {
         Session session = null;
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        String sql = "FROM detalle_oferta";
+        String sql = "FROM DetalleOferta";
         try {
             listaDetalleOferta = session.createQuery(sql).list();
             t.commit();
@@ -106,7 +106,7 @@ public class DaoDetalleOferta {
         int id = 0;
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        String sql = "FROM detalle_oferta";
+        String sql = "FROM DetalleOferta";
         try {
             listaDetalleOferta = session.createQuery(sql).list();
             for (DetalleOferta usu : listaDetalleOferta) {
@@ -128,7 +128,7 @@ public class DaoDetalleOferta {
         int id = 0;
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        String sql = "FROM detalle_oferta WHERE id_detalle LIKE :id";
+        String sql = "FROM DetalleOferta WHERE idDetalle LIKE :id";
         try {
             listaDetalleOferta = session.createQuery(sql).setString("id", "%"+id+"%").list();
             t.commit();

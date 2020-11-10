@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS importadoraPoe;
+﻿DROP DATABASE IF EXISTS importadoraPoe;
 create database importadoraPoe;
 use importadoraPoe;
 
@@ -129,7 +129,25 @@ insert into proveedor values(1,6, 'Marlon Saravia', '1234-5678', 'La palma'),
 						   (3,8, 'Martha López', '1234-5678', 'El congo'),
 						   (4,9, 'Franco Sosa', '1234-5678', 'Ahuachapan'),
 						   (5,10, 'Ronaldo Escalante', '1234-5678', 'Apopa');
-select * from proveedor;						 
+select * from proveedor;
+
+insert into categoria values
+(1,'Segmento A / Coche de ciudad / Minicompacto'),
+(2,'Segmento B / Supermini / Subcompacto'),
+(3,'Segmento C / Compacto / Familiar pequeño'),
+(4,'Segmento D / Familiar / Mediano'),
+(5,'Segmento E / Ejecutivos / Automóvil largo');
+
+select * from categoria;
+
+insert into impuesto values
+(1,"Impuesto1",100.25),
+(2,"Impuesto2",200.60),
+(3,"Impuesto3",300.60),
+(4,"Impuesto4",10000),
+(5,"Impuesto5",400);
+
+select * from impuesto;						 
 
 /*Consultas de prueba
 select id_vehiculo, foto_vehiculo, nombre_vehiculo, nombre_categoria, nombre_medida, color_vehiculo, marca_vehiculo, modelo, num_puertas from vehiculo as pro 

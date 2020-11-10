@@ -47,7 +47,7 @@ public class NuevoCliente extends javax.swing.JFrame {
             daoU.insertarUsuario(usu);
             daoC.insertarCliente(cli);
             JOptionPane.showMessageDialog(null, "Insertado correctamente");
-            DetalleOferta det = new DetalleOferta();
+            DetalleOfertas det = new DetalleOfertas();
             det.setVisible(true);
             this.dispose();
         } catch (Exception e) {

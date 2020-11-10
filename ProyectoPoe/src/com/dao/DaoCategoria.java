@@ -72,7 +72,7 @@ public class DaoCategoria {
         Session session = null;
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        String sql = "FROM categoria";
+        String sql = "FROM Categoria";
         try {
             listaCategoria = session.createQuery(sql).list();
             t.commit();
@@ -106,7 +106,7 @@ public class DaoCategoria {
         int id = 0;
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        String sql = "FROM categoria";
+        String sql = "FROM Categoria";
         try {
             listaCategoria = session.createQuery(sql).list();
             for (Categoria usu : listaCategoria) {
@@ -128,7 +128,7 @@ public class DaoCategoria {
         int id = 0;
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        String sql = "FROM categoria WHERE nombre_categoria LIKE :nombre";
+        String sql = "FROM Categoria WHERE nombreCategoria LIKE :nombre";
         try {
             listaCategoria = session.createQuery(sql).setString("nombre", "%"+nombre+"%").list();
             t.commit();

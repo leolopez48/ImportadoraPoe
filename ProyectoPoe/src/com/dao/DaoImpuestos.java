@@ -1,5 +1,5 @@
 
-package Dao;
+package com.dao;
 
 import com.pojos.Impuesto;
 import com.utils.HibernateUtil;
@@ -72,7 +72,7 @@ public class DaoImpuestos {
         Session session = null;
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        String sql = "FROM impuesto";
+        String sql = "FROM Impuesto";
         try {
             listaImpuesto = session.createQuery(sql).list();
             t.commit();
@@ -106,7 +106,7 @@ public class DaoImpuestos {
         int id = 0;
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        String sql = "FROM impuesto";
+        String sql = "FROM Impuesto";
         try {
             listaImpuesto = session.createQuery(sql).list();
             for (Impuesto usu : listaImpuesto) {
@@ -128,7 +128,7 @@ public class DaoImpuestos {
         int id = 0;
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        String sql = "FROM impuesto WHERE nombre LIKE :nombre";
+        String sql = "FROM Impuesto WHERE nombre LIKE :nombre";
         try {
             listaImpuesto = session.createQuery(sql).setString("nombre", "%"+nombre+"%").list();
             t.commit();

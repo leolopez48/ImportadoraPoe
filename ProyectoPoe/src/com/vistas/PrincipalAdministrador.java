@@ -235,13 +235,13 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        Categoria cat = new Categoria();
+        Categorias cat = new Categorias();
         this.desktopPane.add(cat);
         cat.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        DetalleOferta oferta = new DetalleOferta();
+        DetalleOfertas oferta = new DetalleOfertas();
         this.desktopPane.add(oferta);
         oferta.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed

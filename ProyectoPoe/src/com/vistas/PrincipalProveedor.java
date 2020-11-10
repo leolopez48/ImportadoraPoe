@@ -114,7 +114,7 @@ public class PrincipalProveedor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        Categoria cat = new Categoria();
+        Categorias cat = new Categorias();
         this.desktopPane.add(cat);
         cat.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
