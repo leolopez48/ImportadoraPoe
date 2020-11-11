@@ -604,8 +604,8 @@ public class Carrito extends javax.swing.JInternalFrame {
             int cantidad = Integer.parseInt(txtCantidad.getValue().toString());
             total = (precio*iva + precio*cesc + precio*dai+precio)*cantidad;
             totalFinal += total;
-            System.out.println("total: "+total+" Final: "+totalFinal);
-            //daoD.insertarDetalleOferta(car);
+            //System.out.println("total: "+total+" Final: "+totalFinal);
+            daoD.insertarDetalleOferta(car);
                     
         }
         carrito.removeAll(carrito);

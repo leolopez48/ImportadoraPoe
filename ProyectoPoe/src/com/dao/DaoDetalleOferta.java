@@ -140,4 +140,25 @@ public class DaoDetalleOferta {
         id++;
         return listaDetalleOferta;
     }
+    
+    public long ventaMensual(int mes) {
+        long cantidad = 0;
+        Session session = null;
+        int id = 0;
+        session = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        String sql = "select count(fechaOferta) as total_ventas from DetalleOferta where fechaOferta like :mes";
+        try {
+            cantidad = (long)session.createQuery(sql).setString("mes", "%-" + mes+ "-%").uniqueResult();
+            t.commit();
+            session.close();
+        } catch (HibernateException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            t.rollback();
+        }
+        id++;
+        return cantidad;
+    }
+    
+    
 }

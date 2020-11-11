@@ -3,6 +3,7 @@ package com.vistas;
 
 //import com.conexion.Conexion;
 import com.dao.DaoCliente;
+import com.dao.DaoDetalleOferta;
 import com.dao.DaoUsuario;
 import com.pojos.Cliente;
 import com.pojos.Usuario;
@@ -21,7 +22,7 @@ public class Test {
     public static void main(String[] args) {
         //Conexion con= new Conexion();
         //JOptionPane.showMessageDialog(null, "Conecto? "+con.conectar());
-        DaoCliente cli = new DaoCliente();
+        /*DaoCliente cli = new DaoCliente();
         DaoUsuario daoU = new DaoUsuario();
         Usuario usu = new Usuario();
         /*List<Cliente> clientes = cli.mostrarClientes();
@@ -30,7 +31,7 @@ public class Test {
         List<Usuario> usuarios = daoU.mostrarUsuarios();
         System.out.println(usuarios.size());*/
         //System.out.println(daoU.ultimoId());
-        List<Cliente> clientes1 = cli.buscarCliente("Pedro");
+        /*List<Cliente> clientes1 = cli.buscarCliente("Pedro");
         System.out.println(clientes1.get(0).getNombreCliente());
         int tipo = daoU.tipoUsuario("pedroM35");
         System.out.println(tipo);
@@ -52,6 +53,9 @@ public class Test {
         
         System.out.println(cli.modificarCliente(cliente));
         System.out.println(cli.eliminarCliente(cliente));*/
+        
+        DaoDetalleOferta daoD = new DaoDetalleOferta();
+        System.out.println(daoD.ventaMensual(11));
     }
     
 }

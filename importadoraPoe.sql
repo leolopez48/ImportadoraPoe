@@ -172,10 +172,5 @@ SELECT * FROM IMPUESTO;
 
 select * from detalle_oferta as d inner join vehiculo as v on d.id_vehiculo = v.id_vehiculo inner join usuario as u on d.id_usuario = u.id_usuario;
 
-select valor from impuesto where nombre = 'Mini Truck'
-
-
-/*Procedimientos almacenados*/
-CREATE PROCEDURE `sp_total`(
-
-);
+select * from detalle_oferta;
+select count(id_detalle) as total_ventas from detalle_oferta where fecha_oferta like '%-10-%';
