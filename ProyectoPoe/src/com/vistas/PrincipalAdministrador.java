@@ -3,6 +3,7 @@ package com.vistas;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,6 +16,8 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JRViewer;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -340,7 +343,9 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         }
         
         try {
-            reporte = JasperCompileManager.compileReport("src/com/reportes/Clientes.jrxml");
+            InputStream file = getClass().getResourceAsStream("/com/reportes/Clientes.jrxml");
+            JasperDesign jd = JRXmlLoader.load(file);
+            reporte = JasperCompileManager.compileReport(jd);
             JasperPrint jp = JasperFillManager.fillReport(reporte, null, conexion);
             JRViewer view = new JRViewer(jp);
             JInternalFrame frame = new JInternalFrame("Reporte", true, true, true, true);
@@ -383,7 +388,9 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         }
 
         try {
-            reporte = JasperCompileManager.compileReport("src/com/reportes/Proveedores.jrxml");
+            InputStream file = getClass().getResourceAsStream("/com/reportes/Proveedores.jrxml");
+            JasperDesign jd = JRXmlLoader.load(file);
+            reporte = JasperCompileManager.compileReport(jd);
             JasperPrint jp = JasperFillManager.fillReport(reporte, null, conexion);
             JRViewer view = new JRViewer(jp);
             JInternalFrame frame = new JInternalFrame("Reporte Proveedores", true, true, true, true);

@@ -6,6 +6,8 @@ import com.dao.DaoUsuario;
 import com.pojos.Cliente;
 import javax.swing.JOptionPane;
 import com.pojos.Usuario;
+import java.io.File;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,6 +20,8 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JRViewer;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -175,13 +179,15 @@ public class ReporteCliente extends javax.swing.JFrame {
             System.out.println(e.getMessage());
         }
         try {
-            Map parametros = new HashMap();
+            Map parametros = new HashMap(2);
             parametros.put("idCliente", cliente);
-            reporte = JasperCompileManager.compileReport("src/com/reportes/DetalleOferta.jrxml");
+            InputStream file = getClass().getResourceAsStream("/com/reportes/DetalleOferta.jrxml");
+            JasperDesign jd = JRXmlLoader.load(file);
+            reporte = JasperCompileManager.compileReport(jd);
             JasperPrint jp = JasperFillManager.fillReport(reporte, parametros, conexion);
             JasperViewer.viewReport(jp, false);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error: "+ex.getMessage(), "Error", 0);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
