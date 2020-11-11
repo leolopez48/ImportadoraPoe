@@ -32,21 +32,18 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
     }
      public void mostrar(List<DetalleOferta> lista) {
         DefaultTableModel tabla;
-        String []columnas ={"ID Detalle","Nombre Usuario","ID Vehiculo","Total Compra", "Total Impuesto", "Nombre Impuesto", "Cantidad", "Fecha Oferta"};
+        String []columnas ={"ID Detalle","Nombre Usuario","ID Vehiculo", "Cantidad", "Fecha Oferta"};
         tabla = new DefaultTableModel(null, columnas);
         Object datos[] = new Object[8];
 
         try {
             for (int i = 0; i < lista.size(); i++) {
                 deo = (DetalleOferta) lista.get(i);
-                datos[0] = deo.getIdDetalle();
+                datos[0] = deo.getId();
                 datos[1] = deo.getUsuario().getNombreUsuario();
                 datos[2] = deo.getVehiculo().getIdVehiculo();
-                datos[3] = deo.getTotalCompra();
-                datos[4] = deo.getTotalImpuesto();
-                datos[5] = deo.getImpuesto().getIdImpuesto();
-                datos[6] = deo.getCantidad();
-                datos[7] = deo.getFechaOferta();
+                datos[3] = deo.getCantidad();
+                datos[4] = deo.getFechaOferta();
                 
                 tabla.addRow(datos);
             }
@@ -86,9 +83,6 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
         jSeparator12 = new javax.swing.JSeparator();
         txtId1 = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        jSeparator13 = new javax.swing.JSeparator();
-        jLabel18 = new javax.swing.JLabel();
-        txtId2 = new javax.swing.JTextField();
         txtNombre3 = new javax.swing.JTextField();
         txtUsuarioid = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -253,16 +247,16 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
         jPanel3.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 45, 400, 10));
 
         jSeparator5.setForeground(new java.awt.Color(49, 57, 69));
-        jPanel3.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 200, 343, 10));
+        jPanel3.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, 343, 10));
 
         jLabel14.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel14.setText("Total Compra");
-        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 170, -1, -1));
+        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, -1, -1));
 
         txtCodigo2.setBackground(new java.awt.Color(233, 235, 237));
         txtCodigo2.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtCodigo2.setBorder(null);
-        jPanel3.add(txtCodigo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 160, 230, 28));
+        jPanel3.add(txtCodigo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 100, 230, 28));
 
         jSeparator12.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 90, 400, 10));
@@ -277,20 +271,6 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
         jLabel17.setToolTipText("");
         jLabel17.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 70, 100, -1));
-
-        jSeparator13.setForeground(new java.awt.Color(49, 57, 69));
-        jPanel3.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, 400, 10));
-
-        jLabel18.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jLabel18.setText("ID impuesto");
-        jLabel18.setToolTipText("");
-        jLabel18.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jPanel3.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 120, 80, -1));
-
-        txtId2.setBackground(new java.awt.Color(233, 235, 237));
-        txtId2.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtId2.setBorder(null);
-        jPanel3.add(txtId2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 110, 290, 28));
 
         txtNombre3.setBackground(new java.awt.Color(233, 235, 237));
         txtNombre3.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
@@ -376,19 +356,19 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane1)
-                .addGap(14, 14, 14))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 801, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 868, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(112, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(85, 85, 85)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 801, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(76, 76, 76)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 868, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 120, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -400,9 +380,9 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGap(52, 52, 52)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2, "card2");
@@ -469,7 +449,6 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -484,7 +463,6 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator12;
-    private javax.swing.JSeparator jSeparator13;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator8;
@@ -494,7 +472,6 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtCodigo2;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtId1;
-    private javax.swing.JTextField txtId2;
     private javax.swing.JTextField txtNombre1;
     private javax.swing.JTextField txtNombre2;
     private javax.swing.JTextField txtNombre3;

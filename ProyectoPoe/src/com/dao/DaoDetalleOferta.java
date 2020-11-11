@@ -110,7 +110,7 @@ public class DaoDetalleOferta {
         try {
             listaDetalleOferta = session.createQuery(sql).list();
             for (DetalleOferta usu : listaDetalleOferta) {
-                id = usu.getIdDetalle();
+                id = usu.getId().getIdDetalle();
             }
             t.commit();
             session.close();

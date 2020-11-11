@@ -165,6 +165,23 @@ public class DaoUsuario {
         return listaUsuarios;
     }
     
+    public List<Usuario> buscarUsuarioNombre(String nombre) {
+        List<Usuario> listaUsuarios = new ArrayList();
+        Session session = null;
+        session = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        String sql = "FROM Usuario WHERE nombreUsuario = :nombre";
+        try {
+            listaUsuarios = session.createQuery(sql).setString("nombre", nombre).list();
+            t.commit();
+            session.close();
+        } catch (HibernateException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            t.rollback();
+        }
+        return listaUsuarios;
+    }
+    
     public int tipoUsuario(String nombre) {
         Usuario usu = new Usuario();
         Session session = null;

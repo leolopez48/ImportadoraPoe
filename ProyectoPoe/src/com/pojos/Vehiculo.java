@@ -1,5 +1,5 @@
 package com.pojos;
-// Generated Nov 5, 2020 4:54:34 PM by Hibernate Tools 4.3.1
+// Generated Nov 10, 2020 5:30:03 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -32,20 +32,22 @@ public class Vehiculo  implements java.io.Serializable {
      private String marca;
      private String modelo;
      private Integer numPuertas;
+     private double precio;
      private Set<DetalleOferta> detalleOfertas = new HashSet<DetalleOferta>(0);
 
     public Vehiculo() {
     }
 
 	
-    public Vehiculo(int idVehiculo, Categoria categoria, UnidadMedida unidadMedida, String foto, String nombre) {
+    public Vehiculo(int idVehiculo, Categoria categoria, UnidadMedida unidadMedida, String foto, String nombre, double precio) {
         this.idVehiculo = idVehiculo;
         this.categoria = categoria;
         this.unidadMedida = unidadMedida;
         this.foto = foto;
         this.nombre = nombre;
+        this.precio = precio;
     }
-    public Vehiculo(int idVehiculo, Categoria categoria, UnidadMedida unidadMedida, String foto, String nombre, String color, String marca, String modelo, Integer numPuertas, Set<DetalleOferta> detalleOfertas) {
+    public Vehiculo(int idVehiculo, Categoria categoria, UnidadMedida unidadMedida, String foto, String nombre, String color, String marca, String modelo, Integer numPuertas, double precio, Set<DetalleOferta> detalleOfertas) {
        this.idVehiculo = idVehiculo;
        this.categoria = categoria;
        this.unidadMedida = unidadMedida;
@@ -55,6 +57,7 @@ public class Vehiculo  implements java.io.Serializable {
        this.marca = marca;
        this.modelo = modelo;
        this.numPuertas = numPuertas;
+       this.precio = precio;
        this.detalleOfertas = detalleOfertas;
     }
    
@@ -148,6 +151,16 @@ public class Vehiculo  implements java.io.Serializable {
     
     public void setNumPuertas(Integer numPuertas) {
         this.numPuertas = numPuertas;
+    }
+
+    
+    @Column(name="precio", nullable=false, precision=22, scale=0)
+    public double getPrecio() {
+        return this.precio;
+    }
+    
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="vehiculo")

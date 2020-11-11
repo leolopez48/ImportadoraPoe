@@ -42,19 +42,19 @@ Contributor(s):
 <hibernate-configuration>
   <session-factory>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/importadoraPoe</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/importadoraPoe?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.enable_lazy_load_no_trans">true</property>
-    <property name="hibernate.current_session_context_class">thread</property>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.show_sql">true</property>
-    <mapping resource="com/pojos/Cliente.hbm.xml"/>
+    <property name="hibernate.current_session_context_class">thread</property>
     <mapping resource="com/pojos/Categoria.hbm.xml"/>
-    <mapping resource="com/pojos/Impuesto.hbm.xml"/>
-    <mapping resource="com/pojos/Vehiculo.hbm.xml"/>
-    <mapping resource="com/pojos/DetalleOferta.hbm.xml"/>
-    <mapping resource="com/pojos/UnidadMedida.hbm.xml"/>
+    <mapping resource="com/pojos/Cliente.hbm.xml"/>
     <mapping resource="com/pojos/Usuario.hbm.xml"/>
+    <mapping resource="com/pojos/UnidadMedida.hbm.xml"/>
     <mapping resource="com/pojos/Proveedor.hbm.xml"/>
+    <mapping resource="com/pojos/Vehiculo.hbm.xml"/>
+    <mapping resource="com/pojos/Impuesto.hbm.xml"/>
+    <mapping resource="com/pojos/DetalleOferta.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

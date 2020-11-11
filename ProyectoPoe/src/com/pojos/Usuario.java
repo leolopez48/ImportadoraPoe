@@ -1,5 +1,5 @@
 package com.pojos;
-// Generated Nov 5, 2020 4:54:34 PM by Hibernate Tools 4.3.1
+// Generated Nov 10, 2020 5:30:03 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -36,9 +36,10 @@ public class Usuario  implements java.io.Serializable {
     public Usuario() {
     }
     
-    public Usuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+    public Usuario(int id){
+        this.idUsuario = id;
     }
+
 	
     public Usuario(String nombreUsuario, String correoUsuario, String contra, int tipoUsuario, String foto) {
         this.nombreUsuario = nombreUsuario;

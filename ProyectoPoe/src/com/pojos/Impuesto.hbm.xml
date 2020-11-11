@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Nov 5, 2020 4:54:34 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Nov 10, 2020 5:30:03 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.pojos.Impuesto" table="impuesto" catalog="importadorapoe" optimistic-lock="version">
         <id name="idImpuesto" type="int">
@@ -14,11 +14,5 @@
         <property name="valor" type="java.lang.Float">
             <column name="valor" precision="12" scale="0" />
         </property>
-        <set name="detalleOfertas" table="detalle_oferta" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="id_impuesto" not-null="true" />
-            </key>
-            <one-to-many class="com.pojos.DetalleOferta" />
-        </set>
     </class>
 </hibernate-mapping>

@@ -1,28 +1,23 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Nov 5, 2020 4:54:34 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Nov 10, 2020 5:30:03 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.pojos.DetalleOferta" table="detalle_oferta" catalog="importadorapoe" optimistic-lock="version">
-        <id name="idDetalle" type="int">
-            <column name="id_detalle" />
-            <generator class="assigned" />
-        </id>
-        <many-to-one name="impuesto" class="com.pojos.Impuesto" fetch="select">
-            <column name="id_impuesto" not-null="true" />
-        </many-to-one>
+        <composite-id name="id" class="com.pojos.DetalleOfertaId">
+            <key-property name="idDetalle" type="int">
+                <column name="id_detalle" />
+            </key-property>
+            <key-property name="idVehiculo" type="int">
+                <column name="id_vehiculo" />
+            </key-property>
+        </composite-id>
         <many-to-one name="usuario" class="com.pojos.Usuario" fetch="select">
             <column name="id_usuario" not-null="true" />
         </many-to-one>
-        <many-to-one name="vehiculo" class="com.pojos.Vehiculo" fetch="select">
+        <many-to-one name="vehiculo" class="com.pojos.Vehiculo" update="false" insert="false" fetch="select">
             <column name="id_vehiculo" not-null="true" />
         </many-to-one>
-        <property name="totalCompra" type="java.lang.Float">
-            <column name="total_compra" precision="12" scale="0" />
-        </property>
-        <property name="totalImpuesto" type="java.lang.Float">
-            <column name="total_impuesto" precision="12" scale="0" />
-        </property>
         <property name="cantidad" type="int">
             <column name="cantidad" not-null="true" />
         </property>

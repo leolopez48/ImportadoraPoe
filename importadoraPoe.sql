@@ -1,4 +1,5 @@
-﻿DROP DATABASE IF EXISTS importadoraPoe;
+  
+DROP DATABASE IF EXISTS importadoraPoe;
 create database importadoraPoe;
 use importadoraPoe;
 
@@ -40,7 +41,8 @@ color varchar(25),
 marca varchar(30),
 modelo varchar(30),
 num_puertas int,
-id_unidad_medida int not null
+id_unidad_medida int not null,
+precio double not null
 );
 
 create table detalle_oferta 
@@ -48,9 +50,6 @@ create table detalle_oferta
 id_detalle int not null,
 id_usuario int not null,
 id_vehiculo int not null,
-total_compra float,
-total_impuesto float,
-id_impuesto int not null,
 cantidad int not null,
 fecha_oferta date
 );
@@ -79,7 +78,7 @@ nombre varchar(100) not null
 alter table cliente add constraint pk_id_cliente primary key(id_cliente);
 alter table proveedor add constraint pk_id_proveedor primary key(id_proveedor);*/
 alter table vehiculo add constraint pk_id_vehiculo primary key(id_vehiculo);
-alter table detalle_oferta add constraint pk_id_detalle primary key(id_detalle);
+alter table detalle_oferta add constraint pk_id_detalle_vehiculo primary key(id_detalle, id_vehiculo);
 alter table impuesto add constraint pk_id_impuesto primary key(id_impuesto);
 alter table categoria add constraint pk_id_categoria primary key(id_categoria);
 alter table unidad_medida add constraint pk_id_unidad_medida primary key(id_unidad_medida);
@@ -95,8 +94,8 @@ alter table detalle_oferta add constraint fk_id_vehiculo foreign key(id_vehiculo
 references vehiculo(id_vehiculo);
 alter table detalle_oferta add constraint fk_id_usuario_detalle foreign key(id_usuario)
 references usuario(id_usuario);
-alter table detalle_oferta add constraint fk_id_impuesto foreign key(id_impuesto)
-references impuesto(id_impuesto);
+/*alter table detalle_oferta add constraint fk_id_impuesto foreign key(id_impuesto)
+references impuesto(id_impuesto);*/
 alter table vehiculo add constraint fk_id_categoria foreign key(id_categoria)
 references categoria(id_categoria);
 alter table vehiculo add constraint fk_id_unidad_medida foreign key(id_unidad_medida)
@@ -132,25 +131,51 @@ insert into proveedor values(1,6, 'Marlon Saravia', '1234-5678', 'La palma'),
 select * from proveedor;
 
 insert into categoria values
-(1,'Segmento A / Coche de ciudad / Minicompacto'),
-(2,'Segmento B / Supermini / Subcompacto'),
-(3,'Segmento C / Compacto / Familiar pequeño'),
-(4,'Segmento D / Familiar / Mediano'),
-(5,'Segmento E / Ejecutivos / Automóvil largo');
+(1,'Sedan'),
+(2,'4WD'),
+(3,'Mini Truck'),
+(4,'Eléctrico'),
+(5,'Pickup'),
+(6, 'Van');
 
 select * from categoria;
 
-insert into impuesto values
-(1,"Impuesto1",100.25),
-(2,"Impuesto2",200.60),
-(3,"Impuesto3",300.60),
-(4,"Impuesto4",10000),
-(5,"Impuesto5",400);
+insert into unidad_medida values
+(1,'Toneladas'),
+(2,'Libras'),
+(3,'Kilogramos');
 
+insert into vehiculo values
+(1,3,"foto","Honda Civic 2017","negro","Honda","Honda Civic Type R",4,1, 3000),
+(2,1,"foto","Hyundai Elantra","rojo","Hyundai","Elantra 2016",4,1, 3000),
+(3,2,"foto","Mazda","rojo","Mazda","3 Sedan 2019",4,1, 3000);
+
+select * from detalle_oferta;
+
+delete from detalle_oferta where id_usuario = 2;
+
+insert into detalle_oferta values(1,2,1,2,"");
+select * from detalle_oferta;
+select * from vehiculo;
 select * from impuesto;						 
 
-/*Consultas de prueba
-select id_vehiculo, foto_vehiculo, nombre_vehiculo, nombre_categoria, nombre_medida, color_vehiculo, marca_vehiculo, modelo, num_puertas from vehiculo as pro 
-inner join categoria as cat on pro.id_categoria=cat.id_categoria 
-inner join unidad_medida as uni on pro.id_unidad_medida = uni.id_unidad_medida
-inner join descripcion_vehiculo as de on pro.id_descripcion=de.id_descripcion; */
+insert into impuesto values(1, 'IVA', 0.13),
+(2, 'DAI - Sedan', 0.25),
+(3, 'DAI - 4WD', 0.25),
+(4, 'DAI - Mini Truck', 0.01),
+(5, 'DAI - Eléctrico', 0.30),
+(6, 'DAI - Pickup', 0.05),
+(7, 'DAI - Van', 0.05),
+(8, 'CESC', 0.05);
+
+SELECT * FROM IMPUESTO;
+
+select * from detalle_oferta as d inner join vehiculo as v on d.id_vehiculo = v.id_vehiculo inner join usuario as u on d.id_usuario = u.id_usuario;
+
+select valor from impuesto where nombre = 'Mini Truck'
+
+
+/*Procedimientos almacenados*/
+CREATE PROCEDURE `sp_total`(
+
+);

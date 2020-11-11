@@ -25,6 +25,7 @@ public class Login extends javax.swing.JFrame {
     String usuario;
     DaoUsuario daoU = new DaoUsuario();
     String rutaModificado;
+    static String usuarioL;
     
     public Login() throws Exception {
         initComponents();
@@ -187,6 +188,7 @@ public class Login extends javax.swing.JFrame {
     //Botón login
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         usuario = txtUsuario.getText();
+        usuarioL = usuario;
         System.out.println(usuario);
         String contra = new String(txtContra.getPassword());
         System.out.println(contra);

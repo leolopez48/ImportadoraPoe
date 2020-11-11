@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5c5d8169-b525-4ee8-a62c-cd517670fec4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idCliente" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     detalle_oferta.`id_detalle` AS detalle_oferta_id_detalle,
+     detalle_oferta.`id_usuario` AS detalle_oferta_id_usuario,
+     detalle_oferta.`id_vehiculo` AS detalle_oferta_id_vehiculo,
+     detalle_oferta.`cantidad` AS detalle_oferta_cantidad,
+     usuario.`id_usuario` AS usuario_id_usuario,
+     usuario.`nombre_usuario` AS usuario_nombre_usuario,
+     usuario.`correo_usuario` AS usuario_correo_usuario,
+     usuario.`contra` AS usuario_contra,
+     usuario.`tipo_usuario` AS usuario_tipo_usuario,
+     usuario.`foto` AS usuario_foto,
+     cliente.`id_cliente` AS cliente_id_cliente,
+     cliente.`id_usuario` AS cliente_id_usuario,
+     cliente.`nombre_cliente` AS cliente_nombre_cliente,
+     cliente.`telefono_cliente` AS cliente_telefono_cliente,
+     cliente.`direccion_cliente` AS cliente_direccion_cliente,
+     vehiculo.`id_vehiculo` AS vehiculo_id_vehiculo,
+     vehiculo.`id_categoria` AS vehiculo_id_categoria,
+     vehiculo.`foto` AS vehiculo_foto,
+     vehiculo.`nombre` AS vehiculo_nombre,
+     vehiculo.`color` AS vehiculo_color,
+     vehiculo.`marca` AS vehiculo_marca,
+     vehiculo.`modelo` AS vehiculo_modelo,
+     vehiculo.`num_puertas` AS vehiculo_num_puertas,
+     vehiculo.`id_unidad_medida` AS vehiculo_id_unidad_medida,
+     vehiculo.`precio` AS vehiculo_precio,
+     unidad_medida.`id_unidad_medida` AS unidad_medida_id_unidad_medida,
+     unidad_medida.`nombre` AS unidad_medida_nombre
+FROM
+     `usuario` usuario INNER JOIN `detalle_oferta` detalle_oferta ON usuario.`id_usuario` = detalle_oferta.`id_usuario`
+     INNER JOIN `cliente` cliente ON usuario.`id_usuario` = cliente.`id_usuario`
+     INNER JOIN `vehiculo` vehiculo ON detalle_oferta.`id_vehiculo` = vehiculo.`id_vehiculo`
+     INNER JOIN `unidad_medida` unidad_medida ON vehiculo.`id_unidad_medida` = unidad_medida.`id_unidad_medida` where cliente.`id_cliente` = $P{idCliente}]]>
+	</queryString>
+	<field name="detalle_oferta_id_detalle" class="java.lang.Integer"/>
+	<field name="detalle_oferta_id_usuario" class="java.lang.Integer"/>
+	<field name="detalle_oferta_id_vehiculo" class="java.lang.Integer"/>
+	<field name="detalle_oferta_cantidad" class="java.lang.Integer"/>
+	<field name="usuario_id_usuario" class="java.lang.Integer"/>
+	<field name="usuario_nombre_usuario" class="java.lang.String"/>
+	<field name="usuario_correo_usuario" class="java.lang.String"/>
+	<field name="usuario_contra" class="java.lang.String"/>
+	<field name="usuario_tipo_usuario" class="java.lang.Integer"/>
+	<field name="usuario_foto" class="java.lang.String"/>
+	<field name="cliente_id_cliente" class="java.lang.Integer"/>
+	<field name="cliente_id_usuario" class="java.lang.Integer"/>
+	<field name="cliente_nombre_cliente" class="java.lang.String"/>
+	<field name="cliente_telefono_cliente" class="java.lang.String"/>
+	<field name="cliente_direccion_cliente" class="java.lang.String"/>
+	<field name="vehiculo_id_vehiculo" class="java.lang.Integer"/>
+	<field name="vehiculo_id_categoria" class="java.lang.Integer"/>
+	<field name="vehiculo_foto" class="java.lang.String"/>
+	<field name="vehiculo_nombre" class="java.lang.String"/>
+	<field name="vehiculo_color" class="java.lang.String"/>
+	<field name="vehiculo_marca" class="java.lang.String"/>
+	<field name="vehiculo_modelo" class="java.lang.String"/>
+	<field name="vehiculo_num_puertas" class="java.lang.Integer"/>
+	<field name="vehiculo_id_unidad_medida" class="java.lang.Integer"/>
+	<field name="vehiculo_precio" class="java.lang.Double"/>
+	<field name="unidad_medida_id_unidad_medida" class="java.lang.Integer"/>
+	<field name="unidad_medida_nombre" class="java.lang.String"/>
+	<group name="cliente_nombre_cliente">
+		<groupExpression><![CDATA[$F{cliente_nombre_cliente}]]></groupExpression>
+		<groupHeader>
+			<band height="33">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="100" height="32" forecolor="#666666" backcolor="#E6E6E6" uuid="f48793ba-2811-4346-9849-95c2f921e03b"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Cliente]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Opaque" x="100" y="0" width="455" height="32" forecolor="#006699" backcolor="#E6E6E6" uuid="28b570e4-4b51-409a-b60f-b09594033a9e"/>
+					<textElement>
+						<font size="24" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cliente_nombre_cliente}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="-20" y="32" width="595" height="1" forecolor="#666666" uuid="530452a4-c52c-46e8-ac44-4d12f1be3b39"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="29228d10-dcce-4a19-a5e7-685ddb530912"/>
+				<staticText>
+					<reportElement x="20" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="18a1120d-0066-4426-8a2d-6150742cf3be"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Compra]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="395" y="43" width="180" height="20" forecolor="#FFFFFF" uuid="53b6986f-5465-430e-a533-9e51c6bf66db"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Reporte]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="12"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="56fbcfdf-b2be-4e68-979e-3ab917fa8328"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="111" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="c302abb6-302a-4c97-a672-1983de6c3ea8"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="111" y="0" width="111" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="23e265ed-c6f0-45ba-8dd1-1bf36c8a73a4"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vehiculo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="222" y="0" width="111" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="7c0851b2-35eb-4d41-b307-aecc5e8bbac6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="333" y="0" width="111" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="7dbc23f3-9c35-45fb-b48c-d9a2736a7529"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Precio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="444" y="0" width="111" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="554d30ea-27bd-462f-b67b-ac26bf20698a"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Unidad medida]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="6e296e62-79e6-42df-bf3f-25ceb99127d5"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="111" height="20" uuid="40b88fd6-1fc7-4075-9462-be6331c87b13"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detalle_oferta_id_detalle}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="111" y="0" width="111" height="20" uuid="c9df9313-abc1-4203-9794-05051eeef172"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vehiculo_nombre}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="222" y="0" width="111" height="20" uuid="60ea87b8-6848-4bfd-afd9-6df1b03d4d31"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detalle_oferta_cantidad}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="333" y="0" width="111" height="20" uuid="4fb43452-8cdb-4250-bc9c-17187d471116"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vehiculo_precio}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="444" y="0" width="111" height="20" uuid="f8c923f6-bacc-4848-bc43-5f0deffd9ffa"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unidad_medida_nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="2d23ace4-4a61-47aa-9fd4-bda99109f9b7"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="4dcde9fd-be56-41c5-9fa4-bec4c790ed41"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="d505a717-7b8d-4392-bdd2-b5d40e7ee20c"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

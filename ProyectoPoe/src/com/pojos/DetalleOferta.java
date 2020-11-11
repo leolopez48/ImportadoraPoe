@@ -1,12 +1,14 @@
 package com.pojos;
-// Generated Nov 5, 2020 4:54:34 PM by Hibernate Tools 4.3.1
+// Generated Nov 10, 2020 5:30:03 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -23,12 +25,9 @@ import javax.persistence.TemporalType;
 public class DetalleOferta  implements java.io.Serializable {
 
 
-     private int idDetalle;
-     private Impuesto impuesto;
+     private DetalleOfertaId id;
      private Usuario usuario;
      private Vehiculo vehiculo;
-     private Float totalCompra;
-     private Float totalImpuesto;
      private int cantidad;
      private Date fechaOferta;
 
@@ -36,44 +35,32 @@ public class DetalleOferta  implements java.io.Serializable {
     }
 
 	
-    public DetalleOferta(int idDetalle, Impuesto impuesto, Usuario usuario, Vehiculo vehiculo, int cantidad) {
-        this.idDetalle = idDetalle;
-        this.impuesto = impuesto;
+    public DetalleOferta(DetalleOfertaId id, Usuario usuario, Vehiculo vehiculo, int cantidad) {
+        this.id = id;
         this.usuario = usuario;
         this.vehiculo = vehiculo;
         this.cantidad = cantidad;
     }
-    public DetalleOferta(int idDetalle, Impuesto impuesto, Usuario usuario, Vehiculo vehiculo, Float totalCompra, Float totalImpuesto, int cantidad, Date fechaOferta) {
-       this.idDetalle = idDetalle;
-       this.impuesto = impuesto;
+    public DetalleOferta(DetalleOfertaId id, Usuario usuario, Vehiculo vehiculo, int cantidad, Date fechaOferta) {
+       this.id = id;
        this.usuario = usuario;
        this.vehiculo = vehiculo;
-       this.totalCompra = totalCompra;
-       this.totalImpuesto = totalImpuesto;
        this.cantidad = cantidad;
        this.fechaOferta = fechaOferta;
     }
    
-     @Id 
+     @EmbeddedId
 
     
-    @Column(name="id_detalle", unique=true, nullable=false)
-    public int getIdDetalle() {
-        return this.idDetalle;
+    @AttributeOverrides( {
+        @AttributeOverride(name="idDetalle", column=@Column(name="id_detalle", nullable=false) ), 
+        @AttributeOverride(name="idVehiculo", column=@Column(name="id_vehiculo", nullable=false) ) } )
+    public DetalleOfertaId getId() {
+        return this.id;
     }
     
-    public void setIdDetalle(int idDetalle) {
-        this.idDetalle = idDetalle;
-    }
-
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_impuesto", nullable=false)
-    public Impuesto getImpuesto() {
-        return this.impuesto;
-    }
-    
-    public void setImpuesto(Impuesto impuesto) {
-        this.impuesto = impuesto;
+    public void setId(DetalleOfertaId id) {
+        this.id = id;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
@@ -87,33 +74,13 @@ public class DetalleOferta  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id_vehiculo", nullable=false)
+    @JoinColumn(name="id_vehiculo", nullable=false, insertable=false, updatable=false)
     public Vehiculo getVehiculo() {
         return this.vehiculo;
     }
     
     public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
-    }
-
-    
-    @Column(name="total_compra", precision=12, scale=0)
-    public Float getTotalCompra() {
-        return this.totalCompra;
-    }
-    
-    public void setTotalCompra(Float totalCompra) {
-        this.totalCompra = totalCompra;
-    }
-
-    
-    @Column(name="total_impuesto", precision=12, scale=0)
-    public Float getTotalImpuesto() {
-        return this.totalImpuesto;
-    }
-    
-    public void setTotalImpuesto(Float totalImpuesto) {
-        this.totalImpuesto = totalImpuesto;
     }
 
     

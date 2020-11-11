@@ -1,14 +1,10 @@
 package com.pojos;
-// Generated Nov 5, 2020 4:54:34 PM by Hibernate Tools 4.3.1
+// Generated Nov 10, 2020 5:30:03 PM by Hibernate Tools 4.3.1
 
 
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -24,7 +20,6 @@ public class Impuesto  implements java.io.Serializable {
      private int idImpuesto;
      private String nombre;
      private Float valor;
-     private Set<DetalleOferta> detalleOfertas = new HashSet<DetalleOferta>(0);
 
     public Impuesto() {
     }
@@ -34,11 +29,10 @@ public class Impuesto  implements java.io.Serializable {
         this.idImpuesto = idImpuesto;
         this.nombre = nombre;
     }
-    public Impuesto(int idImpuesto, String nombre, Float valor, Set<DetalleOferta> detalleOfertas) {
+    public Impuesto(int idImpuesto, String nombre, Float valor) {
        this.idImpuesto = idImpuesto;
        this.nombre = nombre;
        this.valor = valor;
-       this.detalleOfertas = detalleOfertas;
     }
    
      @Id 
@@ -71,15 +65,6 @@ public class Impuesto  implements java.io.Serializable {
     
     public void setValor(Float valor) {
         this.valor = valor;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="impuesto")
-    public Set<DetalleOferta> getDetalleOfertas() {
-        return this.detalleOfertas;
-    }
-    
-    public void setDetalleOfertas(Set<DetalleOferta> detalleOfertas) {
-        this.detalleOfertas = detalleOfertas;
     }
 
 

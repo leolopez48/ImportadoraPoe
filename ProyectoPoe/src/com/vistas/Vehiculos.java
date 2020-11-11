@@ -1,33 +1,248 @@
 
 package com.vistas;
 
-import java.awt.Frame;
+import Dao.DaoCategoria;
+import com.dao.DaoUnidadMedida;
+import com.dao.DaoUsuario;
+import com.dao.DaoVehiculo;
+import com.pojos.Categoria;
+import com.pojos.UnidadMedida;
+import com.pojos.Usuario;
+import com.pojos.Vehiculo;
+import com.utils.ComboItem;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 public class Vehiculos extends javax.swing.JInternalFrame {
 
-    String []columnas ={"CODIGO","NOMBRE_EMPRESA","DESCRIPCION","FOTO URL", "ID USUARIO"};
-    DefaultTableModel modelo = new DefaultTableModel(columnas,0);
-
+    DaoVehiculo daoVe= new DaoVehiculo();
+    Vehiculo ve = new Vehiculo();
+    Categoria categoria = new Categoria();
+    UnidadMedida unidadMedida = new UnidadMedida();
+    DaoCategoria daoCat=new DaoCategoria();
+    DaoUnidadMedida daoUni=new DaoUnidadMedida();
+    String rutaModificado;
+    
     public Vehiculos() {
         initComponents();
-        validarUsuario();
+        mostrar(daoVe.mostrarVehiculos());
+        cargarCombo(comboCategoria1, daoCat.mostrarCategoria());
+        cargarCombo2(comboUnidad, daoUni.mostrarUnidadMedidas());
     }
     
-    public void validarUsuario(){
-        
+    public void mostrar(List<Vehiculo> lista) {
+        DefaultTableModel tabla;
+        String []columnas ={"Código","Categoria","Nombre","Color", "Marca","Modelo","Puertas","Precio","Unidad de Medida","Foto"};
+        tabla = new DefaultTableModel(null, columnas);
+        Object datos[] = new Object[10];
+
+        try {
+            for (int i = 0; i < lista.size(); i++) {
+                ve = (Vehiculo) lista.get(i);
+                datos[0] = ve.getIdVehiculo();
+                datos[1] = ve.getCategoria().getNombreCategoria();
+                datos[2] = ve.getNombre();
+                datos[3] = ve.getColor();
+                datos[4] = ve.getMarca();
+                datos[5] = ve.getModelo();
+                datos[6] = ve.getNumPuertas();
+                datos[7]=  ve.getPrecio();
+                datos[8] = ve.getUnidadMedida().getNombre();
+                datos[9] = ve.getFoto(); 
+                tabla.addRow(datos);
+            }
+            this.tablaVehiculos.setModel(tabla);
+        } catch (Exception e) {
+           JOptionPane.showMessageDialog(null, "Error al mostrar en formulario " + e.getMessage());
+        }
     }
     
+    public void llenarTabla() {
+        int fila = this.tablaVehiculos.getSelectedRow();
+        if (fila > -1) {
+            this.txtCodigoVe.setText(String.valueOf(this.tablaVehiculos.getValueAt(fila, 0)));
+            String cate = String.valueOf(this.tablaVehiculos.getValueAt(fila, 1));
+            comboCategoria1.getModel().setSelectedItem(cate);
+            this.txtNombre.setText(String.valueOf(this.tablaVehiculos.getValueAt(fila, 2)));
+            this.txtColor.setText(String.valueOf(this.tablaVehiculos.getValueAt(fila, 3)));
+            this.txtMarca.setText(String.valueOf(this.tablaVehiculos.getValueAt(fila, 4)));
+            this.txtModelo.setText(String.valueOf(this.tablaVehiculos.getValueAt(fila, 5)));
+            this.txtPuertas.setText(String.valueOf(this.tablaVehiculos.getValueAt(fila, 6)));
+            this.txtPrecio.setText(String.valueOf(this.tablaVehiculos.getValueAt(fila, 7)));
+            String unid = String.valueOf(this.tablaVehiculos.getValueAt(fila, 8));
+            comboUnidad.getModel().setSelectedItem(unid);
+            //Foto
+             if(rutaModificado==null)
+            {
+                rutaModificado = "Sin Foto";
+            }
+            ImageIcon imageIcon = new ImageIcon(new ImageIcon(tablaVehiculos.getValueAt(fila, 9).toString()).getImage().getScaledInstance(190, 190, Image.SCALE_DEFAULT));
+            btnFoto.setText("");
+            btnFoto.setIcon(imageIcon); 
+            rutaModificado=ve.getFoto();
+            this.txtCodigoVe.setEnabled(false);
+        }
+    }
+    
+    private void cargarCombo(JComboBox combo, List<Categoria> list) {
+        for (Categoria item : list) {
+            combo.addItem(new ComboItem(item.getIdCategoria(),
+                    item.getNombreCategoria()));
+        }
+    }
+    
+    private void cargarCombo2(JComboBox combo, List<UnidadMedida> list) {
+        for (UnidadMedida item : list) {
+            combo.addItem(new ComboItem(item.getIdUnidadMedida(),
+                    item.getNombre()));
+        }
+    }
+    
+     public void insertar() {
+        try {
+            ve.setIdVehiculo(Integer.parseInt(this.txtCodigoVe.getText()));
+            
+            String categoria = comboCategoria1.getSelectedItem().toString();
+            ComboItem item = new ComboItem();
+            for (int i = 0; i < comboCategoria1.getItemCount(); i++) {
+                if (categoria.equals(comboCategoria1.getItemAt(i).toString())) {
+                    item = comboCategoria1.getModel().getElementAt(i);
+                }
+            }
+            Categoria cat = new Categoria(item.getValue());
+            ve.setCategoria(cat);
+            ve.setNombre(this.txtNombre.getText());
+            ve.setColor(this.txtColor.getText());
+            ve.setMarca(this.txtMarca.getText());
+            ve.setModelo(this.txtPrecio.getText());
+            ve.setNombre(this.txtNombre.getText());
+            ve.setNumPuertas(Integer.parseInt(this.txtPuertas.getText()));
+            ve.setPrecio(Double.parseDouble(txtPrecio.getText()));
+            String unidad = comboUnidad.getSelectedItem().toString();
+            ComboItem item2 = new ComboItem();
+            for (int i = 0; i < comboUnidad.getItemCount(); i++) {
+                if (unidad.equals(comboUnidad.getItemAt(i).toString())) {
+                    item2 = comboUnidad.getModel().getElementAt(i);
+                }
+            }
+            UnidadMedida cat2 = new UnidadMedida(item2.getValue());
+            ve.setUnidadMedida(cat2);
+            ve.setFoto(rutaModificado);
+            int respuesta = JOptionPane.showConfirmDialog(this, "Desea Insertar?",
+                    "Insertar", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.OK_OPTION) {
+                daoVe.insertarVehiculo(ve);
+                JOptionPane.showMessageDialog(null, "Datos insertados con exito");
+                mostrar(daoVe.mostrarVehiculos());
+                limpiar();
+            } else {
+                mostrar(daoVe.mostrarVehiculos());
+                limpiar();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al insertar" + e.getMessage());
+        }
+    }
+     
+    public void limpiar() {
+        this.txtNombre.setText("");
+        this.txtMarca.setText("");
+        this.txtPrecio.setText("");
+        this.txtPuertas.setText("");
+        this.txtPrecio.setText("");
+        this.txtColor.setText("");
+        this.comboCategoria1.setSelectedIndex(0);
+        this.comboUnidad.setSelectedIndex(0);
+        this.btnFoto.setIcon(null);
+        this.txtCodigoVe.setText(String.valueOf(daoVe.ultimoId()));
+    }
+    
+    public void modificar() {
+        try {
+             ve.setIdVehiculo(Integer.parseInt(this.txtCodigoVe.getText()));
+            
+            String categoria = comboCategoria1.getSelectedItem().toString();
+            ComboItem item = new ComboItem();
+            for (int i = 0; i < comboCategoria1.getItemCount(); i++) {
+                if (categoria.equals(comboCategoria1.getItemAt(i).toString())) {
+                    item = comboCategoria1.getModel().getElementAt(i);
+                }
+            }
+            Categoria cat = new Categoria(item.getValue());
+            ve.setCategoria(cat);
+            ve.setNombre(this.txtNombre.getText());
+            ve.setColor(this.txtColor.getText());
+            ve.setMarca(this.txtMarca.getText());
+            ve.setModelo(this.txtPrecio.getText());
+            ve.setNombre(this.txtNombre.getText());
+            ve.setNumPuertas(Integer.parseInt(this.txtPuertas.getText()));
+            ve.setPrecio(Double.parseDouble(txtPrecio.getText()));
+            ve.setFoto(rutaModificado);
+            
+            String unidad = comboUnidad.getSelectedItem().toString();
+            ComboItem item2 = new ComboItem();
+            for (int i = 0; i < comboUnidad.getItemCount(); i++) {
+                if (unidad.equals(comboUnidad.getItemAt(i).toString())) {
+                    item2 = comboUnidad.getModel().getElementAt(i);
+                }
+            }
+            UnidadMedida cat2 = new UnidadMedida(item2.getValue());
+            ve.setUnidadMedida(cat2);
+
+            int respuesta = JOptionPane.showConfirmDialog(this, "Desea modificar?",
+                    "Modificar", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.OK_OPTION) {
+                daoVe.modificarVehiculo(ve);
+                JOptionPane.showMessageDialog(null, "Datos modificados con exito");
+                mostrar(daoVe.mostrarVehiculos());
+                limpiar();
+            } else {
+               mostrar(daoVe.mostrarVehiculos());
+                limpiar();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+     public void eliminar(){
+        try {
+            ve.setIdVehiculo(Integer.parseInt(this.txtCodigoVe.getText()));
+            int respuesta = JOptionPane.showConfirmDialog(this, "Desea eliminar?",
+                    "Eliminar", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.OK_OPTION) {
+                daoVe.eliminarVehiculo(ve);
+                JOptionPane.showMessageDialog(null, "Datos eliminados con exito");
+                mostrar(daoVe.mostrarVehiculos());
+                limpiar();
+            } else {
+               mostrar(daoVe.mostrarVehiculos());
+                limpiar();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar en formulario");
+        }
+    }
+    
+      private String getFileExtension(String name) {
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return ""; // empty extension
+        }
+        return name.substring(lastIndexOf);
+    }
+     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -35,45 +250,46 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTDatos = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        tablaVehiculos = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
-        txtCodigo = new javax.swing.JTextField();
+        txtMarca = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
+        txtCodigoVe = new javax.swing.JTextField();
         jSeparator8 = new javax.swing.JSeparator();
-        txtNombre1 = new javax.swing.JTextField();
         jSeparator9 = new javax.swing.JSeparator();
         jLabel8 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtNombre2 = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         jSeparator11 = new javax.swing.JSeparator();
         jLabel9 = new javax.swing.JLabel();
-        txtNombre3 = new javax.swing.JTextField();
+        txtColor = new javax.swing.JTextField();
         jSeparator12 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
         jLabel13 = new javax.swing.JLabel();
-        txtCodigo1 = new javax.swing.JTextField();
+        txtPrecio = new javax.swing.JTextField();
         jSeparator5 = new javax.swing.JSeparator();
         jLabel14 = new javax.swing.JLabel();
-        txtCodigo2 = new javax.swing.JTextField();
+        txtPuertas = new javax.swing.JTextField();
         jSeparator6 = new javax.swing.JSeparator();
         jLabel15 = new javax.swing.JLabel();
-        txtCodigo3 = new javax.swing.JTextField();
+        comboUnidad = new javax.swing.JComboBox<>();
+        comboCategoria1 = new javax.swing.JComboBox<>();
+        jLabel16 = new javax.swing.JLabel();
+        txtModelo = new javax.swing.JTextField();
         txtUsuarioid = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jSeparator10 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
+        btnRefrescar = new javax.swing.JLabel();
+        btnEliminar = new javax.swing.JLabel();
+        btnModificar = new javax.swing.JLabel();
+        btnInsertar = new javax.swing.JLabel();
         btnFoto = new javax.swing.JButton();
+        btnCargarFoto = new javax.swing.JLabel();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -90,8 +306,8 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel2.setText("Vehiculos");
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jTDatos.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jTDatos.setModel(new javax.swing.table.DefaultTableModel(
+        tablaVehiculos.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        tablaVehiculos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -102,75 +318,19 @@ public class Vehiculos extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTDatos.setToolTipText("Para ver el detalle completo, seleccione una empresa y presione Enter.");
-        jTDatos.setRowHeight(25);
-        jTDatos.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaVehiculos.setToolTipText("Para ver el detalle completo, seleccione una empresa y presione Enter.");
+        tablaVehiculos.setRowHeight(25);
+        tablaVehiculos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTDatosMouseClicked(evt);
+                tablaVehiculosMouseClicked(evt);
             }
         });
-        jTDatos.addKeyListener(new java.awt.event.KeyAdapter() {
+        tablaVehiculos.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 Enter(evt);
             }
         });
-        jScrollPane1.setViewportView(jTDatos);
-
-        jPanel1.setBackground(new java.awt.Color(49, 57, 69));
-
-        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Inicio");
-        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
-            }
-        });
-
-        jLabel10.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel10.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("Nombre usuario");
-
-        jLabel11.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel11.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Cerrar sesión");
-        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel11MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        jScrollPane1.setViewportView(tablaVehiculos);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -182,10 +342,10 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel4.setText("Marca");
         jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 116, -1, -1));
 
-        txtCodigo.setBackground(new java.awt.Color(233, 235, 237));
-        txtCodigo.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtCodigo.setBorder(null);
-        jPanel3.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 111, 263, 28));
+        txtMarca.setBackground(new java.awt.Color(233, 235, 237));
+        txtMarca.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtMarca.setBorder(null);
+        jPanel3.add(txtMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 111, 263, 28));
 
         jLabel6.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel6.setText("ID");
@@ -193,18 +353,13 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 16, -1, -1));
 
-        txtId.setBackground(new java.awt.Color(233, 235, 237));
-        txtId.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtId.setBorder(null);
-        jPanel3.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 11, 281, 28));
+        txtCodigoVe.setBackground(new java.awt.Color(233, 235, 237));
+        txtCodigoVe.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtCodigoVe.setBorder(null);
+        jPanel3.add(txtCodigoVe, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 11, 281, 28));
 
         jSeparator8.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 45, 303, 10));
-
-        txtNombre1.setBackground(new java.awt.Color(233, 235, 237));
-        txtNombre1.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtNombre1.setBorder(null);
-        jPanel3.add(txtNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 61, 267, 28));
 
         jSeparator9.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 95, 343, 10));
@@ -221,13 +376,13 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel7.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 16, -1, -1));
 
-        txtNombre2.setBackground(new java.awt.Color(233, 235, 237));
-        txtNombre2.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtNombre2.setBorder(null);
-        jPanel3.add(txtNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(427, 11, 281, 28));
+        txtNombre.setBackground(new java.awt.Color(233, 235, 237));
+        txtNombre.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtNombre.setBorder(null);
+        jPanel3.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(427, 11, 300, 28));
 
         jSeparator11.setForeground(new java.awt.Color(49, 57, 69));
-        jPanel3.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 45, 337, 10));
+        jPanel3.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 45, 360, 10));
 
         jLabel9.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel9.setText("Color");
@@ -235,25 +390,25 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel9.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 66, -1, -1));
 
-        txtNombre3.setBackground(new java.awt.Color(233, 235, 237));
-        txtNombre3.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtNombre3.setBorder(null);
-        jPanel3.add(txtNombre3, new org.netbeans.lib.awtextra.AbsoluteConstraints(436, 61, 281, 28));
+        txtColor.setBackground(new java.awt.Color(233, 235, 237));
+        txtColor.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtColor.setBorder(null);
+        jPanel3.add(txtColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(427, 61, 300, 28));
 
         jSeparator12.setForeground(new java.awt.Color(49, 57, 69));
-        jPanel3.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 95, 346, 10));
+        jPanel3.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 95, 360, 10));
 
         jSeparator4.setForeground(new java.awt.Color(49, 57, 69));
-        jPanel3.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, 343, 10));
+        jPanel3.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, 360, 10));
 
         jLabel13.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel13.setText("Modelo");
         jPanel3.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, -1, -1));
 
-        txtCodigo1.setBackground(new java.awt.Color(233, 235, 237));
-        txtCodigo1.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtCodigo1.setBorder(null);
-        jPanel3.add(txtCodigo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 110, 263, 28));
+        txtPrecio.setBackground(new java.awt.Color(233, 235, 237));
+        txtPrecio.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtPrecio.setBorder(null);
+        jPanel3.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 160, 90, 28));
 
         jSeparator5.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 343, 10));
@@ -262,22 +417,30 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel14.setText("No. puertas");
         jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
 
-        txtCodigo2.setBackground(new java.awt.Color(233, 235, 237));
-        txtCodigo2.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtCodigo2.setBorder(null);
-        jPanel3.add(txtCodigo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, 263, 28));
+        txtPuertas.setBackground(new java.awt.Color(233, 235, 237));
+        txtPuertas.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtPuertas.setBorder(null);
+        jPanel3.add(txtPuertas, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, 263, 28));
 
         jSeparator6.setForeground(new java.awt.Color(49, 57, 69));
-        jPanel3.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 190, 343, 10));
+        jPanel3.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 190, 360, 10));
 
         jLabel15.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jLabel15.setText("Peso");
-        jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 160, -1, -1));
+        jLabel15.setText("Precio:");
+        jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 160, -1, -1));
 
-        txtCodigo3.setBackground(new java.awt.Color(233, 235, 237));
-        txtCodigo3.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtCodigo3.setBorder(null);
-        jPanel3.add(txtCodigo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 160, 263, 28));
+        jPanel3.add(comboUnidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 160, 120, 30));
+
+        jPanel3.add(comboCategoria1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 220, 30));
+
+        jLabel16.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        jLabel16.setText("Peso");
+        jPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 160, -1, -1));
+
+        txtModelo.setBackground(new java.awt.Color(233, 235, 237));
+        txtModelo.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtModelo.setBorder(null);
+        jPanel3.add(txtModelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(433, 110, 290, 28));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -291,12 +454,6 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jSeparator10.setForeground(new java.awt.Color(49, 57, 69));
         jPanel4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 445, 10));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_add_48px.png"))); // NOI18N
-        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, -1, -1));
-
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_refresh_48px.png"))); // NOI18N
-        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 0, -1, -1));
-
         txtBuscar.setBackground(new java.awt.Color(233, 235, 237));
         txtBuscar.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtBuscar.setBorder(null);
@@ -307,12 +464,49 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         btnBuscar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(49, 57, 69), 1, true));
         btnBuscar.setBorderPainted(false);
         btnBuscar.setContentAreaFilled(false);
+        btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarMouseClicked(evt);
+            }
+        });
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
             }
         });
         jPanel4.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 0, 66, 26));
+
+        btnRefrescar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_refresh_36px.png"))); // NOI18N
+        btnRefrescar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRefrescarMouseClicked(evt);
+            }
+        });
+        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 0, -1, -1));
+
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_delete_bin_36px.png"))); // NOI18N
+        btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEliminarMouseClicked(evt);
+            }
+        });
+        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 0, -1, -1));
+
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_save_36px_1.png"))); // NOI18N
+        btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnModificarMouseClicked(evt);
+            }
+        });
+        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 0, -1, -1));
+
+        btnInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_add_36px.png"))); // NOI18N
+        btnInsertar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnInsertarMouseClicked(evt);
+            }
+        });
+        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, -1, -1));
 
         btnFoto.setText("Foto");
         btnFoto.setBorderPainted(false);
@@ -323,45 +517,60 @@ public class Vehiculos extends javax.swing.JInternalFrame {
             }
         });
 
+        btnCargarFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_camera_identification_48px_2.png"))); // NOI18N
+        btnCargarFoto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCargarFotoMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(jScrollPane1)
                 .addGap(14, 14, 14))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 626, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(183, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(btnFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(112, 112, 112)
+                        .addComponent(btnCargarFoto)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(45, 45, 45)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 739, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(36, Short.MAX_VALUE))))
+                        .addContainerGap(34, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 747, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(61, 61, 61)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(btnCargarFoto))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -371,45 +580,18 @@ public class Vehiculos extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        /*this.modelo.setRowCount(0);
-        emp = pro.seleccionarEmpresa(Integer.parseInt(txtBuscar.getText()));
-        this.modelo.setRowCount(0);
-        Object [] obj = new Object[5];
-        obj[0] = emp.getId_empresa();
-        obj[1] = emp.getNombre_empresa();
-        obj[2] = emp.getDescripcion();
-        obj[3] = emp.getUsuario().getFoto();
-        obj[4] = emp.getUsuario().getId_usuario();
-        this.modelo.addRow(obj);
-        this.jTDatos.setModel(modelo);*/
+       
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFotoActionPerformed
 
     }//GEN-LAST:event_btnFotoActionPerformed
 
-    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
-        int input = JOptionPane.showConfirmDialog(rootPane, "Desea cerrar sesión?", "Salir", JOptionPane.YES_NO_OPTION);
-        if(input == 0){
-            super.dispose();
-            try {
-                new Login().setVisible(true);
-            } catch (Exception ex) {
-                Logger.getLogger(Vehiculos.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }//GEN-LAST:event_jLabel11MouseClicked
-
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        super.dispose();
-        //new home().setVisible(true);
-    }//GEN-LAST:event_jLabel3MouseClicked
-
     private void Enter(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Enter
 
         if (evt.getKeyCode()==KeyEvent.VK_ENTER){
-            int row = jTDatos.getSelectedRow();
-            Integer id_empresa=(Integer)jTDatos.getValueAt(row, 0);
+            int row = tablaVehiculos.getSelectedRow();
+            Integer id_empresa=(Integer)tablaVehiculos.getValueAt(row, 0);
 
             //new Detalle_Empresa(id_empresa).setVisible(true);
 
@@ -417,41 +599,90 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_Enter
 
-    private void jTDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTDatosMouseClicked
-        int row = jTDatos.getSelectedRow();
+    private void tablaVehiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaVehiculosMouseClicked
+       llenarTabla();
+    }//GEN-LAST:event_tablaVehiculosMouseClicked
 
-        if (row != -1) {
-            txtCodigo.setText(jTDatos.getValueAt(row, 0).toString());
-            txtId.setText((String)jTDatos.getValueAt(row, 1));
-            //txtDescripcion.setText((String) jTDatos.getValueAt(row, 2));
-            ImageIcon imageIcon = new ImageIcon(new ImageIcon(jTDatos.getValueAt(row, 3).toString()).getImage().getScaledInstance(190, 190, Image.SCALE_DEFAULT));
-            btnFoto.setText("");
-            btnFoto.setIcon(imageIcon);
+    private void btnRefrescarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefrescarMouseClicked
+       mostrar(daoVe.mostrarVehiculos());
+       limpiar();
+    }//GEN-LAST:event_btnRefrescarMouseClicked
 
-        } else {
-            JOptionPane.showMessageDialog(this,"No hay filas por mostrar");
+    private void btnCargarFotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCargarFotoMouseClicked
+       String extension;
+        JFileChooser guardar = new JFileChooser();
+        guardar.setAcceptAllFileFilterUsed(false);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files","png", "jpeg", "jpg");
+        
+        guardar.addChoosableFileFilter(filter);
+        guardar.showSaveDialog(null);
+        
+        if(guardar.getSelectedFile()!=null){
+            try {
+                File archivo = guardar.getSelectedFile();
+
+                extension = getFileExtension(archivo.getName());
+
+                if(extension.equals("png")){
+                    File renombrado = new File(txtMarca.getText()+".png"); //las fotos tendran nombres de marcas 
+                    archivo.renameTo(renombrado);
+                }else if(extension.equals("jpg")){
+                    File renombrado = new File(txtMarca.getText()+".jpg");
+                    archivo.renameTo(renombrado);
+                }else if(extension.equals("jpeg")){
+                    File renombrado = new File(txtMarca.getText()+".jpeg");
+                    archivo.renameTo(renombrado);
+                }
+
+                rutaModificado = archivo.getAbsolutePath();
+                String root = new File("").getAbsolutePath();
+                ImageIcon imageIcon = new ImageIcon(new ImageIcon(rutaModificado).getImage().getScaledInstance(190, 190, Image.SCALE_DEFAULT));
+                btnFoto.setText("");
+                btnFoto.setIcon(imageIcon);
+                Files.copy(Paths.get(rutaModificado), Paths.get(root+"/src/com/recursos/fotosVehiculos").resolve(archivo.getName()), StandardCopyOption.REPLACE_EXISTING);
+            } catch (Exception e) {
+                System.out.println("Error: "+e);
+            }
         }
-    }//GEN-LAST:event_jTDatosMouseClicked
+    }//GEN-LAST:event_btnCargarFotoMouseClicked
+
+    private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
+        eliminar();
+    }//GEN-LAST:event_btnEliminarMouseClicked
+
+    private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
+       modificar();
+    }//GEN-LAST:event_btnModificarMouseClicked
+
+    private void btnInsertarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsertarMouseClicked
+        insertar();
+    }//GEN-LAST:event_btnInsertarMouseClicked
+
+    private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
+         mostrar(daoVe.buscarVehiculo(txtBuscar.getText()));
+    }//GEN-LAST:event_btnBuscarMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JLabel btnCargarFoto;
+    private javax.swing.JLabel btnEliminar;
     private javax.swing.JButton btnFoto;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel btnInsertar;
+    private javax.swing.JLabel btnModificar;
+    private javax.swing.JLabel btnRefrescar;
+    private javax.swing.JComboBox<ComboItem> comboCategoria1;
+    private javax.swing.JComboBox<ComboItem> comboUnidad;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -465,16 +696,15 @@ public class Vehiculos extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
-    private javax.swing.JTable jTDatos;
+    private javax.swing.JTable tablaVehiculos;
     private javax.swing.JTextField txtBuscar;
-    private javax.swing.JTextField txtCodigo;
-    private javax.swing.JTextField txtCodigo1;
-    private javax.swing.JTextField txtCodigo2;
-    private javax.swing.JTextField txtCodigo3;
-    private javax.swing.JTextField txtId;
-    private javax.swing.JTextField txtNombre1;
-    private javax.swing.JTextField txtNombre2;
-    private javax.swing.JTextField txtNombre3;
+    private javax.swing.JTextField txtCodigoVe;
+    private javax.swing.JTextField txtColor;
+    private javax.swing.JTextField txtMarca;
+    private javax.swing.JTextField txtModelo;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtPrecio;
+    private javax.swing.JTextField txtPuertas;
     private javax.swing.JLabel txtUsuarioid;
     // End of variables declaration//GEN-END:variables
 }

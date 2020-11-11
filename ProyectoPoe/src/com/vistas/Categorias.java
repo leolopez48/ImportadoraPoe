@@ -24,6 +24,7 @@ public class Categorias extends javax.swing.JInternalFrame {
     public Categorias() {
         initComponents();
         mostrar(daoCat.mostrarCategoria());
+        setId();
     }
     
     public void mostrar(List<Categoria> lista) {
@@ -46,6 +47,12 @@ public class Categorias extends javax.swing.JInternalFrame {
         }
     }
     
+    public void setId()
+    {
+        txtIdCategoria.setText(String.valueOf(daoCat.ultimoId()));
+        this.txtIdCategoria.setEnabled(false);
+    }
+    
     public void insertar() {
         try {
             cat.setIdCategoria(Integer.parseInt(this.txtIdCategoria.getText()));
@@ -63,7 +70,8 @@ public class Categorias extends javax.swing.JInternalFrame {
         this.txtIdCategoria.setText("");
         this.txtNombreCategoria.setText("");
         this.txtBuscarNombreCat.setText("");
-        this.txtIdCategoria.setEnabled(true);  
+        this.txtIdCategoria.setEnabled(false); 
+        setId();
     }
 
     public void llenarTabla() {

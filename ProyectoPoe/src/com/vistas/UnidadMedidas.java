@@ -1,8 +1,10 @@
 
 package com.vistas;
 
-import com.dao.DaoImpuestos;
-import com.pojos.Impuesto;
+import Dao.DaoCategoria;
+import com.dao.DaoUnidadMedida;
+import com.pojos.Categoria;
+import com.pojos.UnidadMedida;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -16,94 +18,86 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class Impuestos extends javax.swing.JInternalFrame {
-
-    DaoImpuestos daopI = new DaoImpuestos();
-    Impuesto im;
-   
+public class UnidadMedidas extends javax.swing.JInternalFrame {
+     
+    DaoUnidadMedida daoUM = new DaoUnidadMedida();
+    UnidadMedida um;
     
-    public Impuestos() {
+    public UnidadMedidas() {
         initComponents();
-        mostrar(daopI.mostrarImpuesto());
+        mostrar(daoUM.mostrarUnidadMedidas());
         setId();
     }
     
-    public void setId()
-    {
-        txtIdImpuesto.setText(String.valueOf(daopI.ultimoId()));
-        this.txtIdImpuesto.setEnabled(false);
-    }
-    
-    public void mostrar(List<Impuesto> lista) {
+    public void mostrar(List<UnidadMedida> lista) {
         DefaultTableModel tabla;
-        String []columnas ={"ID Impuesto","Nombre","Valor"};
+        String []columnas ={"ID Unidad de Medida","Nombre Unidad de Medida"};
         tabla = new DefaultTableModel(null, columnas);
-        Object datos[] = new Object[3];
+        Object datos[] = new Object[2];
 
         try {
             for (int i = 0; i < lista.size(); i++) {
-                im = (Impuesto) lista.get(i);
-                datos[0] = im.getIdImpuesto();
-                datos[1] = im.getNombre();
-                datos[2] = im.getValor();
+                um = (UnidadMedida) lista.get(i);
+                datos[0] = um.getIdUnidadMedida();
+                datos[1] = um.getNombre();
                 
                 tabla.addRow(datos);
             }
-            this.tablaImpuesto.setModel(tabla);
+            this.tablaUnidadM.setModel(tabla);
         } catch (Exception e) {
            JOptionPane.showMessageDialog(null, "Error al mostrar en formulario " + e.getMessage());
         }
     }
     
-     public void insertar() {
+    public void insertar() {
         try {
-            im.setIdImpuesto(Integer.parseInt(this.txtIdImpuesto.getText()));
-            im.setNombre(this.txtNombreImpuesto.getText());
-            im.setValor(Float.parseFloat(this.txtValorImpuesto.getText()));
+            um.setIdUnidadMedida(Integer.parseInt(this.txtIdUM.getText()));
+            um.setNombre(this.txtNombreUM.getText());
             
-            daopI.insertarImpuesto(im);
+            daoUM.insertarUnidadMedida(um);
             JOptionPane.showMessageDialog(null, "Insertado correctamente");
-            mostrar(daopI.mostrarImpuesto());
+            mostrar(daoUM.mostrarUnidadMedidas());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al insertar" + e.getMessage());
         }
     }
-     
-     public void limpiar() {
-        this.txtNombreImpuesto.setText("");
-        this.txtIdImpuesto.setText("");
-        this.txtValorImpuesto.setText("");
-        this.txtBuscar.setText("");
-        this.txtIdImpuesto.setEnabled(false);   
+
+    public void limpiar() {
+        this.txtIdUM.setText("");
+        this.txtNombreUM.setText("");
+        this.txtBuscarNombreCat.setText("");
+        this.txtIdUM.setEnabled(false);
         setId();
     }
-     
+
     public void llenarTabla() {
-        int fila = this.tablaImpuesto.getSelectedRow();
+        int fila = this.tablaUnidadM.getSelectedRow();
         if (fila > -1) {
-            this.txtIdImpuesto.setText(String.valueOf(this.tablaImpuesto.getValueAt(fila, 0)));
-            this.txtNombreImpuesto.setText(String.valueOf(this.tablaImpuesto.getValueAt(fila, 1)));
-            this.txtValorImpuesto.setText(String.valueOf(this.tablaImpuesto.getValueAt(fila, 2)));
-            
-            this.txtIdImpuesto.setEnabled(false);
+            this.txtIdUM.setText(String.valueOf(this.tablaUnidadM.getValueAt(fila, 0)));
+            this.txtNombreUM.setText(String.valueOf(this.tablaUnidadM.getValueAt(fila, 1)));
+            this.txtIdUM.setEnabled(false);
         }
     }
     
+    public void setId()
+    {
+        txtIdUM.setText(String.valueOf(daoUM.ultimoId()));
+    }
+
     public void modificar() {
         try {
-            im.setIdImpuesto(Integer.parseInt(this.txtIdImpuesto.getText()));
-            im.setNombre(this.txtNombreImpuesto.getText());
-            im.setValor(Float.parseFloat(this.txtValorImpuesto.getText())); 
+            um.setIdUnidadMedida(Integer.parseInt(this.txtIdUM.getText()));
+            um.setNombre(this.txtNombreUM.getText()); 
             
-            int respuesta = JOptionPane.showConfirmDialog(this, "Desea modificar el impuesto",
+            int respuesta = JOptionPane.showConfirmDialog(this, "Desea modificar la unidad de medida",
                     "Modificar", JOptionPane.YES_NO_OPTION);
             if (respuesta == JOptionPane.OK_OPTION) {
-                daopI.modificarImpuesto(im);
+                daoUM.modificarUnidadMedida(um);
                 JOptionPane.showMessageDialog(null, "Datos modificados con exito");
-                mostrar(daopI.mostrarImpuesto());
+                mostrar(daoUM.mostrarUnidadMedidas());
                 limpiar();
             } else {
-                mostrar(daopI.mostrarImpuesto());
+                mostrar(daoUM.mostrarUnidadMedidas());
                 limpiar();
             }
         } catch (Exception e) {
@@ -113,23 +107,23 @@ public class Impuestos extends javax.swing.JInternalFrame {
     
     public void eliminar(){
         try {
-            im.setIdImpuesto(Integer.parseInt(this.txtIdImpuesto.getText()));
-            int respuesta = JOptionPane.showConfirmDialog(this, "Desea eliminar el impuesto",
+            um.setIdUnidadMedida(Integer.parseInt(this.txtIdUM.getText()));
+            int respuesta = JOptionPane.showConfirmDialog(this, "Desea eliminar la unidad de medida",
                     "Eliminar", JOptionPane.YES_NO_OPTION);
             if (respuesta == JOptionPane.OK_OPTION) {
-                daopI.eliminarImpuesto(im);
+                daoUM.eliminarUnidadMedida(um);
                 JOptionPane.showMessageDialog(null, "Datos eliminados con exito");
-                mostrar(daopI.mostrarImpuesto());
+                mostrar(daoUM.mostrarUnidadMedidas());
                 limpiar();
             } else {
-                mostrar(daopI.mostrarImpuesto());
+                mostrar(daoUM.mostrarUnidadMedidas());
                 limpiar();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al eliminar en formulario");
         }
     }
-     
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -137,25 +131,23 @@ public class Impuestos extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaImpuesto = new javax.swing.JTable();
+        tablaUnidadM = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        txtIdImpuesto = new javax.swing.JTextField();
+        txtIdUM = new javax.swing.JTextField();
         jSeparator8 = new javax.swing.JSeparator();
-        txtValorImpuesto = new javax.swing.JTextField();
-        jSeparator9 = new javax.swing.JSeparator();
-        jLabel8 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtNombreImpuesto = new javax.swing.JTextField();
+        txtNombreUM = new javax.swing.JTextField();
         jSeparator11 = new javax.swing.JSeparator();
         txtUsuarioid = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jSeparator10 = new javax.swing.JSeparator();
-        txtBuscar = new javax.swing.JTextField();
+        txtBuscarNombreCat = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         btnRefrescar = new javax.swing.JLabel();
         btnInsertar = new javax.swing.JLabel();
@@ -174,11 +166,11 @@ public class Impuestos extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Comic Sans MS", 0, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(49, 57, 69));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Impuestos");
+        jLabel2.setText("Unidad de Medida");
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        tablaImpuesto.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        tablaImpuesto.setModel(new javax.swing.table.DefaultTableModel(
+        tablaUnidadM.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        tablaUnidadM.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -189,21 +181,34 @@ public class Impuestos extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tablaImpuesto.setToolTipText("Para ver el detalle completo, seleccione una empresa y presione Enter.");
-        tablaImpuesto.setRowHeight(25);
-        tablaImpuesto.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaUnidadM.setToolTipText("Para ver el detalle completo, seleccione una empresa y presione Enter.");
+        tablaUnidadM.setRowHeight(25);
+        tablaUnidadM.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaImpuestoMouseClicked(evt);
+                tablaUnidadMMouseClicked(evt);
             }
         });
-        tablaImpuesto.addKeyListener(new java.awt.event.KeyAdapter() {
+        tablaUnidadM.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 Enter(evt);
             }
         });
-        jScrollPane1.setViewportView(tablaImpuesto);
+        jScrollPane1.setViewportView(tablaUnidadM);
 
         jPanel1.setBackground(new java.awt.Color(49, 57, 69));
+
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Inicio");
+        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         jLabel10.setBackground(new java.awt.Color(255, 255, 255));
         jLabel10.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
@@ -229,6 +234,8 @@ public class Impuestos extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42))
@@ -239,6 +246,7 @@ public class Impuestos extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -252,27 +260,13 @@ public class Impuestos extends javax.swing.JInternalFrame {
         jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 16, -1, -1));
 
-        txtIdImpuesto.setBackground(new java.awt.Color(233, 235, 237));
-        txtIdImpuesto.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtIdImpuesto.setBorder(null);
-        jPanel3.add(txtIdImpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 11, 281, 28));
+        txtIdUM.setBackground(new java.awt.Color(233, 235, 237));
+        txtIdUM.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtIdUM.setBorder(null);
+        jPanel3.add(txtIdUM, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 11, 281, 28));
 
         jSeparator8.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 45, 303, 10));
-
-        txtValorImpuesto.setBackground(new java.awt.Color(233, 235, 237));
-        txtValorImpuesto.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtValorImpuesto.setBorder(null);
-        jPanel3.add(txtValorImpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 267, 28));
-
-        jSeparator9.setForeground(new java.awt.Color(49, 57, 69));
-        jPanel3.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, 343, 10));
-
-        jLabel8.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jLabel8.setText("Valor");
-        jLabel8.setToolTipText("");
-        jLabel8.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel7.setText("Nombre");
@@ -280,13 +274,13 @@ public class Impuestos extends javax.swing.JInternalFrame {
         jLabel7.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 16, -1, -1));
 
-        txtNombreImpuesto.setBackground(new java.awt.Color(233, 235, 237));
-        txtNombreImpuesto.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtNombreImpuesto.setBorder(null);
-        jPanel3.add(txtNombreImpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(427, 11, 270, 28));
+        txtNombreUM.setBackground(new java.awt.Color(233, 235, 237));
+        txtNombreUM.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtNombreUM.setBorder(null);
+        jPanel3.add(txtNombreUM, new org.netbeans.lib.awtextra.AbsoluteConstraints(427, 11, 490, 28));
 
         jSeparator11.setForeground(new java.awt.Color(49, 57, 69));
-        jPanel3.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 45, 337, 10));
+        jPanel3.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 45, 550, 10));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -295,15 +289,15 @@ public class Impuestos extends javax.swing.JInternalFrame {
         jLabel12.setText("Buscar nombre");
         jLabel12.setToolTipText("");
         jLabel12.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jPanel4.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        jPanel4.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
 
         jSeparator10.setForeground(new java.awt.Color(49, 57, 69));
-        jPanel4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 445, 10));
+        jPanel4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 660, 10));
 
-        txtBuscar.setBackground(new java.awt.Color(233, 235, 237));
-        txtBuscar.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtBuscar.setBorder(null);
-        jPanel4.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 278, -1));
+        txtBuscarNombreCat.setBackground(new java.awt.Color(233, 235, 237));
+        txtBuscarNombreCat.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtBuscarNombreCat.setBorder(null);
+        jPanel4.add(txtBuscarNombreCat, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, 510, -1));
 
         btnBuscar.setBackground(new java.awt.Color(255, 255, 255));
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_search_24px.png"))); // NOI18N
@@ -315,7 +309,7 @@ public class Impuestos extends javax.swing.JInternalFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
-        jPanel4.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 0, 66, 26));
+        jPanel4.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 0, 66, 26));
 
         btnRefrescar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_refresh_36px.png"))); // NOI18N
         btnRefrescar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -323,7 +317,7 @@ public class Impuestos extends javax.swing.JInternalFrame {
                 btnRefrescarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 0, -1, -1));
+        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 0, -1, -1));
 
         btnInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_add_36px.png"))); // NOI18N
         btnInsertar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -331,7 +325,7 @@ public class Impuestos extends javax.swing.JInternalFrame {
                 btnInsertarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 0, -1, -1));
+        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 0, -1, -1));
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_delete_bin_36px.png"))); // NOI18N
         btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -339,7 +333,7 @@ public class Impuestos extends javax.swing.JInternalFrame {
                 btnEliminarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, -1, -1));
+        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 0, -1, -1));
 
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_save_36px_1.png"))); // NOI18N
         btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -347,7 +341,7 @@ public class Impuestos extends javax.swing.JInternalFrame {
                 btnModificarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 0, -1, -1));
+        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 0, -1, -1));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -357,14 +351,16 @@ public class Impuestos extends javax.swing.JInternalFrame {
             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(171, 171, 171)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 722, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 153, Short.MAX_VALUE)))
+                        .addContainerGap()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 932, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 104, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 896, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -372,12 +368,12 @@ public class Impuestos extends javax.swing.JInternalFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -387,11 +383,10 @@ public class Impuestos extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        mostrar(daopI.buscarImpuesto(txtBuscar.getText()));
-        this.txtNombreImpuesto.setText("");
-        this.txtIdImpuesto.setText("");
-        this.txtValorImpuesto.setText("");
-        this.txtIdImpuesto.setEnabled(true);   
+        mostrar(daoUM.buscarUnidadMedida(txtBuscarNombreCat.getText()));
+        this.txtIdUM.setText("");
+        this.txtNombreUM.setText("");
+        this.txtIdUM.setEnabled(true);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
@@ -401,21 +396,25 @@ public class Impuestos extends javax.swing.JInternalFrame {
             try {
                 new Login().setVisible(true);
             } catch (Exception ex) {
-                Logger.getLogger(Impuestos.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Categoria.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jLabel11MouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+
+    }//GEN-LAST:event_jLabel3MouseClicked
 
     private void Enter(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Enter
 
     }//GEN-LAST:event_Enter
 
-    private void tablaImpuestoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaImpuestoMouseClicked
+    private void tablaUnidadMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUnidadMMouseClicked
         llenarTabla();
-    }//GEN-LAST:event_tablaImpuestoMouseClicked
+    }//GEN-LAST:event_tablaUnidadMMouseClicked
 
     private void btnRefrescarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefrescarMouseClicked
-        mostrar(daopI.mostrarImpuesto());
+        mostrar(daoUM.mostrarUnidadMedidas());
         limpiar();
     }//GEN-LAST:event_btnRefrescarMouseClicked
 
@@ -441,9 +440,9 @@ public class Impuestos extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -452,12 +451,10 @@ public class Impuestos extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator8;
-    private javax.swing.JSeparator jSeparator9;
-    private javax.swing.JTable tablaImpuesto;
-    private javax.swing.JTextField txtBuscar;
-    private javax.swing.JTextField txtIdImpuesto;
-    private javax.swing.JTextField txtNombreImpuesto;
+    private javax.swing.JTable tablaUnidadM;
+    private javax.swing.JTextField txtBuscarNombreCat;
+    private javax.swing.JTextField txtIdUM;
+    private javax.swing.JTextField txtNombreUM;
     private javax.swing.JLabel txtUsuarioid;
-    private javax.swing.JTextField txtValorImpuesto;
     // End of variables declaration//GEN-END:variables
 }
