@@ -1,23 +1,22 @@
 
 package com.vistas;
 
-import Dao.DaoCategoria;
 import com.dao.DaoUnidadMedida;
-import com.pojos.Categoria;
 import com.pojos.UnidadMedida;
 import com.utils.ValidarCampos;
-import java.awt.Frame;
-import java.awt.Image;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
+/**
+ * NombreClase: FrmUnidadesMedidas
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
+ */
 
 public class FrmUnidadMedidas extends javax.swing.JInternalFrame {
      

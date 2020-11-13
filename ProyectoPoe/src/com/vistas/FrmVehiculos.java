@@ -3,11 +3,9 @@ package com.vistas;
 
 import Dao.DaoCategoria;
 import com.dao.DaoUnidadMedida;
-import com.dao.DaoUsuario;
 import com.dao.DaoVehiculo;
 import com.pojos.Categoria;
 import com.pojos.UnidadMedida;
-import com.pojos.Usuario;
 import com.pojos.Vehiculo;
 import com.utils.ComboItem;
 import com.utils.ValidarCampos;
@@ -24,6 +22,16 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+
+/**
+ * NombreClase: FrmVehiculos
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
+ */
 
 public class FrmVehiculos extends javax.swing.JInternalFrame {
 

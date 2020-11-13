@@ -20,6 +20,16 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
+/**
+ * NombreClase: FrmReporteCliente
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
+ */
+
 public class FrmReporteCliente extends javax.swing.JFrame {
     
     Cliente cli = new Cliente();

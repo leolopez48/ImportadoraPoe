@@ -4,29 +4,29 @@ package com.vistas;
 import com.dao.Crypting;
 import com.dao.DaoCliente;
 import com.dao.DaoUsuario;
-import com.pojos.Cliente;
 import com.pojos.Usuario;
-import com.utils.ComboItem;
 import com.utils.ValidarCampos;
-import java.awt.Frame;
 import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+
+/**
+ * NombreClase: FrmUsuarios
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
+ */
 
 public class FrmUsuarios extends javax.swing.JInternalFrame {
     
