@@ -139,7 +139,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
             
             cli.setUsuario(usu);
             
-            int respuesta = JOptionPane.showConfirmDialog(this, "Desea modificar el producto",
+            int respuesta = JOptionPane.showConfirmDialog(this, "Desea modificar el cliente?",
                     "Modificar", JOptionPane.YES_NO_OPTION);
             if (respuesta == JOptionPane.OK_OPTION) {
                 daoC.modificarCliente(cli);
@@ -158,7 +158,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
     public void eliminar(){
         try {
             cli.setIdCliente(Integer.parseInt(this.txtCodigo.getText()));
-            int respuesta = JOptionPane.showConfirmDialog(this, "Desea eliminar el producto",
+            int respuesta = JOptionPane.showConfirmDialog(this, "Desea eliminar el cliente?",
                     "Eliminar", JOptionPane.YES_NO_OPTION);
             if (respuesta == JOptionPane.OK_OPTION) {
                 daoC.eliminarCliente(cli);

@@ -143,7 +143,7 @@ public class FrmUsuarios extends javax.swing.JInternalFrame {
 
             usu.setTipoUsuario(prioridad);
             usu.setFoto(rutaModificado);
-            int respuesta = JOptionPane.showConfirmDialog(this, "Desea modificar el producto",
+            int respuesta = JOptionPane.showConfirmDialog(this, "Desea modificar el usuario?",
                     "Modificar", JOptionPane.YES_NO_OPTION);
             if (respuesta == JOptionPane.OK_OPTION) {
                 daoU.modificarUsuario(usu);
@@ -165,7 +165,7 @@ public class FrmUsuarios extends javax.swing.JInternalFrame {
         }else{
             try {
                 usu.setIdUsuario(Integer.parseInt(this.txtId.getText()));
-                int respuesta = JOptionPane.showConfirmDialog(this, "Desea eliminar el producto",
+                int respuesta = JOptionPane.showConfirmDialog(this, "Desea eliminar el usuario?",
                         "Eliminar", JOptionPane.YES_NO_OPTION);
                 if (respuesta == JOptionPane.OK_OPTION) {
                     daoU.eliminarUsuario(usu);

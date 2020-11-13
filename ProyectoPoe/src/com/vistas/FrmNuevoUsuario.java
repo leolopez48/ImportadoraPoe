@@ -103,7 +103,7 @@ public class FrmNuevoUsuario extends javax.swing.JFrame {
             usu.setFoto(rutaModificado);
             daoU.modificarUsuario(usu);
             
-            int respuesta = JOptionPane.showConfirmDialog(this, "Desea modificar el usuario",
+            int respuesta = JOptionPane.showConfirmDialog(this, "Desea modificar el usuario?",
                     "Modificar", JOptionPane.YES_NO_OPTION);
             if (respuesta == JOptionPane.OK_OPTION) {
                 String resultado = daoU.modificarUsuario(usu);
