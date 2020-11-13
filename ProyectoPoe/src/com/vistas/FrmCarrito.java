@@ -23,7 +23,17 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class Carrito extends javax.swing.JInternalFrame {
+/**
+ * NombreClase: FrmCarrito 
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
+ */
+
+public class FrmCarrito extends javax.swing.JInternalFrame {
     
     DaoDetalleOferta daoD = new DaoDetalleOferta();
     DetalleOferta det = new DetalleOferta();
@@ -37,7 +47,7 @@ public class Carrito extends javax.swing.JInternalFrame {
     NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
     ValidarCampos vc = new ValidarCampos();
     
-    public Carrito() {
+    public FrmCarrito() {
         initComponents();
         cargarCombo(cbVehiculo, daoV.mostrarVehiculos());
         habilitar(false);
@@ -48,7 +58,7 @@ public class Carrito extends javax.swing.JInternalFrame {
     }
     
     public void setUsuarioLoggeado(){
-        txtUsuario.setText(Login.usuarioL);
+        txtUsuario.setText(FrmLogin.usuarioL);
         txtUsuario.setEnabled(false);
         setId();
         txtIdVehiculo.setEnabled(false);
@@ -199,11 +209,11 @@ public class Carrito extends javax.swing.JInternalFrame {
         tablaUsuarios = new javax.swing.JTable();
         txtUsuarioid = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        btnInsertar = new javax.swing.JLabel();
         btnModificar = new javax.swing.JLabel();
-        btnRefrescar = new javax.swing.JLabel();
         btnEliminar = new javax.swing.JLabel();
         btnComprar = new javax.swing.JLabel();
+        btnInsertar = new javax.swing.JLabel();
+        btnRefrescar = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jSeparator3 = new javax.swing.JSeparator();
         Nombre = new javax.swing.JLabel();
@@ -278,32 +288,14 @@ public class Carrito extends javax.swing.JInternalFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_add_36px.png"))); // NOI18N
-        btnInsertar.setToolTipText("Agregar");
-        btnInsertar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnInsertarMouseClicked(evt);
-            }
-        });
-        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, -1, -1));
-
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_save_36px_1.png"))); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_edit_36px.png"))); // NOI18N
         btnModificar.setToolTipText("Modificar");
         btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnModificarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 0, -1, -1));
-
-        btnRefrescar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_refresh_36px.png"))); // NOI18N
-        btnRefrescar.setToolTipText("Refrescar");
-        btnRefrescar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnRefrescarMouseClicked(evt);
-            }
-        });
-        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
+        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 0, -1, -1));
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_delete_bin_36px.png"))); // NOI18N
         btnEliminar.setToolTipText("Eliminar");
@@ -312,7 +304,7 @@ public class Carrito extends javax.swing.JInternalFrame {
                 btnEliminarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 0, -1, -1));
+        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, -1, -1));
 
         btnComprar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_buy_36px.png"))); // NOI18N
         btnComprar.setToolTipText("Comprar");
@@ -321,7 +313,25 @@ public class Carrito extends javax.swing.JInternalFrame {
                 btnComprarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnComprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, -1, -1));
+        jPanel4.add(btnComprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 0, -1, -1));
+
+        btnInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_add_36px.png"))); // NOI18N
+        btnInsertar.setToolTipText("Agregar");
+        btnInsertar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnInsertarMouseClicked(evt);
+            }
+        });
+        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
+
+        btnRefrescar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_refresh_36px.png"))); // NOI18N
+        btnRefrescar.setToolTipText("Refrescar");
+        btnRefrescar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRefrescarMouseClicked(evt);
+            }
+        });
+        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, -1, -1));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -340,7 +350,6 @@ public class Carrito extends javax.swing.JInternalFrame {
 
         jSeparator5.setForeground(new java.awt.Color(49, 57, 69));
 
-        txtUsuario.setBackground(null);
         txtUsuario.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtUsuario.setBorder(null);
 
@@ -367,18 +376,14 @@ public class Carrito extends javax.swing.JInternalFrame {
             }
         });
 
-        txtId.setBackground(null);
         txtId.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtId.setBorder(null);
-
-        txtFecha.setBackground(null);
 
         jSeparator12.setForeground(new java.awt.Color(49, 57, 69));
 
         jLabel17.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel17.setText("ID Vehiculo");
 
-        txtIdVehiculo.setBackground(null);
         txtIdVehiculo.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         txtIdVehiculo.setBorder(null);
 
@@ -394,7 +399,6 @@ public class Carrito extends javax.swing.JInternalFrame {
 
         jSeparator7.setForeground(new java.awt.Color(49, 57, 69));
 
-        txtPrecio.setBackground(null);
         txtPrecio.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtPrecio.setBorder(null);
 
@@ -528,8 +532,8 @@ public class Carrito extends javax.swing.JInternalFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(130, 130, 130))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(111, 111, 111))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -628,6 +632,7 @@ public class Carrito extends javax.swing.JInternalFrame {
         }
         JOptionPane.showMessageDialog(this, mensaje, "Mensaje", 1);
         carrito.removeAll(carrito);
+        borrarFilas();
         
     }//GEN-LAST:event_btnComprarMouseClicked
 

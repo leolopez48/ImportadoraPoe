@@ -12,12 +12,15 @@ import org.hibernate.Transaction;
 import com.dao.Crypting;
 
 /**
- *
- * @author Leonel
+ * NombreClase: DaoUsuario
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
  */
 public class DaoUsuario {
-    
-    
     
         public String insertarUsuario(Usuario cli){
         Session session = null;

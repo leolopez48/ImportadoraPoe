@@ -19,13 +19,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class UnidadMedidas extends javax.swing.JInternalFrame {
+public class FrmUnidadMedidas extends javax.swing.JInternalFrame {
      
     DaoUnidadMedida daoUM = new DaoUnidadMedida();
     UnidadMedida um;
     ValidarCampos vc=new ValidarCampos();
     
-    public UnidadMedidas() {
+    public FrmUnidadMedidas() {
         initComponents();
         mostrar(daoUM.mostrarUnidadMedidas());
         setId();
@@ -203,10 +203,9 @@ public class UnidadMedidas extends javax.swing.JInternalFrame {
         jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, -1, -1));
 
-        txtIdUM.setBackground(null);
         txtIdUM.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtIdUM.setBorder(null);
-        jPanel3.add(txtIdUM, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 150, 28));
+        jPanel3.add(txtIdUM, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 18, 130, 30));
 
         jSeparator8.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 50, 170, 10));
@@ -217,7 +216,6 @@ public class UnidadMedidas extends javax.swing.JInternalFrame {
         jLabel7.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, -1, -1));
 
-        txtNombreUM.setBackground(null);
         txtNombreUM.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtNombreUM.setBorder(null);
         txtNombreUM.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -242,7 +240,6 @@ public class UnidadMedidas extends javax.swing.JInternalFrame {
         jSeparator10.setForeground(new java.awt.Color(49, 57, 69));
         jPanel4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 30, 400, 10));
 
-        txtBuscarNombreCat.setBackground(null);
         txtBuscarNombreCat.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtBuscarNombreCat.setBorder(null);
         txtBuscarNombreCat.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -270,7 +267,7 @@ public class UnidadMedidas extends javax.swing.JInternalFrame {
                 btnRefrescarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 0, -1, -1));
+        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 0, -1, -1));
 
         btnInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_add_36px.png"))); // NOI18N
         btnInsertar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -278,7 +275,7 @@ public class UnidadMedidas extends javax.swing.JInternalFrame {
                 btnInsertarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 0, -1, -1));
+        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 0, -1, -1));
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_delete_bin_36px.png"))); // NOI18N
         btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -286,15 +283,15 @@ public class UnidadMedidas extends javax.swing.JInternalFrame {
                 btnEliminarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 0, -1, -1));
+        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 0, -1, -1));
 
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_save_36px_1.png"))); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_edit_36px.png"))); // NOI18N
         btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnModificarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 0, -1, -1));
+        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 0, -1, -1));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

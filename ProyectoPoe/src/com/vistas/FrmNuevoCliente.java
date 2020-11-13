@@ -4,12 +4,23 @@ package com.vistas;
 import com.dao.DaoCliente;
 import com.dao.DaoUsuario;
 import com.pojos.Cliente;
-import java.io.File;
 import javax.swing.JOptionPane;
 import com.pojos.Usuario;
 import com.utils.ValidarCampos;
+import java.awt.Image;
+import java.awt.Toolkit;
 
-public class NuevoCliente extends javax.swing.JFrame {
+/**
+ * NombreClase: FrmNuevoCliente
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
+ */
+
+public class FrmNuevoCliente extends javax.swing.JFrame {
     
     Usuario usu = new Usuario();
     Cliente cli = new Cliente();
@@ -19,11 +30,18 @@ public class NuevoCliente extends javax.swing.JFrame {
     String accion;
     ValidarCampos vc=new ValidarCampos();
     
-    public NuevoCliente(){
+    public FrmNuevoCliente(){
         initComponents();
     }
     
-    public NuevoCliente(Usuario usu) {
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("com/recursos/logo.png"));
+        return retValue;
+    }
+    
+    public FrmNuevoCliente(Usuario usu) {
         initComponents();
         this.usu = usu;
         txtId.setText(String.valueOf(daoC.ultimoId()));
@@ -42,7 +60,7 @@ public class NuevoCliente extends javax.swing.JFrame {
             daoU.insertarUsuario(usu);
             daoC.insertarCliente(cli);
             JOptionPane.showMessageDialog(null, "Insertado correctamente try");
-            PrincipalCliente clie = new PrincipalCliente();
+            FrmPrincipalCliente clie = new FrmPrincipalCliente();
             clie.setVisible(true);
             this.dispose();
         } catch (Exception e) {
@@ -74,7 +92,7 @@ public class NuevoCliente extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setIconImages(getIconImages());
+        setIconImage(getIconImage());
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -294,7 +312,7 @@ public class NuevoCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNombreKeyTyped
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        NuevoUsuario nu = new NuevoUsuario();
+        FrmNuevoUsuario nu = new FrmNuevoUsuario();
         nu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -317,18 +335,18 @@ public class NuevoCliente extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NuevoCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmNuevoCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NuevoCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmNuevoCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NuevoCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmNuevoCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NuevoCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmNuevoCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NuevoCliente().setVisible(true);
+                new FrmNuevoCliente().setVisible(true);
             }
         });
     }

@@ -4,26 +4,29 @@ package com.vistas;
 import com.dao.DaoImpuestos;
 import com.pojos.Impuesto;
 import com.utils.ValidarCampos;
-import java.awt.Frame;
-import java.awt.Image;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class Impuestos extends javax.swing.JInternalFrame {
+/**
+ * NombreClase: FrmImpuestos
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
+ */
+
+public class FrmImpuestos extends javax.swing.JInternalFrame {
 
     DaoImpuestos daopI = new DaoImpuestos();
     Impuesto im;
    ValidarCampos vc=new ValidarCampos();
     
-    public Impuestos() {
+    public FrmImpuestos() {
         initComponents();
         mostrar(daopI.mostrarImpuesto());
         setId();
@@ -254,15 +257,14 @@ public class Impuestos extends javax.swing.JInternalFrame {
         jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 16, -1, -1));
 
-        txtIdImpuesto.setBackground(null);
+        txtIdImpuesto.setBackground(new java.awt.Color(255, 255, 255));
         txtIdImpuesto.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtIdImpuesto.setBorder(null);
-        jPanel3.add(txtIdImpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 11, 281, 28));
+        jPanel3.add(txtIdImpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(63, 11, 250, 28));
 
         jSeparator8.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 45, 303, 10));
 
-        txtValorImpuesto.setBackground(null);
         txtValorImpuesto.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtValorImpuesto.setBorder(null);
         txtValorImpuesto.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -270,7 +272,7 @@ public class Impuestos extends javax.swing.JInternalFrame {
                 txtValorImpuestoKeyTyped(evt);
             }
         });
-        jPanel3.add(txtValorImpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 267, 28));
+        jPanel3.add(txtValorImpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(277, 70, 250, 28));
 
         jSeparator9.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, 343, 10));
@@ -287,7 +289,6 @@ public class Impuestos extends javax.swing.JInternalFrame {
         jLabel7.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 16, -1, -1));
 
-        txtNombreImpuesto.setBackground(null);
         txtNombreImpuesto.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtNombreImpuesto.setBorder(null);
         txtNombreImpuesto.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -295,7 +296,7 @@ public class Impuestos extends javax.swing.JInternalFrame {
                 txtNombreImpuestoKeyTyped(evt);
             }
         });
-        jPanel3.add(txtNombreImpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(427, 11, 270, 28));
+        jPanel3.add(txtNombreImpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(447, 11, 250, 28));
 
         jSeparator11.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 45, 337, 10));
@@ -312,7 +313,6 @@ public class Impuestos extends javax.swing.JInternalFrame {
         jSeparator10.setForeground(new java.awt.Color(49, 57, 69));
         jPanel4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 445, 10));
 
-        txtBuscar.setBackground(null);
         txtBuscar.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtBuscar.setBorder(null);
         jPanel4.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 278, -1));
@@ -335,7 +335,7 @@ public class Impuestos extends javax.swing.JInternalFrame {
                 btnRefrescarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 0, -1, -1));
+        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 0, -1, -1));
 
         btnInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_add_36px.png"))); // NOI18N
         btnInsertar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -343,7 +343,7 @@ public class Impuestos extends javax.swing.JInternalFrame {
                 btnInsertarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 0, -1, -1));
+        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 0, -1, -1));
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_delete_bin_36px.png"))); // NOI18N
         btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -351,15 +351,15 @@ public class Impuestos extends javax.swing.JInternalFrame {
                 btnEliminarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, -1, -1));
+        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 0, -1, -1));
 
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_save_36px_1.png"))); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_edit_36px.png"))); // NOI18N
         btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnModificarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 0, -1, -1));
+        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 0, -1, -1));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -374,8 +374,8 @@ public class Impuestos extends javax.swing.JInternalFrame {
                         .addGap(171, 171, 171)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 722, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 153, Short.MAX_VALUE)))
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 171, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -389,7 +389,7 @@ public class Impuestos extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -411,9 +411,9 @@ public class Impuestos extends javax.swing.JInternalFrame {
         if(input == 0){
             super.dispose();
             try {
-                new Login().setVisible(true);
+                new FrmLogin().setVisible(true);
             } catch (Exception ex) {
-                Logger.getLogger(Impuestos.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FrmImpuestos.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jLabel11MouseClicked

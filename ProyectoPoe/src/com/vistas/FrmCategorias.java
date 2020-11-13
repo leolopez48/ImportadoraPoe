@@ -3,25 +3,26 @@ package com.vistas;
 
 import Dao.DaoCategoria;
 import com.pojos.Categoria;
-import java.awt.Frame;
-import java.awt.Image;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class Categorias extends javax.swing.JInternalFrame {
+/**
+ * NombreClase: FrmCategorias
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
+ */
+
+public class FrmCategorias extends javax.swing.JInternalFrame {
      
     DaoCategoria daoCat = new DaoCategoria();
     Categoria cat;
     
-    public Categorias() {
+    public FrmCategorias() {
         initComponents();
         mostrar(daoCat.mostrarCategoria());
         setId();
@@ -202,10 +203,10 @@ public class Categorias extends javax.swing.JInternalFrame {
         txtIdCategoria.setBackground(new java.awt.Color(255, 255, 255));
         txtIdCategoria.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtIdCategoria.setBorder(null);
-        jPanel3.add(txtIdCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 100, 28));
+        jPanel3.add(txtIdCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, 100, 28));
 
         jSeparator8.setForeground(new java.awt.Color(49, 57, 69));
-        jPanel3.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 50, 130, 10));
+        jPanel3.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 40, 130, 10));
 
         jLabel7.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel7.setText("Nombre");
@@ -216,10 +217,10 @@ public class Categorias extends javax.swing.JInternalFrame {
         txtNombreCategoria.setBackground(new java.awt.Color(255, 255, 255));
         txtNombreCategoria.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtNombreCategoria.setBorder(null);
-        jPanel3.add(txtNombreCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(587, 11, 180, 28));
+        jPanel3.add(txtNombreCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 10, 180, 28));
 
         jSeparator11.setForeground(new java.awt.Color(49, 57, 69));
-        jPanel3.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 50, 260, 10));
+        jPanel3.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 40, 260, 10));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -256,7 +257,7 @@ public class Categorias extends javax.swing.JInternalFrame {
                 btnRefrescarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 0, -1, -1));
+        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 0, 40, -1));
 
         btnInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_add_36px.png"))); // NOI18N
         btnInsertar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -264,7 +265,7 @@ public class Categorias extends javax.swing.JInternalFrame {
                 btnInsertarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 0, -1, -1));
+        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 0, -1, -1));
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_delete_bin_36px.png"))); // NOI18N
         btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -272,15 +273,15 @@ public class Categorias extends javax.swing.JInternalFrame {
                 btnEliminarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 0, -1, -1));
+        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 0, -1, -1));
 
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_save_36px_1.png"))); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_edit_36px.png"))); // NOI18N
         btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnModificarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 0, -1, -1));
+        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 0, -1, -1));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

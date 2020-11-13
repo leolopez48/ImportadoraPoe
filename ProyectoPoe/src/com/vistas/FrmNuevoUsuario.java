@@ -3,11 +3,8 @@ package com.vistas;
 
 import com.dao.DaoUsuario;
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import com.pojos.Usuario;
-import com.utils.ComboItem;
 import com.utils.ValidarCampos;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -18,7 +15,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class NuevoUsuario extends javax.swing.JFrame {
+/**
+ * NombreClase: FrmNuevoUsuario
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
+ */
+
+public class FrmNuevoUsuario extends javax.swing.JFrame {
     
     Usuario usu = new Usuario();
     DaoUsuario daoU = new DaoUsuario();
@@ -26,13 +33,13 @@ public class NuevoUsuario extends javax.swing.JFrame {
     String rutaModificado;
     String accion;
     
-    public NuevoUsuario() {
+    public FrmNuevoUsuario() {
         initComponents();
         txtId.setEnabled(false);
         txtId.setText(String.valueOf(daoU.ultimoId()));
     }
     
-    public NuevoUsuario(String accion) {
+    public FrmNuevoUsuario(String accion) {
         initComponents();
         txtId.setText(String.valueOf(daoU.ultimoId()));
         txtTitulo.setText("Nuevo usuario");
@@ -50,11 +57,12 @@ public class NuevoUsuario extends javax.swing.JFrame {
         }
     }
     
-    public NuevoUsuario(int idUsuario, int rol, String accion) {
+    public FrmNuevoUsuario(int idUsuario, int rol, String accion) {
         initComponents();
         if (accion.equals("modificar")) {
             txtTitulo.setText("Modificar usuario");
             modificarUsuario(idUsuario, rol);
+            jButton2.setVisible(false);
         } else {
             txtId.setText(String.valueOf(daoU.ultimoId()));
             txtTitulo.setText("Nuevo usuario");
@@ -131,12 +139,12 @@ public class NuevoUsuario extends javax.swing.JFrame {
             }else{
                 if (cbPrioridad.getSelectedItem().equals("Cliente")) {
                     //System.out.println("CLiente");
-                    NuevoCliente nCli = new NuevoCliente(usu);
+                    FrmNuevoCliente nCli = new FrmNuevoCliente(usu);
                     nCli.setVisible(true);
                     //daoU.modificarUsuario(usu);
                     //JOptionPane.showMessageDialog(null, "Insertado correctamente");
                 } else {
-                    NuevoProveedor nPro = new NuevoProveedor(usu);
+                    FrmNuevoProveedor nPro = new FrmNuevoProveedor(usu);
                     nPro.setVisible(true);
                 }
                 this.dispose();
@@ -480,7 +488,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCorreoFocusLost
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Login log = new Login();
+        FrmLogin log = new FrmLogin();
         log.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -510,18 +518,18 @@ public class NuevoUsuario extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NuevoUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmNuevoUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NuevoUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmNuevoUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NuevoUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmNuevoUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NuevoUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmNuevoUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NuevoUsuario().setVisible(true);
+                new FrmNuevoUsuario().setVisible(true);
             }
         });
     }

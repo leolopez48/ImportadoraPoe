@@ -3,24 +3,22 @@ package com.vistas;
 
 import com.dao.DaoUsuario;
 import java.awt.Image;
-import static java.awt.SystemColor.window;
 import java.awt.Toolkit;
-import java.io.File;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+/**
+ * NombreClase: FrmLogin
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
+ */
 
-public class Login extends javax.swing.JFrame {
+public class FrmLogin extends javax.swing.JFrame {
     
     String usuario;
     DaoUsuario daoU = new DaoUsuario();
@@ -29,7 +27,7 @@ public class Login extends javax.swing.JFrame {
     boolean estadoContra = false;
     char def;
     
-    public Login(){
+    public FrmLogin(){
         initComponents();
         def = txtContra.getEchoChar();
     }
@@ -207,16 +205,16 @@ public class Login extends javax.swing.JFrame {
             if(daoU.login(usuario, contra)){
                 int tipo = daoU.tipoUsuario(usuario);
                 if(tipo == 1){
-                    PrincipalAdministrador pri = new PrincipalAdministrador();
+                    FrmPrincipalAdministrador pri = new FrmPrincipalAdministrador();
                     pri.setVisible(true);
                 }else if(tipo == 2){
-                    PrincipalCliente pri = new PrincipalCliente();
+                    FrmPrincipalCliente pri = new FrmPrincipalCliente();
                     pri.setVisible(true);
                 }else if(tipo == 3){
-                    PrincipalProveedor pri = new PrincipalProveedor();
+                    FrmPrincipalProveedor pri = new FrmPrincipalProveedor();
                     pri.setVisible(true);
                 }else if(tipo == 4){
-                    PrincipalEmpleado pri = new PrincipalEmpleado();
+                    FrmPrincipalEmpleado pri = new FrmPrincipalEmpleado();
                     pri.setVisible(true);
                 }
                 this.dispose();
@@ -224,12 +222,12 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Las credenciales son incorrectas.", "Usuario no válido.", 0);
             }
         } catch (Exception ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        NuevoUsuario u = new NuevoUsuario("insertar");
+        FrmNuevoUsuario u = new FrmNuevoUsuario("insertar");
         u.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -254,21 +252,21 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new Login().setVisible(true);
+                    new FrmLogin().setVisible(true);
                 } catch (Exception ex) {
-                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

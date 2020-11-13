@@ -9,22 +9,30 @@ import com.utils.ComboItem;
 import com.utils.ValidarCampos;
 import java.awt.Image;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JasperReport;
 
-public class Clientes extends javax.swing.JInternalFrame {
+/**
+ * NombreClase: FrmClientes
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
+ */
+
+public class FrmClientes extends javax.swing.JInternalFrame {
     DaoCliente daoC = new DaoCliente();
     Cliente cli = new Cliente();
     DaoUsuario daoU = new DaoUsuario();
     JasperReport reporte;
     ValidarCampos vc=new ValidarCampos();
     
-    public Clientes() {
+    public FrmClientes() {
         initComponents();
         mostrar(daoC.mostrarClientes());
         cargarCombo(comboUsuario, daoU.mostrarUsuarios());
@@ -203,6 +211,7 @@ public class Clientes extends javax.swing.JInternalFrame {
         btnEliminar = new javax.swing.JLabel();
         btnFoto = new javax.swing.JButton();
 
+        setBackground(null);
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setIconifiable(true);
@@ -254,7 +263,6 @@ public class Clientes extends javax.swing.JInternalFrame {
         jLabel4.setText("ID Cliente");
         jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 116, -1, -1));
 
-        txtCodigo.setBackground(new java.awt.Color(233, 235, 237));
         txtCodigo.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtCodigo.setBorder(null);
         jPanel3.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 111, 263, 28));
@@ -283,7 +291,6 @@ public class Clientes extends javax.swing.JInternalFrame {
         jLabel7.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 16, -1, -1));
 
-        txtNombre.setBackground(new java.awt.Color(233, 235, 237));
         txtNombre.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtNombre.setBorder(null);
         txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -302,7 +309,6 @@ public class Clientes extends javax.swing.JInternalFrame {
         jLabel9.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 66, -1, -1));
 
-        txtDireccion.setBackground(new java.awt.Color(233, 235, 237));
         txtDireccion.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtDireccion.setBorder(null);
         jPanel3.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(436, 61, 281, 28));
@@ -318,9 +324,9 @@ public class Clientes extends javax.swing.JInternalFrame {
         });
         jPanel3.add(btnEditarUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 0, -1, -1));
 
+        comboUsuario.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
         jPanel3.add(comboUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 0, 210, 40));
 
-        txtTelefono.setBackground(new java.awt.Color(233, 235, 237));
         txtTelefono.setBorder(null);
         try {
             txtTelefono.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-####")));
@@ -341,7 +347,6 @@ public class Clientes extends javax.swing.JInternalFrame {
         jSeparator10.setForeground(new java.awt.Color(49, 57, 69));
         jPanel4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 445, 10));
 
-        txtBuscar.setBackground(new java.awt.Color(233, 235, 237));
         txtBuscar.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtBuscar.setBorder(null);
         jPanel4.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 278, -1));
@@ -364,15 +369,15 @@ public class Clientes extends javax.swing.JInternalFrame {
                 btnInsertarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 0, -1, -1));
+        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 0, -1, -1));
 
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_save_36px_1.png"))); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_edit_36px.png"))); // NOI18N
         btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnModificarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 0, -1, -1));
+        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, -1, -1));
 
         btnRefrescar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_refresh_36px.png"))); // NOI18N
         btnRefrescar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -380,7 +385,7 @@ public class Clientes extends javax.swing.JInternalFrame {
                 btnRefrescarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 0, -1, -1));
+        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 0, -1, -1));
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_delete_bin_36px.png"))); // NOI18N
         btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -388,7 +393,7 @@ public class Clientes extends javax.swing.JInternalFrame {
                 btnEliminarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, -1, -1));
+        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 0, -1, -1));
 
         btnFoto.setText("Foto");
         btnFoto.setBorderPainted(false);
@@ -470,7 +475,7 @@ public class Clientes extends javax.swing.JInternalFrame {
                 item = comboUsuario.getModel().getElementAt(i);
             }
         }
-        NuevoUsuario u = new NuevoUsuario(item.getValue(), 0, "modificar");
+        FrmNuevoUsuario u = new FrmNuevoUsuario(item.getValue(), 0, "modificar");
         u.setVisible(true);
     }//GEN-LAST:event_btnEditarUsuarioMouseClicked
 

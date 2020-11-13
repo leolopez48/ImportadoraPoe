@@ -123,11 +123,11 @@ insert into cliente values (1, 1, 'Pedro Martinez', '1234-5678', 'Santa Tecla'),
 select * from cliente;
 select * from cliente where nombre_cliente like '%Pedro%';
 
-insert into proveedor values(1,6, 'Marlon Saravia', '1234-5678', 'La palma'),
-						   (2,7, 'Miguel López', '1234-5678', 'Ciudad merliot'),
-						   (3,8, 'Martha López', '1234-5678', 'El congo'),
-						   (4,9, 'Franco Sosa', '1234-5678', 'Ahuachapan'),
-						   (5,10, 'Ronaldo Escalante', '1234-5678', 'Apopa');
+insert into proveedor values(1,6, 'Marlon Saravia', 'La palma','1234-5678'),
+						   (2,7, 'Miguel López', 'Ciudad merliot', '1234-5678'),
+						   (3,8, 'Martha López', 'El congo','1234-5678'),
+						   (4,9, 'Franco Sosa', 'Ahuachapan','1234-5678'),
+						   (5,10, 'Ronaldo Escalante', 'Apopa','1234-5678');
 select * from proveedor;
 
 insert into categoria values

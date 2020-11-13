@@ -2,8 +2,13 @@
 package com.utils;
 
 /**
- *
- * @author Natalia
+ * NombreClase: ComboItem  
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 S
+ * andra Natalia Menjívar Romero - 174218
  */
 public class ComboItem {
     private int value;

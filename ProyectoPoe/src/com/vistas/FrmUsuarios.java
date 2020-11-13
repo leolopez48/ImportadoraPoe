@@ -1,6 +1,7 @@
 
 package com.vistas;
 
+import com.dao.Crypting;
 import com.dao.DaoCliente;
 import com.dao.DaoUsuario;
 import com.pojos.Cliente;
@@ -27,7 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
-public class Usuarios extends javax.swing.JInternalFrame {
+public class FrmUsuarios extends javax.swing.JInternalFrame {
     
     DaoCliente daoC = new DaoCliente();
     Usuario usu = new Usuario();
@@ -37,7 +38,7 @@ public class Usuarios extends javax.swing.JInternalFrame {
     boolean estadoContra = false;
     char def;
     
-    public Usuarios() {
+    public FrmUsuarios() {
         initComponents();
         mostrar(daoU.mostrarUsuarios());
         //super.setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -93,7 +94,7 @@ public class Usuarios extends javax.swing.JInternalFrame {
     }
 
     public void insertar() {
-        NuevoUsuario nU = new NuevoUsuario("insertarUsuario");
+        FrmNuevoUsuario nU = new FrmNuevoUsuario("insertarUsuario");
         nU.setVisible(true);
     }
 
@@ -133,10 +134,11 @@ public class Usuarios extends javax.swing.JInternalFrame {
 
     public void modificar() {
         try {
+            Crypting crp = new Crypting();
             usu.setIdUsuario(Integer.parseInt(this.txtId.getText()));
             usu.setNombreUsuario(this.txtNombre.getText());
             usu.setCorreoUsuario(this.txtCorreo.getText());
-            usu.setContra(new String(this.txtContra.getPassword()));
+            usu.setContra(crp.encrypt(new String(this.txtContra.getPassword())));
             int prioridad = cbPrioridad.getSelectedIndex()+1;
 
             usu.setTipoUsuario(prioridad);
@@ -272,7 +274,6 @@ public class Usuarios extends javax.swing.JInternalFrame {
         jSeparator10.setForeground(new java.awt.Color(49, 57, 69));
         jPanel4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 445, 10));
 
-        txtBuscar.setBackground(null);
         txtBuscar.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtBuscar.setBorder(null);
         jPanel4.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 278, -1));
@@ -296,16 +297,16 @@ public class Usuarios extends javax.swing.JInternalFrame {
                 btnInsertarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 0, -1, -1));
+        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 0, -1, -1));
 
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_save_36px_1.png"))); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_edit_36px.png"))); // NOI18N
         btnModificar.setToolTipText("Guardar");
         btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnModificarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, -1, -1));
+        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 0, -1, -1));
 
         btnRefrescar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_refresh_36px.png"))); // NOI18N
         btnRefrescar.setToolTipText("Refrescar");
@@ -314,7 +315,7 @@ public class Usuarios extends javax.swing.JInternalFrame {
                 btnRefrescarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 0, -1, -1));
+        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, -1, -1));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -328,7 +329,6 @@ public class Usuarios extends javax.swing.JInternalFrame {
 
         jSeparator5.setForeground(new java.awt.Color(49, 57, 69));
 
-        txtNombre.setBackground(null);
         txtNombre.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtNombre.setBorder(null);
 
@@ -345,7 +345,6 @@ public class Usuarios extends javax.swing.JInternalFrame {
         jLabel16.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel16.setText("Correo");
 
-        txtCorreo.setBackground(null);
         txtCorreo.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         txtCorreo.setBorder(null);
         txtCorreo.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -354,7 +353,6 @@ public class Usuarios extends javax.swing.JInternalFrame {
             }
         });
 
-        txtId.setBackground(null);
         txtId.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtId.setBorder(null);
 

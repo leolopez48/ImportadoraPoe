@@ -25,7 +25,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
-public class Vehiculos extends javax.swing.JInternalFrame {
+public class FrmVehiculos extends javax.swing.JInternalFrame {
 
     DaoVehiculo daoVe= new DaoVehiculo();
     Vehiculo ve = new Vehiculo();
@@ -36,7 +36,7 @@ public class Vehiculos extends javax.swing.JInternalFrame {
     ValidarCampos vc=new ValidarCampos();
     String rutaModificado;
     
-    public Vehiculos() {
+    public FrmVehiculos() {
         initComponents();
         mostrar(daoVe.mostrarVehiculos());
         this.txtCodigoVe.setEnabled(false);
@@ -346,7 +346,6 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel4.setText("Marca");
         jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 116, -1, -1));
 
-        txtMarca.setBackground(null);
         txtMarca.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtMarca.setBorder(null);
         txtMarca.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -362,10 +361,10 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 16, -1, -1));
 
-        txtCodigoVe.setBackground(null);
+        txtCodigoVe.setBackground(new java.awt.Color(255, 255, 255));
         txtCodigoVe.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtCodigoVe.setBorder(null);
-        jPanel3.add(txtCodigoVe, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 11, 281, 28));
+        jPanel3.add(txtCodigoVe, new org.netbeans.lib.awtextra.AbsoluteConstraints(53, 11, 260, 28));
 
         jSeparator8.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 45, 303, 10));
@@ -385,7 +384,6 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel7.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 16, -1, -1));
 
-        txtNombre.setBackground(null);
         txtNombre.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtNombre.setBorder(null);
         txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -404,7 +402,6 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel9.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 66, -1, -1));
 
-        txtColor.setBackground(null);
         txtColor.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtColor.setBorder(null);
         txtColor.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -424,7 +421,6 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel13.setText("Modelo");
         jPanel3.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, -1, -1));
 
-        txtPrecio.setBackground(null);
         txtPrecio.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtPrecio.setBorder(null);
         txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -441,7 +437,6 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel14.setText("No. puertas");
         jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
 
-        txtPuertas.setBackground(null);
         txtPuertas.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtPuertas.setBorder(null);
         txtPuertas.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -466,7 +461,6 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel16.setText("Peso");
         jPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 160, -1, -1));
 
-        txtModelo.setBackground(null);
         txtModelo.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtModelo.setBorder(null);
         txtModelo.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -488,7 +482,6 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jSeparator10.setForeground(new java.awt.Color(49, 57, 69));
         jPanel4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 445, 10));
 
-        txtBuscar.setBackground(null);
         txtBuscar.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtBuscar.setBorder(null);
         jPanel4.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 278, -1));
@@ -516,7 +509,7 @@ public class Vehiculos extends javax.swing.JInternalFrame {
                 btnRefrescarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 0, -1, -1));
+        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 0, -1, -1));
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_delete_bin_36px.png"))); // NOI18N
         btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -524,15 +517,15 @@ public class Vehiculos extends javax.swing.JInternalFrame {
                 btnEliminarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 0, -1, -1));
+        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 0, -1, -1));
 
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_save_36px_1.png"))); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_edit_36px.png"))); // NOI18N
         btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnModificarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 0, -1, -1));
+        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 0, -1, -1));
 
         btnInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_add_36px.png"))); // NOI18N
         btnInsertar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -540,7 +533,7 @@ public class Vehiculos extends javax.swing.JInternalFrame {
                 btnInsertarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, -1, -1));
+        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 0, -1, -1));
 
         btnFoto.setText("Foto");
         btnFoto.setBorderPainted(false);

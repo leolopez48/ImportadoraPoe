@@ -11,9 +11,15 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
- *
- * @author Natalia
+ * NombreClase: DaoDetalleOferta 
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
  */
+
 public class DaoDetalleOferta {
     
      public String insertarDetalleOferta(DetalleOferta dof){

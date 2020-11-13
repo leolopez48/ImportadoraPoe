@@ -9,12 +9,17 @@ import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 
 /**
- *
- * @author Leonel
+ * NombreClase: FrmPrincipalEmpleado
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
  */
-public class PrincipalEmpleado extends javax.swing.JFrame {
+public class FrmPrincipalEmpleado extends javax.swing.JFrame {
 
-    public PrincipalEmpleado() {
+    public FrmPrincipalEmpleado() {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
@@ -205,43 +210,43 @@ public class PrincipalEmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2MouseClicked
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        Clientes cli = new Clientes();
+        FrmClientes cli = new FrmClientes();
         desktopPane.add(cli);
         cli.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        Categorias cat = new Categorias();
+        FrmCategorias cat = new FrmCategorias();
         this.desktopPane.add(cat);
         cat.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        DetalleOfertas oferta = new DetalleOfertas();
+        FrmDetalleOfertas oferta = new FrmDetalleOfertas();
         this.desktopPane.add(oferta);
         oferta.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        Proveedores pro = new Proveedores();
+        FrmProveedores pro = new FrmProveedores();
         this.desktopPane.add(pro);
         pro.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        Vehiculos ve = new Vehiculos();
+        FrmVehiculos ve = new FrmVehiculos();
         this.desktopPane.add(ve);
         ve.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        Login log;
+        FrmLogin log;
         try {
-            log = new Login();
+            log = new FrmLogin();
             this.dispose();
             log.setVisible(true);
         } catch (Exception ex) {
-            Logger.getLogger(PrincipalEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmPrincipalEmpleado.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
@@ -250,7 +255,7 @@ public class PrincipalEmpleado extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu6ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        Carrito car = new Carrito();
+        FrmCarrito car = new FrmCarrito();
         car.setVisible(true);
         desktopPane.add(car);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -269,21 +274,23 @@ public class PrincipalEmpleado extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PrincipalEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipalEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PrincipalEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipalEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PrincipalEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipalEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PrincipalEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipalEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PrincipalEmpleado().setVisible(true);
+                new FrmPrincipalEmpleado().setVisible(true);
             }
         });
     }

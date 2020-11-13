@@ -31,15 +31,20 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- *
- * @author Leonel
+ * NombreClase: FrmPrincipalAdministrador
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
  */
-public class PrincipalAdministrador extends javax.swing.JFrame {
+public class FrmPrincipalAdministrador extends javax.swing.JFrame {
     
     DaoDetalleOferta daoD = new DaoDetalleOferta();
     DaoCategoria daoC = new DaoCategoria();
     
-    public PrincipalAdministrador() {
+    public FrmPrincipalAdministrador() {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
@@ -327,7 +332,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        Usuarios usu = new Usuarios();
+        FrmUsuarios usu = new FrmUsuarios();
         desktopPane.add(usu);
         usu.setVisible(true);    
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -345,49 +350,49 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2MouseClicked
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        Clientes cli = new Clientes();
+        FrmClientes cli = new FrmClientes();
         desktopPane.add(cli);
         cli.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        Categorias cat = new Categorias();
+        FrmCategorias cat = new FrmCategorias();
         this.desktopPane.add(cat);
         cat.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        DetalleOfertas oferta = new DetalleOfertas();
+        FrmDetalleOfertas oferta = new FrmDetalleOfertas();
         this.desktopPane.add(oferta);
         oferta.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        Impuestos imp = new Impuestos();
+        FrmImpuestos imp = new FrmImpuestos();
         this.desktopPane.add(imp);
         imp.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        Proveedores pro = new Proveedores();
+        FrmProveedores pro = new FrmProveedores();
         this.desktopPane.add(pro);
         pro.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        Vehiculos ve = new Vehiculos();
+        FrmVehiculos ve = new FrmVehiculos();
         this.desktopPane.add(ve);
         ve.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        Login log;
+        FrmLogin log;
         try {
-            log = new Login();
+            log = new FrmLogin();
             this.dispose();
             log.setVisible(true);
         } catch (Exception ex) {
-            Logger.getLogger(PrincipalAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmPrincipalAdministrador.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
@@ -419,19 +424,19 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-        Carrito car = new Carrito();
+        FrmCarrito car = new FrmCarrito();
         car.setVisible(true);
         desktopPane.add(car);
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
-        UnidadMedidas un = new UnidadMedidas();
+        FrmUnidadMedidas un = new FrmUnidadMedidas();
         un.setVisible(true);
         desktopPane.add(un);
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        ReporteCliente rc = new ReporteCliente();
+        FrmReporteCliente rc = new FrmReporteCliente();
         rc.setVisible(true);
         
     }//GEN-LAST:event_jMenuItem10ActionPerformed
@@ -575,21 +580,23 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PrincipalAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipalAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PrincipalAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipalAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PrincipalAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipalAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PrincipalAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipalAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PrincipalAdministrador().setVisible(true);
+                new FrmPrincipalAdministrador().setVisible(true);
             }
         });
     }

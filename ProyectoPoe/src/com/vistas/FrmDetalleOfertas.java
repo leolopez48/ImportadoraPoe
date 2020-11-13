@@ -16,13 +16,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class DetalleOfertas extends javax.swing.JInternalFrame {
+/**
+ * NombreClase: FrmDetalleOfertas
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
+ */
+
+public class FrmDetalleOfertas extends javax.swing.JInternalFrame {
 
     DaoDetalleOferta daoD = new DaoDetalleOferta();
     DetalleOferta det = new DetalleOferta();
@@ -35,7 +43,7 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
     DefaultTableModel tabla;
     DecimalFormat df = new DecimalFormat("#.00");
     
-    public DetalleOfertas() {
+    public FrmDetalleOfertas() {
         initComponents();
         cargarCombo(cbVehiculo, daoV.mostrarVehiculos());
         mostrar(daoD.mostrarDetalleOferta());
@@ -66,7 +74,7 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
         tabla = new DefaultTableModel(null, columnas);
         Object datos[] = new Object[6];
         
-        String usuario = Login.usuarioL;
+        String usuario = FrmLogin.usuarioL;
          List<DetalleOferta> detalles = new ArrayList();
         int tipo = daoU.tipoUsuario(usuario);
         if(tipo > 1){
@@ -435,7 +443,7 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
                 btnRefrescarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 10, -1, -1));
+        jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 10, -1, -1));
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_delete_bin_36px.png"))); // NOI18N
         btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -443,15 +451,15 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
                 btnEliminarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, -1, -1));
+        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 10, -1, -1));
 
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_save_36px_1.png"))); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_edit_36px.png"))); // NOI18N
         btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnModificarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 10, -1, -1));
+        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, -1, -1));
         jPanel4.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 30, 120, -1));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);

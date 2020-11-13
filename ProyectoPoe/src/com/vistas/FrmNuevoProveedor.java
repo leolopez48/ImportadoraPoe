@@ -4,19 +4,21 @@ package com.vistas;
 import com.dao.DaoCliente;
 import com.dao.DaoUsuario;
 import com.pojos.Cliente;
-import java.io.File;
 import javax.swing.JOptionPane;
 import com.pojos.Usuario;
 import com.utils.ValidarCampos;
-import java.awt.Image;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class NuevoProveedor extends javax.swing.JFrame {
+/**
+ * NombreClase: FrmNuevoProveedor
+ * Fecha: 13/11/2020 
+ * Versión: 1.0 
+ * Copyright:ITCA-FEPADE
+ * @author Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
+ */
+
+public class FrmNuevoProveedor extends javax.swing.JFrame {
     
     Usuario usu = new Usuario();
     Cliente cli = new Cliente();
@@ -26,11 +28,11 @@ public class NuevoProveedor extends javax.swing.JFrame {
     String accion;
     ValidarCampos vc=new ValidarCampos();
     
-    public NuevoProveedor(){
+    public FrmNuevoProveedor(){
         initComponents();
     }
     
-    public NuevoProveedor(Usuario usu) {
+    public FrmNuevoProveedor(Usuario usu) {
         initComponents();
         this.usu = usu;
         txtId.setText(String.valueOf(daoC.ultimoId()));
@@ -49,7 +51,7 @@ public class NuevoProveedor extends javax.swing.JFrame {
             daoU.insertarUsuario(usu);
             daoC.insertarCliente(cli);
             JOptionPane.showMessageDialog(null, "Insertado correctamente");
-            PrincipalProveedor pro = new PrincipalProveedor();
+            FrmPrincipalProveedor pro = new FrmPrincipalProveedor();
             pro.setVisible(true);
             this.dispose();
         } catch (Exception e) {
@@ -81,7 +83,7 @@ public class NuevoProveedor extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setIconImages(getIconImages());
+        setIconImage(getIconImage());
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -248,7 +250,7 @@ public class NuevoProveedor extends javax.swing.JFrame {
                 .addComponent(txtTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
                 .addGap(174, 174, 174))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -290,7 +292,7 @@ public class NuevoProveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        NuevoUsuario nu = new NuevoUsuario();
+        FrmNuevoUsuario nu = new FrmNuevoUsuario();
         nu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -313,18 +315,18 @@ public class NuevoProveedor extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NuevoProveedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmNuevoProveedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NuevoProveedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmNuevoProveedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NuevoProveedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmNuevoProveedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NuevoProveedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmNuevoProveedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NuevoProveedor().setVisible(true);
+                new FrmNuevoProveedor().setVisible(true);
             }
         });
     }
