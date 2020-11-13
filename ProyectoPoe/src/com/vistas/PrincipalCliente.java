@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 
 /**
@@ -15,6 +16,7 @@ public class PrincipalCliente extends javax.swing.JFrame {
 
     public PrincipalCliente() {
         initComponents();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
     
     @Override
@@ -33,9 +35,12 @@ public class PrincipalCliente extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenu10 = new javax.swing.JMenu();
         desktopPane = new javax.swing.JDesktopPane();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu11 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
 
@@ -50,8 +55,23 @@ public class PrincipalCliente extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inicio");
         setIconImage(getIconImage());
+        setResizable(false);
 
         desktopPane.setBackground(new java.awt.Color(49, 57, 69));
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_business_building_350px.png"))); // NOI18N
+        jButton1.setBorder(null);
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        desktopPane.add(jButton1);
+        jButton1.setBounds(460, 10, 500, 430);
+
+        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 48)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Importadora");
+        desktopPane.add(jLabel1);
+        jLabel1.setBounds(440, 420, 520, 67);
 
         jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_sell_16px.png"))); // NOI18N
         jMenu6.setText("Ofertas");
@@ -64,6 +84,15 @@ public class PrincipalCliente extends javax.swing.JFrame {
             }
         });
         jMenu6.add(jMenuItem4);
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText("Carrito");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem1);
 
         menuBar.add(jMenu6);
 
@@ -87,11 +116,11 @@ public class PrincipalCliente extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1028, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
         );
 
         pack();
@@ -113,6 +142,12 @@ public class PrincipalCliente extends javax.swing.JFrame {
             Logger.getLogger(PrincipalCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        Carrito car = new Carrito();
+        car.setVisible(true);
+        desktopPane.add(car);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -149,12 +184,15 @@ public class PrincipalCliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuBar menuBar;

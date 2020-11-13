@@ -26,9 +26,12 @@ public class Login extends javax.swing.JFrame {
     DaoUsuario daoU = new DaoUsuario();
     String rutaModificado;
     static String usuarioL;
+    boolean estadoContra = false;
+    char def;
     
-    public Login() throws Exception {
+    public Login(){
         initComponents();
+        def = txtContra.getEchoChar();
     }
     
     @Override
@@ -58,6 +61,7 @@ public class Login extends javax.swing.JFrame {
         txtContra = new javax.swing.JPasswordField();
         jLabel8 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        btnMostrarContra = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Iniciar sesión");
@@ -97,7 +101,7 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(233, 235, 237));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 0, 36)); // NOI18N
@@ -131,7 +135,7 @@ public class Login extends javax.swing.JFrame {
         jLabel5.setText("Contraseña");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
 
-        txtUsuario.setBackground(new java.awt.Color(233, 235, 237));
+        txtUsuario.setBackground(new java.awt.Color(255, 255, 255));
         txtUsuario.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtUsuario.setBorder(null);
         jPanel2.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, 269, 28));
@@ -145,10 +149,10 @@ public class Login extends javax.swing.JFrame {
         jSeparator3.setForeground(new java.awt.Color(49, 57, 69));
         jPanel2.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 310, 10));
 
-        txtContra.setBackground(new java.awt.Color(233, 235, 237));
+        txtContra.setBackground(new java.awt.Color(255, 255, 255));
         txtContra.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         txtContra.setBorder(null);
-        jPanel2.add(txtContra, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, 270, 30));
+        jPanel2.add(txtContra, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, 220, 30));
 
         jLabel8.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         jLabel8.setText("¿Nuevo usuario?");
@@ -165,6 +169,15 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 410, -1, -1));
+
+        btnMostrarContra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_eye_36px_1.png"))); // NOI18N
+        btnMostrarContra.setToolTipText("Mostrar Contraseña");
+        btnMostrarContra.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMostrarContraMouseClicked(evt);
+            }
+        });
+        jPanel2.add(btnMostrarContra, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 270, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -189,34 +202,47 @@ public class Login extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         usuario = txtUsuario.getText();
         usuarioL = usuario;
-        System.out.println(usuario);
         String contra = new String(txtContra.getPassword());
-        System.out.println(contra);
-        if(daoU.login(usuario, contra)){
-            int tipo = daoU.tipoUsuario(usuario);
-            if(tipo == 1){
-                PrincipalAdministrador pri = new PrincipalAdministrador();
-                pri.setVisible(true);
-            }else if(tipo == 2){
-                PrincipalCliente pri = new PrincipalCliente();
-                pri.setVisible(true);
-            }else if(tipo == 3){
-                PrincipalProveedor pri = new PrincipalProveedor();
-                pri.setVisible(true);
-            }else if(tipo == 4){
-                PrincipalEmpleado pri = new PrincipalEmpleado();
-                pri.setVisible(true);
+        try {
+            if(daoU.login(usuario, contra)){
+                int tipo = daoU.tipoUsuario(usuario);
+                if(tipo == 1){
+                    PrincipalAdministrador pri = new PrincipalAdministrador();
+                    pri.setVisible(true);
+                }else if(tipo == 2){
+                    PrincipalCliente pri = new PrincipalCliente();
+                    pri.setVisible(true);
+                }else if(tipo == 3){
+                    PrincipalProveedor pri = new PrincipalProveedor();
+                    pri.setVisible(true);
+                }else if(tipo == 4){
+                    PrincipalEmpleado pri = new PrincipalEmpleado();
+                    pri.setVisible(true);
+                }
+                this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(this, "Las credenciales son incorrectas.", "Usuario no válido.", 0);
             }
-            this.dispose();
-        }else{
-            JOptionPane.showMessageDialog(this, "Las credenciales son incorrectas.", "Usuario no válido.", 0);
+        } catch (Exception ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         NuevoUsuario u = new NuevoUsuario("insertar");
         u.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnMostrarContraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarContraMouseClicked
+        if(estadoContra){
+            estadoContra = false;
+            txtContra.setEchoChar((char)0);
+        }else{
+            estadoContra = true;
+            txtContra.setEchoChar(def);
+        }
+    }//GEN-LAST:event_btnMostrarContraMouseClicked
     
     public static void main(String args[]) {
 
@@ -250,6 +276,7 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
+    private javax.swing.JLabel btnMostrarContra;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

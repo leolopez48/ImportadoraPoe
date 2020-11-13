@@ -37,7 +37,10 @@ public class Vehiculo  implements java.io.Serializable {
 
     public Vehiculo() {
     }
-
+    
+    public Vehiculo(int id) {
+        this.idVehiculo = id;
+    }
 	
     public Vehiculo(int idVehiculo, Categoria categoria, UnidadMedida unidadMedida, String foto, String nombre, double precio) {
         this.idVehiculo = idVehiculo;

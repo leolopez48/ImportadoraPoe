@@ -90,22 +90,45 @@ public class DaoProveedor {
         return listaProveedor;
     }
     
-    public List<Proveedor> buscarCliente(int id){
-        //Proveedor pro = new Proveedor();
-        List<Proveedor>pro = new ArrayList();
+    public List<Proveedor> buscarProveedor(String nombre) {
+        List<Proveedor> listaProveedor = new ArrayList();
         Session session = null;
+        int id = 0;
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
+        String sql = "FROM Proveedor WHERE nombre_proveedor LIKE :nombre";
         try {
-            //pro = (Proveedor) session.load(Cliente.class, id);
+            listaProveedor = session.createQuery(sql).setString("nombre", "%" + nombre + "%").list();
             t.commit();
             session.close();
         } catch (HibernateException e) {
-            pro = null;
+            JOptionPane.showMessageDialog(null, e.getMessage());
             t.rollback();
         }
-        return pro;
+        id++;
+        return listaProveedor;
     }
     
-    
+    public int ultimoId() {
+        List<Proveedor> listaProveedor = new ArrayList();
+        Session session = null;
+        int id = 0;
+        session = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        String sql = "FROM Proveedor";
+        try {
+            listaProveedor = session.createQuery(sql).list();
+            for (Proveedor pro : listaProveedor) {
+                id = pro.getIdProveedor();
+            }
+            t.commit();
+            session.close();
+        } catch (HibernateException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            t.rollback();
+        }
+        id++;
+        return id;
+    }
+     
 }

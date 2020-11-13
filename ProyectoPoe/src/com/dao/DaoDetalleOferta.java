@@ -144,7 +144,7 @@ public class DaoDetalleOferta {
     public long ventaMensual(int mes) {
         long cantidad = 0;
         Session session = null;
-        int id = 0;
+
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         String sql = "select count(fechaOferta) as total_ventas from DetalleOferta where fechaOferta like :mes";
@@ -156,7 +156,26 @@ public class DaoDetalleOferta {
             JOptionPane.showMessageDialog(null, e.getMessage());
             t.rollback();
         }
-        id++;
+        return cantidad;
+    }
+    
+    public long ventaCategoria(String categoria) {
+        long cantidad = 0;
+        Session session = null;
+
+        session = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        String sql = "select count(idUsuario) from DetalleOferta det "
+                + "inner join det.vehiculo "
+                + "inner join det.vehiculo.categoria where det.vehiculo.categoria = :categoria";
+        try {
+            cantidad = (long) session.createQuery(sql).setString("categoria", categoria).uniqueResult();
+            t.commit();
+            session.close();
+        } catch (HibernateException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            t.rollback();
+        }
         return cantidad;
     }
     

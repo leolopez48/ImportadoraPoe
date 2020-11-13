@@ -3,21 +3,33 @@ package com.dao;
 
 import com.pojos.Usuario;
 import com.utils.HibernateUtil;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import com.dao.Crypting;
 
 /**
  *
  * @author Leonel
  */
 public class DaoUsuario {
+    
+    
+    
         public String insertarUsuario(Usuario cli){
         Session session = null;
+        
+            try {
+                Crypting crp = new Crypting();
+                String contra = cli.getContra();
+                cli.setContra(crp.encrypt(contra));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error al encriptar: "+e.getMessage());
+            }
+        
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
@@ -102,13 +114,16 @@ public class DaoUsuario {
         return cli;
     }
     
-    public boolean login(String nombre, String contra){
+    public boolean login(String nombre, String contra) throws Exception{
         Session session = null;
         boolean validado = false;
+
         session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
         String sql = "FROM Usuario where nombreUsuario = :nombre AND contra = :contra";
         try {
+            Crypting crp = new Crypting();
+            contra = crp.encrypt(contra);
             Usuario usu = (Usuario) session.createQuery(sql).setString("nombre", nombre).setString("contra", contra).uniqueResult();
             t.commit();
             if(usu != null){

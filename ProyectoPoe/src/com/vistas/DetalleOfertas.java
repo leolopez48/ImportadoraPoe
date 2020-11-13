@@ -6,44 +6,88 @@ import com.dao.DaoImpuestos;
 import com.dao.DaoUsuario;
 import com.dao.DaoVehiculo;
 import com.pojos.DetalleOferta;
-import java.awt.Frame;
-import java.awt.Image;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import com.pojos.DetalleOfertaId;
+import com.pojos.Impuesto;
+import com.pojos.Usuario;
+import com.pojos.Vehiculo;
+import com.utils.ComboItem;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class DetalleOfertas extends javax.swing.JInternalFrame {
 
-    DaoDetalleOferta daoDO = new DaoDetalleOferta();
+    DaoDetalleOferta daoD = new DaoDetalleOferta();
+    DetalleOferta det = new DetalleOferta();
+    DaoImpuestos daoI = new DaoImpuestos();
+    Usuario usu = new Usuario();
     DaoUsuario daoU = new DaoUsuario();
     DaoVehiculo daoV = new DaoVehiculo();
-    DaoImpuestos daoI = new DaoImpuestos();
-    DetalleOferta deo;
+    String rutaModificado;
+    List<DetalleOferta> carrito = new ArrayList();
+    DefaultTableModel tabla;
+    DecimalFormat df = new DecimalFormat("#.00");
     
     public DetalleOfertas() {
         initComponents();
+        cargarCombo(cbVehiculo, daoV.mostrarVehiculos());
+        mostrar(daoD.mostrarDetalleOferta());
+        setId();
+        limpiar();
     }
+    
+    public void setId(){
+        txtId.setText(String.valueOf(daoD.ultimoId()));
+        this.txtId.setEnabled(false);
+        txtFecha.setDate(Calendar.getInstance().getTime());
+        txtFecha.setEnabled(false);
+    }
+   
+    
+    private void cargarCombo(JComboBox combo, List<Vehiculo> list) {
+        for (Vehiculo item : list) {
+            combo.addItem(new ComboItem(item.getIdVehiculo(),
+                    item.getNombre()));
+        }
+    }
+    
+   
+    
      public void mostrar(List<DetalleOferta> lista) {
         DefaultTableModel tabla;
-        String []columnas ={"ID Detalle","Nombre Usuario","ID Vehiculo", "Cantidad", "Fecha Oferta"};
+        String []columnas ={"ID Detalle","Nombre Usuario","Vehiculo", "Cantidad", "Precio", "Fecha Oferta"};
         tabla = new DefaultTableModel(null, columnas);
-        Object datos[] = new Object[8];
+        Object datos[] = new Object[6];
+        
+        String usuario = Login.usuarioL;
+         List<DetalleOferta> detalles = new ArrayList();
+        int tipo = daoU.tipoUsuario(usuario);
+        if(tipo > 1){
+            for(DetalleOferta list: lista){
+                if(list.getUsuario().getNombreUsuario().equals(usuario)){
+                    detalles.add(list);
+                }
+            }
+        }else{
+            detalles = lista;
+        }
 
         try {
-            for (int i = 0; i < lista.size(); i++) {
-                deo = (DetalleOferta) lista.get(i);
-                datos[0] = deo.getId();
-                datos[1] = deo.getUsuario().getNombreUsuario();
-                datos[2] = deo.getVehiculo().getIdVehiculo();
-                datos[3] = deo.getCantidad();
-                datos[4] = deo.getFechaOferta();
+            for (int i = 0; i < detalles.size(); i++) {
+                det = (DetalleOferta) detalles.get(i);
+                datos[0] = det.getId().getIdDetalle();
+                datos[1] = det.getUsuario().getNombreUsuario();
+                datos[2] = det.getVehiculo().getNombre();
+                datos[3] = det.getCantidad();
+                datos[4] = det.getVehiculo().getPrecio();
+                datos[5] = det.getFechaOferta();
                 
                 tabla.addRow(datos);
             }
@@ -52,6 +96,125 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
            JOptionPane.showMessageDialog(null, "Error al mostrar en formulario " + e.getMessage());
         }
     }
+     
+     public void limpiar() {
+        this.txtId.setText("");
+        this.txtNombreU.setText("");
+        this.cbVehiculo.setSelectedIndex(0);
+        this.txtCantidad.setValue(1);
+        this.txtId.setEnabled(false);
+        this.txtNombreU.setEnabled(false);
+        this.txtTotalC.setEnabled(false);
+        this.txtImpuesto.setEnabled(false); 
+        this.txtPrecio.setEnabled(false);
+    }
+     
+     public void llenarTabla() {
+        int fila = this.tablaDetalleOferta.getSelectedRow();
+        if (fila > -1) {
+            this.txtId.setText(String.valueOf(this.tablaDetalleOferta.getValueAt(fila, 0)));
+            this.txtNombreU.setText(String.valueOf(this.tablaDetalleOferta.getValueAt(fila, 1)));
+            String vehi = String.valueOf(this.tablaDetalleOferta.getValueAt(fila, 2));
+            cbVehiculo.getModel().setSelectedItem(vehi);
+            this.txtCantidad.setValue(this.tablaDetalleOferta.getValueAt(fila, 3));
+
+            this.txtFecha.setDate((Date) this.tablaDetalleOferta.getValueAt(fila, 5));
+            total();
+        }
+    }
+     
+    public void total()
+    {
+        double imp = 0.00;
+        double total = 0.00;
+        double totalFinal = 0.00;
+        
+       
+        List<Impuesto> impuestos = new ArrayList();
+         
+            int fila = this.tablaDetalleOferta.getSelectedRow();
+            String vehi = String.valueOf(this.tablaDetalleOferta.getValueAt(fila, 2));
+            
+            List<Vehiculo> ve = new ArrayList();
+            ve = daoV.buscarVehiculo(vehi);
+            
+            String tipo = ve.get(0).getCategoria().getNombreCategoria();
+            impuestos = daoI.buscarImpuesto(tipo);
+            
+            double dai = impuestos.get(0).getValor();
+            double precio = det.getVehiculo().getPrecio();
+            
+            impuestos = daoI.buscarImpuesto("IVA");
+            double iva = impuestos.get(0).getValor();
+            
+            impuestos = daoI.buscarImpuesto("CESC");
+            double cesc = impuestos.get(0).getValor();
+            
+            int cantidad = Integer.parseInt(txtCantidad.getValue().toString());
+            imp = (precio*iva + precio*cesc + precio*dai);
+            total = precio;
+            totalFinal = total + imp;
+            
+            txtTotalC.setText(String.valueOf(df.format(totalFinal)));
+            txtPrecio.setText(String.valueOf(df.format(precio)));
+            txtImpuesto.setText(String.valueOf(df.format(imp)));
+    }
+    
+    public void modificar() {
+        try {
+            int idV = Integer.parseInt(txtId.getText());
+            DetalleOfertaId deta = new DetalleOfertaId(Integer.parseInt(txtId.getText()), idV);
+            det.setId(deta);
+            
+            String vehiculo = cbVehiculo.getSelectedItem().toString();
+            ComboItem item = new ComboItem();
+            for (int i = 0; i < cbVehiculo.getItemCount(); i++) {
+                if (vehiculo.equals(cbVehiculo.getItemAt(i).toString())) {
+                    item = cbVehiculo.getModel().getElementAt(i);
+                }
+            }
+            Vehiculo ve = new Vehiculo(item.getValue());
+            det.setVehiculo(ve);
+            
+            det.setCantidad(Integer.parseInt(this.txtCantidad.getValue().toString()));
+            
+            int respuesta = JOptionPane.showConfirmDialog(this, "Desea modificar la oferta",
+                    "Modificar", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.OK_OPTION) {
+                daoD.modificarDetalleOferta(det);
+                JOptionPane.showMessageDialog(null, "Datos modificados con exito");
+                mostrar(daoD.mostrarDetalleOferta());
+                limpiar();
+            } else {
+                mostrar(daoD.mostrarDetalleOferta());
+                limpiar();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al modificar en formulario");
+        }
+    }
+    
+     public void eliminar(){
+        try {
+            int idV = Integer.parseInt(txtId.getText());
+            DetalleOfertaId deta = new DetalleOfertaId(Integer.parseInt(txtId.getText()), idV);
+            det.setId(deta);
+            int respuesta = JOptionPane.showConfirmDialog(this, "Desea eliminar la oferta",
+                    "Eliminar", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.OK_OPTION) {
+                daoD.eliminarDetalleOferta(det);
+                JOptionPane.showMessageDialog(null, "Datos eliminados con exito");
+                mostrar(daoD.mostrarDetalleOferta());
+                limpiar();
+            } else {
+                mostrar(daoD.mostrarDetalleOferta());
+                limpiar();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar en formulario");
+        }
+    }
+    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -61,41 +224,39 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaDetalleOferta = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
         jSeparator8 = new javax.swing.JSeparator();
-        txtNombre1 = new javax.swing.JTextField();
+        txtImpuesto = new javax.swing.JTextField();
         jSeparator9 = new javax.swing.JSeparator();
         jLabel8 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtNombre2 = new javax.swing.JTextField();
+        txtNombreU = new javax.swing.JTextField();
         jSeparator11 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         jLabel14 = new javax.swing.JLabel();
-        txtCodigo2 = new javax.swing.JTextField();
+        txtPrecio = new javax.swing.JTextField();
         jSeparator12 = new javax.swing.JSeparator();
-        txtId1 = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        txtNombre3 = new javax.swing.JTextField();
+        cbVehiculo = new javax.swing.JComboBox<>();
+        txtTotalC = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jSeparator6 = new javax.swing.JSeparator();
+        txtCantidad = new javax.swing.JSpinner();
         txtUsuarioid = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jSeparator10 = new javax.swing.JSeparator();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
-        jLabel13 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         btnRefrescar = new javax.swing.JLabel();
-        btnInsertar = new javax.swing.JLabel();
         btnEliminar = new javax.swing.JLabel();
         btnModificar = new javax.swing.JLabel();
+        txtFecha = new com.toedter.calendar.JDateChooser();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -138,62 +299,6 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tablaDetalleOferta);
 
-        jPanel1.setBackground(new java.awt.Color(49, 57, 69));
-
-        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Inicio");
-        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
-            }
-        });
-
-        jLabel10.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel10.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("Nombre usuario");
-
-        jLabel11.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel11.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Cerrar sesión");
-        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel11MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -210,7 +315,7 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
         jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 16, -1, -1));
 
-        txtId.setBackground(new java.awt.Color(233, 235, 237));
+        txtId.setBackground(new java.awt.Color(255, 255, 255));
         txtId.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtId.setBorder(null);
         jPanel3.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(123, 11, 230, 28));
@@ -218,16 +323,16 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
         jSeparator8.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 45, 340, 10));
 
-        txtNombre1.setBackground(new java.awt.Color(233, 235, 237));
-        txtNombre1.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtNombre1.setBorder(null);
-        jPanel3.add(txtNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, 230, 28));
+        txtImpuesto.setBackground(new java.awt.Color(255, 255, 255));
+        txtImpuesto.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtImpuesto.setBorder(null);
+        jPanel3.add(txtImpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, 230, 28));
 
         jSeparator9.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 95, 343, 10));
 
         jLabel8.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jLabel8.setText("ID vehiculo");
+        jLabel8.setText("Vehiculo");
         jLabel8.setToolTipText("");
         jLabel8.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 66, -1, -1));
@@ -238,33 +343,28 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
         jLabel7.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 16, -1, -1));
 
-        txtNombre2.setBackground(new java.awt.Color(233, 235, 237));
-        txtNombre2.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtNombre2.setBorder(null);
-        jPanel3.add(txtNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, 290, 28));
+        txtNombreU.setBackground(new java.awt.Color(255, 255, 255));
+        txtNombreU.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtNombreU.setBorder(null);
+        jPanel3.add(txtNombreU, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, 290, 28));
 
         jSeparator11.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 45, 400, 10));
 
         jSeparator5.setForeground(new java.awt.Color(49, 57, 69));
-        jPanel3.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, 343, 10));
+        jPanel3.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 150, 400, 10));
 
         jLabel14.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel14.setText("Total Compra");
-        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, -1, -1));
+        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 170, -1, -1));
 
-        txtCodigo2.setBackground(new java.awt.Color(233, 235, 237));
-        txtCodigo2.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtCodigo2.setBorder(null);
-        jPanel3.add(txtCodigo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 100, 230, 28));
+        txtPrecio.setBackground(new java.awt.Color(255, 255, 255));
+        txtPrecio.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtPrecio.setBorder(null);
+        jPanel3.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 110, 290, 28));
 
         jSeparator12.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 90, 400, 10));
-
-        txtId1.setBackground(new java.awt.Color(233, 235, 237));
-        txtId1.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtId1.setBorder(null);
-        jPanel3.add(txtId1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 60, 290, 28));
 
         jLabel17.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel17.setText("Cantidad");
@@ -272,10 +372,27 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
         jLabel17.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 70, 100, -1));
 
-        txtNombre3.setBackground(new java.awt.Color(233, 235, 237));
-        txtNombre3.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
-        txtNombre3.setBorder(null);
-        jPanel3.add(txtNombre3, new org.netbeans.lib.awtextra.AbsoluteConstraints(123, 61, 230, 28));
+        cbVehiculo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbVehiculoItemStateChanged(evt);
+            }
+        });
+        jPanel3.add(cbVehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 230, 30));
+
+        txtTotalC.setBackground(new java.awt.Color(255, 255, 255));
+        txtTotalC.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        txtTotalC.setBorder(null);
+        jPanel3.add(txtTotalC, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, 290, 28));
+
+        jLabel15.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        jLabel15.setText("Precio");
+        jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, -1, -1));
+
+        jSeparator6.setForeground(new java.awt.Color(49, 57, 69));
+        jPanel3.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, 400, 10));
+
+        txtCantidad.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        jPanel3.add(txtCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 60, 290, -1));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -289,7 +406,7 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
         jSeparator10.setForeground(new java.awt.Color(49, 57, 69));
         jPanel4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 445, 10));
 
-        txtBuscar.setBackground(new java.awt.Color(233, 235, 237));
+        txtBuscar.setBackground(new java.awt.Color(255, 255, 255));
         txtBuscar.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtBuscar.setBorder(null);
         jPanel4.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 278, -1));
@@ -306,12 +423,6 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
         });
         jPanel4.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 0, 66, 26));
 
-        jLabel13.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jLabel13.setText("####/##/##");
-        jLabel13.setToolTipText("");
-        jLabel13.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jPanel4.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 30, -1, -1));
-
         jLabel16.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel16.setText("Fecha De Oferta");
         jLabel16.setToolTipText("");
@@ -326,21 +437,13 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
         });
         jPanel4.add(btnRefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 10, -1, -1));
 
-        btnInsertar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_add_36px.png"))); // NOI18N
-        btnInsertar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnInsertarMouseClicked(evt);
-            }
-        });
-        jPanel4.add(btnInsertar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, -1, -1));
-
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_delete_bin_36px.png"))); // NOI18N
         btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnEliminarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 10, -1, -1));
+        jPanel4.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, -1, -1));
 
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_save_36px_1.png"))); // NOI18N
         btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -348,41 +451,39 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
                 btnModificarMouseClicked(evt);
             }
         });
-        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 10, -1, -1));
+        jPanel4.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 10, -1, -1));
+        jPanel4.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 30, 120, -1));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(85, 85, 85)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 801, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(77, 77, 77)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 868, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(76, 76, 76)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 868, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 120, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGap(104, 104, 104)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 812, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 119, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                .addGap(14, 14, 14))
         );
 
         getContentPane().add(jPanel2, "card2");
@@ -391,71 +492,66 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-       mostrar(daoDO.buscarDetalleOferta(txtBuscar.getText()));
+       mostrar(daoD.buscarDetalleOferta(txtBuscar.getText()));
     }//GEN-LAST:event_btnBuscarActionPerformed
-
-    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
-        int input = JOptionPane.showConfirmDialog(rootPane, "Desea cerrar sesión?", "Salir", JOptionPane.YES_NO_OPTION);
-        if(input == 0){
-            super.dispose();
-            try {
-                new Login().setVisible(true);
-            } catch (Exception ex) {
-                Logger.getLogger(DetalleOfertas.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }//GEN-LAST:event_jLabel11MouseClicked
-
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        
-    }//GEN-LAST:event_jLabel3MouseClicked
 
     private void Enter(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Enter
 
     }//GEN-LAST:event_Enter
 
     private void tablaDetalleOfertaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDetalleOfertaMouseClicked
-        //llenarTabla();
+        llenarTabla();
     }//GEN-LAST:event_tablaDetalleOfertaMouseClicked
 
     private void btnRefrescarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefrescarMouseClicked
-        mostrar(daoDO.mostrarDetalleOferta());
-        //limpiar();
+        limpiar();
+        txtTotalC.setText("");
+        txtPrecio.setText("");
+        txtImpuesto.setText("");
     }//GEN-LAST:event_btnRefrescarMouseClicked
 
-    private void btnInsertarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsertarMouseClicked
-        //insertar();
-    }//GEN-LAST:event_btnInsertarMouseClicked
-
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
-        //eliminar();
+        eliminar();
     }//GEN-LAST:event_btnEliminarMouseClicked
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
-        //modificar();
+        modificar();
     }//GEN-LAST:event_btnModificarMouseClicked
+
+    private void cbVehiculoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbVehiculoItemStateChanged
+        String usuario = cbVehiculo.getSelectedItem().toString();
+        ComboItem item = new ComboItem();
+
+        //Agregar linea para combobox
+        Usuario usu = new Usuario(item.getValue());
+
+        for (int i = 0; i < cbVehiculo.getItemCount(); i++) {
+            if (usuario.equals(cbVehiculo.getItemAt(i).toString())) {
+                item = cbVehiculo.getModel().getElementAt(i);
+                Vehiculo veh = daoV.buscarVehiculo(item.getValue());
+                
+            }
+        }
+        
+    }//GEN-LAST:event_cbVehiculoItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JLabel btnEliminar;
-    private javax.swing.JLabel btnInsertar;
     private javax.swing.JLabel btnModificar;
     private javax.swing.JLabel btnRefrescar;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
+    private javax.swing.JComboBox<ComboItem> cbVehiculo;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -465,16 +561,18 @@ public class DetalleOfertas extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JTable tablaDetalleOferta;
     private javax.swing.JTextField txtBuscar;
-    private javax.swing.JTextField txtCodigo2;
+    private javax.swing.JSpinner txtCantidad;
+    private com.toedter.calendar.JDateChooser txtFecha;
     private javax.swing.JTextField txtId;
-    private javax.swing.JTextField txtId1;
-    private javax.swing.JTextField txtNombre1;
-    private javax.swing.JTextField txtNombre2;
-    private javax.swing.JTextField txtNombre3;
+    private javax.swing.JTextField txtImpuesto;
+    private javax.swing.JTextField txtNombreU;
+    private javax.swing.JTextField txtPrecio;
+    private javax.swing.JTextField txtTotalC;
     private javax.swing.JLabel txtUsuarioid;
     // End of variables declaration//GEN-END:variables
 }

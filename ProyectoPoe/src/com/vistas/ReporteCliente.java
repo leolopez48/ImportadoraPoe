@@ -84,7 +84,7 @@ public class ReporteCliente extends javax.swing.JFrame {
             }
         });
 
-        txtNombre.setBackground(new java.awt.Color(233, 235, 237));
+        txtNombre.setBackground(new java.awt.Color(255, 255, 255));
         txtNombre.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtNombre.setBorder(null);
 

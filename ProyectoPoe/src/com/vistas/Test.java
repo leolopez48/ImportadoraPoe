@@ -2,12 +2,15 @@
 package com.vistas;
 
 //import com.conexion.Conexion;
+import com.dao.Crypting;
 import com.dao.DaoCliente;
 import com.dao.DaoDetalleOferta;
 import com.dao.DaoUsuario;
 import com.pojos.Cliente;
 import com.pojos.Usuario;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -55,7 +58,17 @@ public class Test {
         System.out.println(cli.eliminarCliente(cliente));*/
         
         DaoDetalleOferta daoD = new DaoDetalleOferta();
-        System.out.println(daoD.ventaMensual(11));
+        //System.out.println(daoD.ventaMensual(11));
+        
+        //System.out.println(daoD.ventaCategoria("Mini Truck"));
+        //System.out.println(daoD.mostrarDetalleOferta("pedroM35").get(0).getFechaOferta());
+        
+        try {
+            Crypting crp = new Crypting();
+            System.out.println(crp.decrypt("b4WE4bXVBj0="));
+        } catch (Exception ex) {
+            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

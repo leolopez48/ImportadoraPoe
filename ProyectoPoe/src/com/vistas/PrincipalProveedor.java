@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 
 /**
@@ -15,6 +16,7 @@ public class PrincipalProveedor extends javax.swing.JFrame {
 
     public PrincipalProveedor() {
         initComponents();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
     
     @Override
@@ -33,6 +35,8 @@ public class PrincipalProveedor extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenu10 = new javax.swing.JMenu();
         desktopPane = new javax.swing.JDesktopPane();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         jMenu8 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -54,6 +58,20 @@ public class PrincipalProveedor extends javax.swing.JFrame {
         setIconImage(getIconImage());
 
         desktopPane.setBackground(new java.awt.Color(49, 57, 69));
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_business_building_350px.png"))); // NOI18N
+        jButton1.setBorder(null);
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        desktopPane.add(jButton1);
+        jButton1.setBounds(460, 10, 500, 430);
+
+        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 48)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Importadora");
+        desktopPane.add(jLabel1);
+        jLabel1.setBounds(440, 420, 520, 67);
 
         jMenu8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_product_16px.png"))); // NOI18N
         jMenu8.setText("Productos");
@@ -103,11 +121,11 @@ public class PrincipalProveedor extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1009, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
         );
 
         pack();
@@ -171,6 +189,8 @@ public class PrincipalProveedor extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu11;

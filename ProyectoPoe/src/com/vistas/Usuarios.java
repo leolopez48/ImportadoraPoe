@@ -6,6 +6,7 @@ import com.dao.DaoUsuario;
 import com.pojos.Cliente;
 import com.pojos.Usuario;
 import com.utils.ComboItem;
+import com.utils.ValidarCampos;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -32,6 +33,7 @@ public class Usuarios extends javax.swing.JInternalFrame {
     Usuario usu = new Usuario();
     DaoUsuario daoU = new DaoUsuario();
     String rutaModificado;
+    ValidarCampos vc=new ValidarCampos();
     boolean estadoContra = false;
     char def;
     
@@ -215,6 +217,7 @@ public class Usuarios extends javax.swing.JInternalFrame {
         btnFoto = new javax.swing.JButton();
         btnEditarFoto = new javax.swing.JButton();
 
+        setBackground(null);
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setIconifiable(true);
@@ -269,7 +272,7 @@ public class Usuarios extends javax.swing.JInternalFrame {
         jSeparator10.setForeground(new java.awt.Color(49, 57, 69));
         jPanel4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 445, 10));
 
-        txtBuscar.setBackground(new java.awt.Color(233, 235, 237));
+        txtBuscar.setBackground(null);
         txtBuscar.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtBuscar.setBorder(null);
         jPanel4.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 278, -1));
@@ -325,7 +328,7 @@ public class Usuarios extends javax.swing.JInternalFrame {
 
         jSeparator5.setForeground(new java.awt.Color(49, 57, 69));
 
-        txtNombre.setBackground(new java.awt.Color(233, 235, 237));
+        txtNombre.setBackground(null);
         txtNombre.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtNombre.setBorder(null);
 
@@ -342,11 +345,16 @@ public class Usuarios extends javax.swing.JInternalFrame {
         jLabel16.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel16.setText("Correo");
 
-        txtCorreo.setBackground(new java.awt.Color(233, 235, 237));
+        txtCorreo.setBackground(null);
         txtCorreo.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         txtCorreo.setBorder(null);
+        txtCorreo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCorreoFocusLost(evt);
+            }
+        });
 
-        txtId.setBackground(new java.awt.Color(233, 235, 237));
+        txtId.setBackground(null);
         txtId.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtId.setBorder(null);
 
@@ -592,6 +600,17 @@ public class Usuarios extends javax.swing.JInternalFrame {
             txtContra.setEchoChar(def); 
         }
     }//GEN-LAST:event_btnMostrarContraMouseClicked
+
+    private void txtCorreoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCorreoFocusLost
+       if(vc.isEmail(txtCorreo.getText())==true)
+       {
+       
+       } else {
+           
+       JOptionPane.showMessageDialog(null, "Email incorrecto","Validar Email",JOptionPane.INFORMATION_MESSAGE);
+       txtCorreo.requestFocus();
+       }
+    }//GEN-LAST:event_txtCorreoFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Nombre;

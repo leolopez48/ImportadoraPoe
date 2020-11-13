@@ -1,17 +1,22 @@
 
 package com.vistas;
 
+import Dao.DaoCategoria;
+import com.dao.DaoDetalleOferta;
+import com.pojos.Categoria;
+import com.pojos.DetalleOferta;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -19,7 +24,11 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JRViewer;
-import net.sf.jasperreports.view.JasperViewer;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -27,8 +36,12 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class PrincipalAdministrador extends javax.swing.JFrame {
     
+    DaoDetalleOferta daoD = new DaoDetalleOferta();
+    DaoCategoria daoC = new DaoCategoria();
+    
     public PrincipalAdministrador() {
         initComponents();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
     
     @Override
@@ -37,12 +50,15 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
                 getImage(ClassLoader.getSystemResource("com/recursos/logo.png"));
         return retValue;
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem14 = new javax.swing.JMenuItem();
         desktopPane = new javax.swing.JDesktopPane();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -64,14 +80,34 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem15 = new javax.swing.JMenuItem();
+        jMenuItem16 = new javax.swing.JMenuItem();
         jMenu11 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
+
+        jMenuItem14.setText("jMenuItem14");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inicio");
         setIconImage(getIconImage());
+        setResizable(false);
 
         desktopPane.setBackground(new java.awt.Color(49, 57, 69));
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_business_building_350px.png"))); // NOI18N
+        jButton1.setBorder(null);
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        desktopPane.add(jButton1);
+        jButton1.setBounds(460, 10, 500, 430);
+
+        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 48)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Importadora");
+        desktopPane.add(jLabel1);
+        jLabel1.setBounds(440, 420, 520, 67);
 
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_team_16px.png"))); // NOI18N
         jMenu3.setText("Usuarios");
@@ -236,6 +272,29 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
 
         menuBar.add(jMenu12);
 
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_graph_report_16px.png"))); // NOI18N
+        jMenu1.setText("Gráficos");
+
+        jMenuItem15.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem15.setText("Ventas mensuales");
+        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem15ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem15);
+
+        jMenuItem16.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem16.setText("Ventas categorías");
+        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem16ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem16);
+
+        menuBar.add(jMenu1);
+
         jMenu11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_settings_16px.png"))); // NOI18N
         jMenu11.setText("Ajustes");
 
@@ -264,6 +323,7 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -403,6 +463,104 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
+    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
+        long mes = 0;
+        String titulo1 = "Ventas mensuales";
+        try {
+            DefaultCategoryDataset ds = new DefaultCategoryDataset();
+            for (int i = 1; i <= 12; i++) {
+                
+                mes = daoD.ventaMensual(i);
+                System.out.println(i + " " + mes);
+                switch(i){
+                    case 1:
+                        ds.addValue(mes, "Enero", "");
+                        break;
+                    case 2:
+                        ds.addValue(mes, "Febrero", "");
+                        break;
+                    case 3:
+                        ds.addValue(mes, "Marzo", "");
+                        break;
+                    case 4:
+                        ds.addValue(mes, "Abril", "");
+                        break;
+                    case 5:
+                        ds.addValue(mes, "Mayo", "");
+                        break;
+                    case 6:
+                        ds.addValue(mes, "Junio", "");
+                        break;
+                    case 7:
+                        ds.addValue(mes, "Julio", "");
+                        break;
+                    case 8:
+                        ds.addValue(mes, "Agosto", "");
+                        break;
+                    case 9:
+                        ds.addValue(mes, "Septiembre", "");
+                        break;
+                    case 10:
+                        ds.addValue(mes, "Octubre", "");
+                        break;
+                    case 11:
+                        ds.addValue(mes, "Noviembre", "");
+                        break;
+                    case 12:
+                        ds.addValue(mes, "Diciembre", "");
+                        break;
+                }
+                ds.addValue(mes, "mes", "");
+            }
+            JFreeChart jfc = ChartFactory.createBarChart3D(titulo1, "Meses", "Ventas", ds, PlotOrientation.VERTICAL, true, true, true);
+            JPanel chartPanel = new ChartPanel(jfc);
+            JInternalFrame frame = new JInternalFrame("Ventas Mensuales", true, true, true, true);
+            frame.add(chartPanel);
+            frame.setSize(800, 600);
+            desktopPane.add(frame);
+            frame.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error" + e);
+        }
+    }//GEN-LAST:event_jMenuItem15ActionPerformed
+
+    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
+        String categoria;
+        List<Categoria> categorias = daoC.mostrarCategoria();
+        double contador[] = new double[categorias.size()];
+
+        List<DetalleOferta> compras = daoD.mostrarDetalleOferta();
+        int cont = 0;
+        for (int i = 0; i < categorias.size(); i++) {
+            cont=0;
+            for (int j = 0; j < compras.size(); j++) {
+                if(categorias.get(i).getNombreCategoria().equals(compras.get(j).getVehiculo().getCategoria().getNombreCategoria())){
+                    cont++;
+                    contador[i] = cont;
+                }
+            }
+        }
+        
+        String titulo1 = "Ventas por categoría";
+        try {
+            DefaultCategoryDataset ds = new DefaultCategoryDataset();
+            for (int i = 0; i < categorias.size(); i++) {
+                if(contador[i] != 0){
+                    ds.addValue(contador[i], categorias.get(i).getNombreCategoria(), "");
+                }
+            }
+            JFreeChart jfc = ChartFactory.createBarChart3D(titulo1, "Categorías", "Ventas", ds, PlotOrientation.VERTICAL, true, true, true);
+            JPanel chartPanel = new ChartPanel(jfc);
+            JInternalFrame frame = new JInternalFrame("Ventas Mensuales", true, true, true, true);
+            frame.add(chartPanel);
+            frame.setSize(800, 600);
+            desktopPane.add(frame);
+            frame.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error" + e);
+        }
+    }//GEN-LAST:event_jMenuItem16ActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -438,6 +596,9 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu12;
     private javax.swing.JMenu jMenu3;
@@ -452,6 +613,9 @@ public class PrincipalAdministrador extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
+    private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

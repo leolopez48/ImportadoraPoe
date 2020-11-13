@@ -3,6 +3,7 @@ package com.vistas;
 
 import com.dao.DaoImpuestos;
 import com.pojos.Impuesto;
+import com.utils.ValidarCampos;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -20,7 +21,7 @@ public class Impuestos extends javax.swing.JInternalFrame {
 
     DaoImpuestos daopI = new DaoImpuestos();
     Impuesto im;
-   
+   ValidarCampos vc=new ValidarCampos();
     
     public Impuestos() {
         initComponents();
@@ -162,6 +163,7 @@ public class Impuestos extends javax.swing.JInternalFrame {
         btnEliminar = new javax.swing.JLabel();
         btnModificar = new javax.swing.JLabel();
 
+        setBackground(null);
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setIconifiable(true);
@@ -252,7 +254,7 @@ public class Impuestos extends javax.swing.JInternalFrame {
         jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 16, -1, -1));
 
-        txtIdImpuesto.setBackground(new java.awt.Color(233, 235, 237));
+        txtIdImpuesto.setBackground(null);
         txtIdImpuesto.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtIdImpuesto.setBorder(null);
         jPanel3.add(txtIdImpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 11, 281, 28));
@@ -260,9 +262,14 @@ public class Impuestos extends javax.swing.JInternalFrame {
         jSeparator8.setForeground(new java.awt.Color(49, 57, 69));
         jPanel3.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 45, 303, 10));
 
-        txtValorImpuesto.setBackground(new java.awt.Color(233, 235, 237));
+        txtValorImpuesto.setBackground(null);
         txtValorImpuesto.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtValorImpuesto.setBorder(null);
+        txtValorImpuesto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtValorImpuestoKeyTyped(evt);
+            }
+        });
         jPanel3.add(txtValorImpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 267, 28));
 
         jSeparator9.setForeground(new java.awt.Color(49, 57, 69));
@@ -280,9 +287,14 @@ public class Impuestos extends javax.swing.JInternalFrame {
         jLabel7.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 16, -1, -1));
 
-        txtNombreImpuesto.setBackground(new java.awt.Color(233, 235, 237));
+        txtNombreImpuesto.setBackground(null);
         txtNombreImpuesto.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtNombreImpuesto.setBorder(null);
+        txtNombreImpuesto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreImpuestoKeyTyped(evt);
+            }
+        });
         jPanel3.add(txtNombreImpuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(427, 11, 270, 28));
 
         jSeparator11.setForeground(new java.awt.Color(49, 57, 69));
@@ -300,7 +312,7 @@ public class Impuestos extends javax.swing.JInternalFrame {
         jSeparator10.setForeground(new java.awt.Color(49, 57, 69));
         jPanel4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 445, 10));
 
-        txtBuscar.setBackground(new java.awt.Color(233, 235, 237));
+        txtBuscar.setBackground(null);
         txtBuscar.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtBuscar.setBorder(null);
         jPanel4.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 278, -1));
@@ -430,6 +442,14 @@ public class Impuestos extends javax.swing.JInternalFrame {
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
         modificar();
     }//GEN-LAST:event_btnModificarMouseClicked
+
+    private void txtNombreImpuestoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreImpuestoKeyTyped
+        vc.wordsOnly(evt);
+    }//GEN-LAST:event_txtNombreImpuestoKeyTyped
+
+    private void txtValorImpuestoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtValorImpuestoKeyTyped
+        vc.numberAndPoint(evt, txtValorImpuesto);
+    }//GEN-LAST:event_txtValorImpuestoKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;

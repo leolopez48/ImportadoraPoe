@@ -10,6 +10,7 @@ import com.pojos.UnidadMedida;
 import com.pojos.Usuario;
 import com.pojos.Vehiculo;
 import com.utils.ComboItem;
+import com.utils.ValidarCampos;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -32,11 +33,13 @@ public class Vehiculos extends javax.swing.JInternalFrame {
     UnidadMedida unidadMedida = new UnidadMedida();
     DaoCategoria daoCat=new DaoCategoria();
     DaoUnidadMedida daoUni=new DaoUnidadMedida();
+    ValidarCampos vc=new ValidarCampos();
     String rutaModificado;
     
     public Vehiculos() {
         initComponents();
         mostrar(daoVe.mostrarVehiculos());
+        this.txtCodigoVe.setEnabled(false);
         cargarCombo(comboCategoria1, daoCat.mostrarCategoria());
         cargarCombo2(comboUnidad, daoUni.mostrarUnidadMedidas());
     }
@@ -291,6 +294,7 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         btnFoto = new javax.swing.JButton();
         btnCargarFoto = new javax.swing.JLabel();
 
+        setBackground(null);
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setIconifiable(true);
@@ -342,9 +346,14 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel4.setText("Marca");
         jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 116, -1, -1));
 
-        txtMarca.setBackground(new java.awt.Color(233, 235, 237));
+        txtMarca.setBackground(null);
         txtMarca.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtMarca.setBorder(null);
+        txtMarca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMarcaKeyTyped(evt);
+            }
+        });
         jPanel3.add(txtMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 111, 263, 28));
 
         jLabel6.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
@@ -353,7 +362,7 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 16, -1, -1));
 
-        txtCodigoVe.setBackground(new java.awt.Color(233, 235, 237));
+        txtCodigoVe.setBackground(null);
         txtCodigoVe.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtCodigoVe.setBorder(null);
         jPanel3.add(txtCodigoVe, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 11, 281, 28));
@@ -376,9 +385,14 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel7.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 16, -1, -1));
 
-        txtNombre.setBackground(new java.awt.Color(233, 235, 237));
+        txtNombre.setBackground(null);
         txtNombre.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtNombre.setBorder(null);
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
         jPanel3.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(427, 11, 300, 28));
 
         jSeparator11.setForeground(new java.awt.Color(49, 57, 69));
@@ -390,9 +404,14 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel9.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(371, 66, -1, -1));
 
-        txtColor.setBackground(new java.awt.Color(233, 235, 237));
+        txtColor.setBackground(null);
         txtColor.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtColor.setBorder(null);
+        txtColor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtColorKeyTyped(evt);
+            }
+        });
         jPanel3.add(txtColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(427, 61, 300, 28));
 
         jSeparator12.setForeground(new java.awt.Color(49, 57, 69));
@@ -405,9 +424,14 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel13.setText("Modelo");
         jPanel3.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 110, -1, -1));
 
-        txtPrecio.setBackground(new java.awt.Color(233, 235, 237));
+        txtPrecio.setBackground(null);
         txtPrecio.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtPrecio.setBorder(null);
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioKeyTyped(evt);
+            }
+        });
         jPanel3.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 160, 90, 28));
 
         jSeparator5.setForeground(new java.awt.Color(49, 57, 69));
@@ -417,9 +441,14 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel14.setText("No. puertas");
         jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
 
-        txtPuertas.setBackground(new java.awt.Color(233, 235, 237));
+        txtPuertas.setBackground(null);
         txtPuertas.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtPuertas.setBorder(null);
+        txtPuertas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPuertasKeyTyped(evt);
+            }
+        });
         jPanel3.add(txtPuertas, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, 263, 28));
 
         jSeparator6.setForeground(new java.awt.Color(49, 57, 69));
@@ -437,9 +466,14 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jLabel16.setText("Peso");
         jPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 160, -1, -1));
 
-        txtModelo.setBackground(new java.awt.Color(233, 235, 237));
+        txtModelo.setBackground(null);
         txtModelo.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtModelo.setBorder(null);
+        txtModelo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtModeloKeyTyped(evt);
+            }
+        });
         jPanel3.add(txtModelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(433, 110, 290, 28));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -454,7 +488,7 @@ public class Vehiculos extends javax.swing.JInternalFrame {
         jSeparator10.setForeground(new java.awt.Color(49, 57, 69));
         jPanel4.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 445, 10));
 
-        txtBuscar.setBackground(new java.awt.Color(233, 235, 237));
+        txtBuscar.setBackground(null);
         txtBuscar.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtBuscar.setBorder(null);
         jPanel4.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 278, -1));
@@ -661,6 +695,30 @@ public class Vehiculos extends javax.swing.JInternalFrame {
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
          mostrar(daoVe.buscarVehiculo(txtBuscar.getText()));
     }//GEN-LAST:event_btnBuscarMouseClicked
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+       vc.wordsOnly(evt);
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtColorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtColorKeyTyped
+        vc.wordsOnly(evt);
+    }//GEN-LAST:event_txtColorKeyTyped
+
+    private void txtModeloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtModeloKeyTyped
+       vc.wordsOnly(evt);
+    }//GEN-LAST:event_txtModeloKeyTyped
+
+    private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
+        vc.numberAndPoint(evt, txtPrecio);
+    }//GEN-LAST:event_txtPrecioKeyTyped
+
+    private void txtPuertasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPuertasKeyTyped
+       vc.numbersOnly(evt);
+    }//GEN-LAST:event_txtPuertasKeyTyped
+
+    private void txtMarcaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMarcaKeyTyped
+        vc.wordsOnly(evt);
+    }//GEN-LAST:event_txtMarcaKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;

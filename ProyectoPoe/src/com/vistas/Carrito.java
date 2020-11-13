@@ -11,20 +11,17 @@ import com.pojos.Impuesto;
 import com.pojos.Usuario;
 import com.pojos.Vehiculo;
 import com.utils.ComboItem;
+import com.utils.ValidarCampos;
 import java.awt.Image;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 public class Carrito extends javax.swing.JInternalFrame {
     
@@ -38,6 +35,7 @@ public class Carrito extends javax.swing.JInternalFrame {
     List<DetalleOferta> carrito = new ArrayList();
     DefaultTableModel tabla;
     NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
+    ValidarCampos vc = new ValidarCampos();
     
     public Carrito() {
         initComponents();
@@ -56,7 +54,7 @@ public class Carrito extends javax.swing.JInternalFrame {
         txtIdVehiculo.setEnabled(false);
         txtFecha.setDate(Calendar.getInstance().getTime());
         txtFecha.setEnabled(false);
-        txtUsuario.setText("juan36");
+        //txtUsuario.setText("juan36");
         Vehiculo veh = daoV.mostrarVehiculos().get(0);
         txtPrecio.setText(String.valueOf(veh.getPrecio()));
         txtPrecio.setEnabled(false);
@@ -193,6 +191,8 @@ public class Carrito extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -228,6 +228,11 @@ public class Carrito extends javax.swing.JInternalFrame {
         txtPrecio = new javax.swing.JTextField();
         btnFoto = new javax.swing.JButton();
 
+        jMenuItem1.setText("jMenuItem1");
+
+        jMenuItem2.setText("jMenuItem2");
+
+        setBackground(null);
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setIconifiable(true);
@@ -319,6 +324,11 @@ public class Carrito extends javax.swing.JInternalFrame {
         jPanel4.add(btnComprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 0, -1, -1));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jPanel3KeyTyped(evt);
+            }
+        });
 
         jSeparator3.setForeground(new java.awt.Color(49, 57, 69));
 
@@ -330,7 +340,7 @@ public class Carrito extends javax.swing.JInternalFrame {
 
         jSeparator5.setForeground(new java.awt.Color(49, 57, 69));
 
-        txtUsuario.setBackground(new java.awt.Color(233, 235, 237));
+        txtUsuario.setBackground(null);
         txtUsuario.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtUsuario.setBorder(null);
 
@@ -357,27 +367,34 @@ public class Carrito extends javax.swing.JInternalFrame {
             }
         });
 
-        txtId.setBackground(new java.awt.Color(233, 235, 237));
+        txtId.setBackground(null);
         txtId.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtId.setBorder(null);
+
+        txtFecha.setBackground(null);
 
         jSeparator12.setForeground(new java.awt.Color(49, 57, 69));
 
         jLabel17.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel17.setText("ID Vehiculo");
 
-        txtIdVehiculo.setBackground(new java.awt.Color(233, 235, 237));
+        txtIdVehiculo.setBackground(null);
         txtIdVehiculo.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         txtIdVehiculo.setBorder(null);
 
         txtCantidad.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyTyped(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jLabel8.setText("Precio");
 
         jSeparator7.setForeground(new java.awt.Color(49, 57, 69));
 
-        txtPrecio.setBackground(new java.awt.Color(233, 235, 237));
+        txtPrecio.setBackground(null);
         txtPrecio.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         txtPrecio.setBorder(null);
 
@@ -585,6 +602,7 @@ public class Carrito extends javax.swing.JInternalFrame {
     private void btnComprarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnComprarMouseClicked
         double total = 0.00;
         double totalFinal = 0.00;
+        String mensaje = ""; 
         List<Impuesto> impuestos = new ArrayList();
         
         for(DetalleOferta car: carrito){
@@ -604,13 +622,22 @@ public class Carrito extends javax.swing.JInternalFrame {
             int cantidad = Integer.parseInt(txtCantidad.getValue().toString());
             total = (precio*iva + precio*cesc + precio*dai+precio)*cantidad;
             totalFinal += total;
-            //System.out.println("total: "+total+" Final: "+totalFinal);
-            daoD.insertarDetalleOferta(car);
+
+            mensaje = daoD.insertarDetalleOferta(car);
                     
         }
+        JOptionPane.showMessageDialog(this, mensaje, "Mensaje", 1);
         carrito.removeAll(carrito);
         
     }//GEN-LAST:event_btnComprarMouseClicked
+
+    private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
+        vc.numbersOnly(evt);
+    }//GEN-LAST:event_txtCantidadKeyTyped
+
+    private void jPanel3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel3KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel3KeyTyped
 
     private String getFileExtension(String name) {
         int lastIndexOf = name.lastIndexOf(".");
@@ -636,6 +663,8 @@ public class Carrito extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
