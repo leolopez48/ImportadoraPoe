@@ -201,6 +201,8 @@ public class FrmLogin extends javax.swing.JFrame {
         usuario = txtUsuario.getText();
         usuarioL = usuario;
         String contra = new String(txtContra.getPassword());
+        System.out.println("Contra: "+contra);
+        System.out.println("Usuario: "+usuario);
         try {
             if(daoU.login(usuario, contra)){
                 int tipo = daoU.tipoUsuario(usuario);

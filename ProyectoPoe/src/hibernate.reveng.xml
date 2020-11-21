@@ -41,12 +41,12 @@ Contributor(s):
 -->
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="importadoraPoe"/>
-  <table-filter match-name="unidad_medida"/>
-  <table-filter match-name="detalle_oferta"/>
-  <table-filter match-name="vehiculo"/>
-  <table-filter match-name="categoria"/>
-  <table-filter match-name="proveedor"/>
-  <table-filter match-name="cliente"/>
   <table-filter match-name="usuario"/>
+  <table-filter match-name="cliente"/>
+  <table-filter match-name="vehiculo"/>
   <table-filter match-name="impuesto"/>
+  <table-filter match-name="unidad_medida"/>
+  <table-filter match-name="categoria"/>
+  <table-filter match-name="detalle_oferta"/>
+  <table-filter match-name="proveedor"/>
 </hibernate-reverse-engineering>

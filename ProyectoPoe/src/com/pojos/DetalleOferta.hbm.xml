@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 19, 2020 10:51:12 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.pojos.DetalleOferta" table="detalle_oferta" catalog="importadorapoe" optimistic-lock="version">
+        <composite-id name="id" class="com.pojos.DetalleOfertaId">
+            <key-property name="idDetalle" type="int">
+                <column name="id_detalle" />
+            </key-property>
+            <key-property name="idVehiculo" type="int">
+                <column name="id_vehiculo" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="usuario" class="com.pojos.Usuario" fetch="select">
+            <column name="id_usuario" not-null="true" />
+        </many-to-one>
+        <many-to-one name="vehiculo" class="com.pojos.Vehiculo" update="false" insert="false" fetch="select">
+            <column name="id_vehiculo" not-null="true" />
+        </many-to-one>
+        <property name="cantidad" type="int">
+            <column name="cantidad" not-null="true" />
+        </property>
+        <property name="fechaOferta" type="date">
+            <column name="fecha_oferta" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>

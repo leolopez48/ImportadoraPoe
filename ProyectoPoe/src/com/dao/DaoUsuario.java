@@ -130,6 +130,8 @@ public class DaoUsuario {
             Usuario usu = (Usuario) session.createQuery(sql).setString("nombre", nombre).setString("contra", contra).uniqueResult();
             t.commit();
             if(usu != null){
+                System.out.println("Contra usu: " +usu.getContra());
+                System.out.println("Usuario usu: " + usu.getNombreUsuario());
                 if (usu.getNombreUsuario().equals(nombre) && usu.getContra().equals(contra)) {
                     validado = true;
                 }   

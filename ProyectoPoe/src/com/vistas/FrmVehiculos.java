@@ -171,7 +171,7 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
         this.txtMarca.setText("");
         this.txtPrecio.setText("");
         this.txtPuertas.setText("");
-        this.txtPrecio.setText("");
+        this.txtModelo.setText("");
         this.txtColor.setText("");
         this.comboCategoria1.setSelectedIndex(0);
         this.comboUnidad.setSelectedIndex(0);
@@ -195,7 +195,7 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
             ve.setNombre(this.txtNombre.getText());
             ve.setColor(this.txtColor.getText());
             ve.setMarca(this.txtMarca.getText());
-            ve.setModelo(this.txtPrecio.getText());
+            ve.setModelo(this.txtModelo.getText());
             ve.setNombre(this.txtNombre.getText());
             ve.setNumPuertas(Integer.parseInt(this.txtPuertas.getText()));
             ve.setPrecio(Double.parseDouble(txtPrecio.getText()));
@@ -698,7 +698,7 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnBuscarMouseClicked
 
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
-       vc.wordsOnly(evt);
+
     }//GEN-LAST:event_txtNombreKeyTyped
 
     private void txtColorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtColorKeyTyped
@@ -706,7 +706,7 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtColorKeyTyped
 
     private void txtModeloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtModeloKeyTyped
-       vc.wordsOnly(evt);
+
     }//GEN-LAST:event_txtModeloKeyTyped
 
     private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped

@@ -2,11 +2,13 @@
 package com.dao;
 
 import com.pojos.DetalleOferta;
+import com.pojos.DetalleOfertaId;
 import com.utils.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -66,11 +68,31 @@ public class DaoDetalleOferta {
             return "Eliminado correctamente";
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", 0);
             return "No se ha insertado";
         } finally {
             session.close();
         }
+    }
+    
+    public boolean eliminarDetalleOferta(int idDetalle, int idVehiculo) {
+        Session session = null;
+        boolean eliminado = false;
+        String sql = "delete from DetalleOferta det where det.id.idDetalle = :detalle "
+                + "and det.id.idVehiculo = :vehiculo";
+        session = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            Query query = session.createQuery(sql).setInteger("detalle", idDetalle).setInteger("vehiculo", idVehiculo);
+            query.executeUpdate();
+            t.commit();
+            eliminado = true;
+        } catch (HibernateException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            t.rollback();
+            eliminado = false;
+        }
+        return eliminado;
     }
     
     public List<DetalleOferta> mostrarDetalleOferta(){

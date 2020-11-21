@@ -108,27 +108,31 @@ public class FrmUsuarios extends javax.swing.JInternalFrame {
     }
 
     public void llenarTabla() {
-        int fila = this.tablaUsuarios.getSelectedRow();
-        if (fila > -1) {
-            this.txtId.setText(String.valueOf(this.tablaUsuarios.getValueAt(fila, 0)));
-            this.txtNombre.setText(String.valueOf(this.tablaUsuarios.getValueAt(fila, 1)));
-            this.txtCorreo.setText(String.valueOf(this.tablaUsuarios.getValueAt(fila, 2)));
-            this.txtContra.setText(String.valueOf(this.tablaUsuarios.getValueAt(fila, 3)));
-            
-            String prioridad = this.tablaUsuarios.getValueAt(fila, 4).toString();
-            if(prioridad.equals("Administrador")){
-                this.cbPrioridad.setSelectedIndex(0);
-            }else if(prioridad.equals("Cliente")){
-                this.cbPrioridad.setSelectedIndex(1);
-            }else if(prioridad.equals("Proveedor")){
-                this.cbPrioridad.setSelectedIndex(2);
-            }else if(prioridad.equals("Empleado")){
-                this.cbPrioridad.setSelectedIndex(3);
+        try {
+            Crypting crp = new Crypting();
+            int fila = this.tablaUsuarios.getSelectedRow();
+            if (fila > -1) {
+                this.txtId.setText(String.valueOf(this.tablaUsuarios.getValueAt(fila, 0)));
+                this.txtNombre.setText(String.valueOf(this.tablaUsuarios.getValueAt(fila, 1)));
+                this.txtCorreo.setText(String.valueOf(this.tablaUsuarios.getValueAt(fila, 2)));
+                this.txtContra.setText(crp.decrypt(String.valueOf(this.tablaUsuarios.getValueAt(fila, 3))));
+
+                String prioridad = this.tablaUsuarios.getValueAt(fila, 4).toString();
+                if (prioridad.equals("Administrador")) {
+                    this.cbPrioridad.setSelectedIndex(0);
+                } else if (prioridad.equals("Cliente")) {
+                    this.cbPrioridad.setSelectedIndex(1);
+                } else if (prioridad.equals("Proveedor")) {
+                    this.cbPrioridad.setSelectedIndex(2);
+                } else if (prioridad.equals("Empleado")) {
+                    this.cbPrioridad.setSelectedIndex(3);
+                }
+                rutaModificado = tablaUsuarios.getValueAt(fila, 5).toString();
+                ImageIcon imageIcon = new ImageIcon(new ImageIcon(tablaUsuarios.getValueAt(fila, 5).toString()).getImage().getScaledInstance(190, 190, Image.SCALE_DEFAULT));
+                btnFoto.setText("");
+                btnFoto.setIcon(imageIcon);
             }
-            rutaModificado = tablaUsuarios.getValueAt(fila, 5).toString();
-            ImageIcon imageIcon = new ImageIcon(new ImageIcon(tablaUsuarios.getValueAt(fila, 5).toString()).getImage().getScaledInstance(190, 190, Image.SCALE_DEFAULT));
-            btnFoto.setText("");
-            btnFoto.setIcon(imageIcon);
+        } catch (Exception e) {
         }
     }
 

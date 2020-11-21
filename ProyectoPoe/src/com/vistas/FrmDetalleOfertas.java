@@ -1,4 +1,3 @@
-
 package com.vistas;
 
 import com.dao.DaoDetalleOferta;
@@ -56,6 +55,7 @@ public class FrmDetalleOfertas extends javax.swing.JInternalFrame {
         this.txtId.setEnabled(false);
         txtFecha.setDate(Calendar.getInstance().getTime());
         txtFecha.setEnabled(false);
+        cbVehiculo.setEnabled(false);
     }
    
     
@@ -66,9 +66,9 @@ public class FrmDetalleOfertas extends javax.swing.JInternalFrame {
         }
     }
     
-   
     
      public void mostrar(List<DetalleOferta> lista) {
+        borrarFilas();
         DefaultTableModel tabla;
         String []columnas ={"ID Detalle","Nombre Usuario","Vehiculo", "Cantidad", "Precio", "Fecha Oferta"};
         tabla = new DefaultTableModel(null, columnas);
@@ -131,6 +131,14 @@ public class FrmDetalleOfertas extends javax.swing.JInternalFrame {
         }
     }
      
+     public void borrarFilas() {
+        DefaultTableModel dm = (DefaultTableModel) tablaDetalleOferta.getModel();
+        int rowCount = dm.getRowCount();
+        for (int i = rowCount - 1; i >= 0; i--) {
+            dm.removeRow(i);
+        }
+    }
+     
     public void total()
     {
         double imp = 0.00;
@@ -170,9 +178,6 @@ public class FrmDetalleOfertas extends javax.swing.JInternalFrame {
     
     public void modificar() {
         try {
-            int idV = Integer.parseInt(txtId.getText());
-            DetalleOfertaId deta = new DetalleOfertaId(Integer.parseInt(txtId.getText()), idV);
-            det.setId(deta);
             
             String vehiculo = cbVehiculo.getSelectedItem().toString();
             ComboItem item = new ComboItem();
@@ -181,10 +186,16 @@ public class FrmDetalleOfertas extends javax.swing.JInternalFrame {
                     item = cbVehiculo.getModel().getElementAt(i);
                 }
             }
-            Vehiculo ve = new Vehiculo(item.getValue());
-            det.setVehiculo(ve);
+            int idV = item.getValue();
             
+            DetalleOfertaId deta = new DetalleOfertaId(Integer.parseInt(txtId.getText()), idV);
+            det.setId(deta);
             det.setCantidad(Integer.parseInt(this.txtCantidad.getValue().toString()));
+            det.setUsuario(daoU.buscarUsuarioNombre(txtNombreU.getText()).get(0));
+            Date date = java.util.Calendar.getInstance().getTime();
+            det.setFechaOferta(date);
+            det.setVehiculo(daoV.buscarVehiculo(idV));
+
             
             int respuesta = JOptionPane.showConfirmDialog(this, "Desea modificar la oferta",
                     "Modificar", JOptionPane.YES_NO_OPTION);
@@ -204,16 +215,24 @@ public class FrmDetalleOfertas extends javax.swing.JInternalFrame {
     
      public void eliminar(){
         try {
-            int idV = Integer.parseInt(txtId.getText());
-            DetalleOfertaId deta = new DetalleOfertaId(Integer.parseInt(txtId.getText()), idV);
-            det.setId(deta);
-            int respuesta = JOptionPane.showConfirmDialog(this, "Desea eliminar la oferta",
+            int idD = Integer.parseInt(txtId.getText());
+            String vehiculo = cbVehiculo.getSelectedItem().toString();
+            ComboItem item = new ComboItem();
+            for (int i = 0; i < cbVehiculo.getItemCount(); i++) {
+                if (vehiculo.equals(cbVehiculo.getItemAt(i).toString())) {
+                    item = cbVehiculo.getModel().getElementAt(i);
+                }
+            }
+            int idV = item.getValue();
+
+            int respuesta = JOptionPane.showConfirmDialog(this, "Desea eliminar la oferta?",
                     "Eliminar", JOptionPane.YES_NO_OPTION);
             if (respuesta == JOptionPane.OK_OPTION) {
-                daoD.eliminarDetalleOferta(det);
+                daoD.eliminarDetalleOferta(idD, idV);
                 JOptionPane.showMessageDialog(null, "Datos eliminados con exito");
                 mostrar(daoD.mostrarDetalleOferta());
                 limpiar();
+                System.out.println(det.toString());
             } else {
                 mostrar(daoD.mostrarDetalleOferta());
                 limpiar();
@@ -516,6 +535,7 @@ public class FrmDetalleOfertas extends javax.swing.JInternalFrame {
         txtTotalC.setText("");
         txtPrecio.setText("");
         txtImpuesto.setText("");
+        mostrar(daoD.mostrarDetalleOferta());
     }//GEN-LAST:event_btnRefrescarMouseClicked
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
