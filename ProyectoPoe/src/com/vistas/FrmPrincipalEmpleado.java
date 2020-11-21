@@ -89,7 +89,7 @@ public class FrmPrincipalEmpleado extends javax.swing.JFrame {
         jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_business_building_16px.png"))); // NOI18N
         jMenu4.setText("Clientes");
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setText("Clientes");
         jMenuItem2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -108,7 +108,7 @@ public class FrmPrincipalEmpleado extends javax.swing.JFrame {
         jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_supplier_16px.png"))); // NOI18N
         jMenu5.setText("Proveedores");
 
-        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem6.setText("Proveedores");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,7 +127,7 @@ public class FrmPrincipalEmpleado extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem4.setText("Detalle oferta");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -150,7 +150,7 @@ public class FrmPrincipalEmpleado extends javax.swing.JFrame {
         jMenu8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_product_16px.png"))); // NOI18N
         jMenu8.setText("Productos");
 
-        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem7.setText("Vehículos");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,7 +164,7 @@ public class FrmPrincipalEmpleado extends javax.swing.JFrame {
         jMenu9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_class_16px.png"))); // NOI18N
         jMenu9.setText("Categorías");
 
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem3.setText("Categoría");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,7 +178,7 @@ public class FrmPrincipalEmpleado extends javax.swing.JFrame {
         jMenu11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_settings_16px.png"))); // NOI18N
         jMenu11.setText("Ajustes");
 
-        jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK));
         jMenuItem8.setText("Cerrar sesión");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

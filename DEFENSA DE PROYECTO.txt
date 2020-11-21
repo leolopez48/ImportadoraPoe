@@ -1,0 +1,10 @@
+-** Proyecto Final de POE
+
+ * Leonel Antonio López Valencia - 040119 
+ * Roberto Alejandro Armijo Jímenez - 046719 
+ * Sandra Natalia Menjívar Romero - 174218
+
+- Link del video de Youtube: https://youtu.be/RmwDqknBJPg
+- Repositorio de GitHub: https://github.com/leolopez48/ImportadoraPoe
+- Manual del instalador: https://1drv.ms/w/s!AqluQArixw1ihZxvCjTA_oOJR07tcA?e=eyOhN1
+- Proyecto en OneDrive: https://1drv.ms/u/s!AqluQArixw1ihZxyB0nmcKYiOoLt0A?e=DBItNb

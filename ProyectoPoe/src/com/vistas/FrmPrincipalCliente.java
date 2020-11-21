@@ -80,7 +80,7 @@ public class FrmPrincipalCliente extends javax.swing.JFrame {
         jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_sell_16px.png"))); // NOI18N
         jMenu6.setText("Ofertas");
 
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem4.setText("Detalle oferta");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,7 +103,7 @@ public class FrmPrincipalCliente extends javax.swing.JFrame {
         jMenu11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_settings_16px.png"))); // NOI18N
         jMenu11.setText("Ajustes");
 
-        jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK));
         jMenuItem8.setText("Cerrar sesión");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

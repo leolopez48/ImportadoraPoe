@@ -122,7 +122,7 @@ public class FrmPrincipalAdministrador extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem1.setText("Usuarios");
         jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -141,7 +141,7 @@ public class FrmPrincipalAdministrador extends javax.swing.JFrame {
         jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_business_building_16px.png"))); // NOI18N
         jMenu4.setText("Clientes");
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setText("Clientes");
         jMenuItem2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -160,7 +160,7 @@ public class FrmPrincipalAdministrador extends javax.swing.JFrame {
         jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_supplier_16px.png"))); // NOI18N
         jMenu5.setText("Proveedores");
 
-        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem6.setText("Proveedores");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -174,7 +174,7 @@ public class FrmPrincipalAdministrador extends javax.swing.JFrame {
         jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_sell_16px.png"))); // NOI18N
         jMenu6.setText("Ofertas");
 
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem4.setText("Detalle oferta");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,7 +183,7 @@ public class FrmPrincipalAdministrador extends javax.swing.JFrame {
         });
         jMenu6.add(jMenuItem4);
 
-        jMenuItem12.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem12.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem12.setText("Carrito");
         jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -197,7 +197,7 @@ public class FrmPrincipalAdministrador extends javax.swing.JFrame {
         jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_general_ledger_16px.png"))); // NOI18N
         jMenu7.setText("Impuestos");
 
-        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem5.setText("Impuestos");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,7 +211,7 @@ public class FrmPrincipalAdministrador extends javax.swing.JFrame {
         jMenu8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_product_16px.png"))); // NOI18N
         jMenu8.setText("Productos");
 
-        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem7.setText("Vehículos");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -220,7 +220,7 @@ public class FrmPrincipalAdministrador extends javax.swing.JFrame {
         });
         jMenu8.add(jMenuItem7);
 
-        jMenuItem13.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.SHIFT_MASK));
+        jMenuItem13.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem13.setText("Unidades de medida");
         jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -234,7 +234,7 @@ public class FrmPrincipalAdministrador extends javax.swing.JFrame {
         jMenu9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_class_16px.png"))); // NOI18N
         jMenu9.setText("Categorías");
 
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem3.setText("Categoría");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -248,7 +248,7 @@ public class FrmPrincipalAdministrador extends javax.swing.JFrame {
         jMenu12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_pie_chart_report_16px.png"))); // NOI18N
         jMenu12.setText("Reportes");
 
-        jMenuItem9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMenuItem9.setText("Clientes");
         jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -257,7 +257,7 @@ public class FrmPrincipalAdministrador extends javax.swing.JFrame {
         });
         jMenu12.add(jMenuItem9);
 
-        jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMenuItem10.setText("Detalle Oferta");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -266,7 +266,7 @@ public class FrmPrincipalAdministrador extends javax.swing.JFrame {
         });
         jMenu12.add(jMenuItem10);
 
-        jMenuItem11.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem11.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMenuItem11.setText("Proveedores");
         jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -280,7 +280,7 @@ public class FrmPrincipalAdministrador extends javax.swing.JFrame {
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_graph_report_16px.png"))); // NOI18N
         jMenu1.setText("Gráficos");
 
-        jMenuItem15.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem15.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMenuItem15.setText("Ventas mensuales");
         jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -289,7 +289,7 @@ public class FrmPrincipalAdministrador extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem15);
 
-        jMenuItem16.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem16.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMenuItem16.setText("Ventas categorías");
         jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -303,7 +303,7 @@ public class FrmPrincipalAdministrador extends javax.swing.JFrame {
         jMenu11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_settings_16px.png"))); // NOI18N
         jMenu11.setText("Ajustes");
 
-        jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK));
         jMenuItem8.setText("Cerrar sesión");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -346,7 +346,7 @@ public class FrmPrincipalAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu3MouseClicked
 
     private void jMenuItem2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem2MouseClicked
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jMenuItem2MouseClicked
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed

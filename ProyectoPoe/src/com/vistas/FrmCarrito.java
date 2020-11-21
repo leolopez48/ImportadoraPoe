@@ -54,7 +54,7 @@ public class FrmCarrito extends javax.swing.JInternalFrame {
         modeloTabla();
         setUsuarioLoggeado();
         borrarFilas();
-        
+        setId();
     }
     
     public void setUsuarioLoggeado(){
@@ -64,7 +64,6 @@ public class FrmCarrito extends javax.swing.JInternalFrame {
         txtIdVehiculo.setEnabled(false);
         txtFecha.setDate(Calendar.getInstance().getTime());
         txtFecha.setEnabled(false);
-        //txtUsuario.setText("juan36");
         Vehiculo veh = daoV.mostrarVehiculos().get(0);
         txtPrecio.setText(String.valueOf(veh.getPrecio()));
         txtPrecio.setEnabled(false);

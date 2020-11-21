@@ -257,7 +257,11 @@ public class FrmNuevoUsuario extends javax.swing.JFrame {
             }
         });
 
-        btnEditarFoto.setText("Editar");
+        btnEditarFoto.setBackground(new java.awt.Color(255, 255, 255));
+        btnEditarFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_camera_identification_48px_2.png"))); // NOI18N
+        btnEditarFoto.setBorder(null);
+        btnEditarFoto.setBorderPainted(false);
+        btnEditarFoto.setContentAreaFilled(false);
         btnEditarFoto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarFotoActionPerformed(evt);

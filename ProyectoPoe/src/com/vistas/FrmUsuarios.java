@@ -41,10 +41,13 @@ public class FrmUsuarios extends javax.swing.JInternalFrame {
     public FrmUsuarios() {
         initComponents();
         mostrar(daoU.mostrarUsuarios());
-        //super.setExtendedState(Frame.MAXIMIZED_BOTH);
         def = txtContra.getEchoChar();
         habilitar(false);
-        
+        setId();
+    }
+    
+    public void setId(){
+        txtId.setText(String.valueOf(daoU.ultimoId()));
     }
     
     public void habilitar(boolean estado){
@@ -105,6 +108,7 @@ public class FrmUsuarios extends javax.swing.JInternalFrame {
         this.txtContra.setText("");
         this.cbPrioridad.setSelectedIndex(0);
         this.btnFoto.setIcon(null);
+        setId();
     }
 
     public void llenarTabla() {
@@ -465,7 +469,11 @@ public class FrmUsuarios extends javax.swing.JInternalFrame {
             }
         });
 
-        btnEditarFoto.setText("Editar");
+        btnEditarFoto.setBackground(new java.awt.Color(255, 255, 255));
+        btnEditarFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/recursos/icons8_camera_identification_48px_2.png"))); // NOI18N
+        btnEditarFoto.setBorder(null);
+        btnEditarFoto.setBorderPainted(false);
+        btnEditarFoto.setContentAreaFilled(false);
         btnEditarFoto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarFotoActionPerformed(evt);
@@ -486,7 +494,7 @@ public class FrmUsuarios extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 34, Short.MAX_VALUE)
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btnFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnEditarFoto)

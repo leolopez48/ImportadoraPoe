@@ -50,6 +50,11 @@ public class FrmVehiculos extends javax.swing.JInternalFrame {
         this.txtCodigoVe.setEnabled(false);
         cargarCombo(comboCategoria1, daoCat.mostrarCategoria());
         cargarCombo2(comboUnidad, daoUni.mostrarUnidadMedidas());
+        setId();
+    }
+    
+    public void setId() {
+        txtCodigoVe.setText(String.valueOf(daoVe.ultimoId()));
     }
     
     public void mostrar(List<Vehiculo> lista) {

@@ -23,7 +23,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+1"/>
+                  <KeyStroke key="Shift+Ctrl+U"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Usuarios"/>
               </Properties>
@@ -45,7 +45,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+2"/>
+                  <KeyStroke key="Shift+Ctrl+C"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Clientes"/>
               </Properties>
@@ -67,7 +67,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem6">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+P"/>
+                  <KeyStroke key="Shift+Ctrl+P"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Proveedores"/>
               </Properties>
@@ -88,7 +88,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+D"/>
+                  <KeyStroke key="Shift+Ctrl+D"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Detalle oferta"/>
               </Properties>
@@ -99,7 +99,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem12">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+C"/>
+                  <KeyStroke key="Shift+Ctrl+C"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Carrito"/>
               </Properties>
@@ -120,7 +120,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+I"/>
+                  <KeyStroke key="Shift+Ctrl+I"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Impuestos"/>
               </Properties>
@@ -141,7 +141,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem7">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+V"/>
+                  <KeyStroke key="Shift+Ctrl+V"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Veh&#xed;culos"/>
               </Properties>
@@ -152,7 +152,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem13">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Shift+U"/>
+                  <KeyStroke key="Shift+Ctrl+M"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Unidades de medida"/>
               </Properties>
@@ -173,7 +173,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+C"/>
+                  <KeyStroke key="Shift+Ctrl+A"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Categor&#xed;a"/>
               </Properties>
@@ -194,7 +194,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem9">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Shift+Ctrl+C"/>
+                  <KeyStroke key="Shift+Alt+C"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Clientes"/>
               </Properties>
@@ -205,7 +205,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem10">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Shift+Ctrl+D"/>
+                  <KeyStroke key="Shift+Alt+D"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Detalle Oferta"/>
               </Properties>
@@ -216,7 +216,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem11">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Shift+Ctrl+P"/>
+                  <KeyStroke key="Shift+Alt+P"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Proveedores"/>
               </Properties>
@@ -237,7 +237,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem15">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Shift+Ctrl+M"/>
+                  <KeyStroke key="Shift+Alt+M"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ventas mensuales"/>
               </Properties>
@@ -248,7 +248,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem16">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Shift+Ctrl+C"/>
+                  <KeyStroke key="Shift+Alt+C"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ventas categor&#xed;as"/>
               </Properties>
@@ -269,7 +269,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem8">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+C"/>
+                  <KeyStroke key="Shift+C"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cerrar sesi&#xf3;n"/>
               </Properties>

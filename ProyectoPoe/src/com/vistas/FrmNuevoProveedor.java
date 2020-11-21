@@ -51,8 +51,8 @@ public class FrmNuevoProveedor extends javax.swing.JFrame {
             daoU.insertarUsuario(usu);
             daoC.insertarCliente(cli);
             JOptionPane.showMessageDialog(null, "Insertado correctamente");
-            FrmPrincipalProveedor pro = new FrmPrincipalProveedor();
-            pro.setVisible(true);
+            FrmLogin login = new FrmLogin();
+            login.setVisible(true);
             this.dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al insertar" + e.getMessage());

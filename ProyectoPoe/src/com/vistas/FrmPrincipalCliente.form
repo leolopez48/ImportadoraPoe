@@ -42,7 +42,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+D"/>
+                  <KeyStroke key="Shift+Ctrl+D"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Detalle oferta"/>
               </Properties>
@@ -74,7 +74,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem8">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+C"/>
+                  <KeyStroke key="Shift+C"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cerrar sesi&#xf3;n"/>
               </Properties>

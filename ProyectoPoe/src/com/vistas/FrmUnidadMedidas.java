@@ -83,6 +83,7 @@ public class FrmUnidadMedidas extends javax.swing.JInternalFrame {
     public void setId()
     {
         txtIdUM.setText(String.valueOf(daoUM.ultimoId()));
+        txtIdUM.setEnabled(false);
     }
 
     public void modificar() {

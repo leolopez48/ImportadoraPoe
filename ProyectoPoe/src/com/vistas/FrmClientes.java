@@ -36,6 +36,12 @@ public class FrmClientes extends javax.swing.JInternalFrame {
         initComponents();
         mostrar(daoC.mostrarClientes());
         cargarCombo(comboUsuario, daoU.mostrarUsuarios());
+        setId();
+    }
+    
+    public void setId() {
+        txtCodigo.setText(String.valueOf(daoC.ultimoId()));
+        this.txtCodigo.setEnabled(false);
     }
     
     public void mostrar(List<Cliente> lista) {

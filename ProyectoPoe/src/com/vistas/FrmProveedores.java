@@ -46,11 +46,14 @@ public class FrmProveedores extends javax.swing.JInternalFrame {
         limpiar();
     }
     
+    public void setId(){
+        txtCodigo.setText(String.valueOf(daoP.ultimoId()));
+    }
     
      public void mostrar(List<Proveedor> lista)
     {
         DefaultTableModel tabla;
-        String encabezados[]={"Código","Usuario","Nombre","Dirección","Teléfono","Foto Url"};
+        String encabezados[]={"Código","Usuario","Nombre","Teléfono","Dirección","Foto Url"};
         tabla=new DefaultTableModel(null,encabezados);
         Object datos[]=new Object[6];
         try {
@@ -81,8 +84,8 @@ public class FrmProveedores extends javax.swing.JInternalFrame {
             String usu = String.valueOf(this.tablaProveedores.getValueAt(fila, 1));
             comboUsuario.getModel().setSelectedItem(usu);
             this.txtNombre.setText(String.valueOf(this.tablaProveedores.getValueAt(fila, 2)));
-             this.txtDireccion.setText(String.valueOf(this.tablaProveedores.getValueAt(fila, 3)));
-             this.txtTelefono.setText(String.valueOf(this.tablaProveedores.getValueAt(fila, 4)));
+             this.txtDireccion.setText(String.valueOf(this.tablaProveedores.getValueAt(fila, 4)));
+             this.txtTelefono.setText(String.valueOf(this.tablaProveedores.getValueAt(fila, 3)));
            
             //Foto
              if(rutaModificado==null)
@@ -125,6 +128,7 @@ public class FrmProveedores extends javax.swing.JInternalFrame {
             daoP.insertarProveedor(pro);
             JOptionPane.showMessageDialog(null, "Proveedor Insertado Correctamente");
              this.limpiar();
+             mostrar(daoP.mostrarProveedor());
        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al insertar el formulario"+e);
        }
@@ -588,14 +592,6 @@ public class FrmProveedores extends javax.swing.JInternalFrame {
 
     private void Enter(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Enter
 
-        /*if (evt.getKeyCode()==KeyEvent.VK_ENTER){
-            int row = tablaProveedores.getSelectedRow();
-            Integer id_empresa=(Integer)tablaProveedores.getValueAt(row, 0);
-
-            //new Detalle_Empresa(id_empresa).setVisible(true);
-
-            super.dispose();
-        }*/
     }//GEN-LAST:event_Enter
 
     private void tablaProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProveedoresMouseClicked
@@ -604,17 +600,7 @@ public class FrmProveedores extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tablaProveedoresMouseClicked
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        /*this.modelo.setRowCount(0);
-        emp = pro.seleccionarEmpresa(Integer.parseInt(txtBuscar.getText()));
-        this.modelo.setRowCount(0);
-        Object [] obj = new Object[5];
-            obj[0] = emp.getId_empresa();
-            obj[1] = emp.getNombre_empresa();
-            obj[2] = emp.getDescripcion();
-            obj[3] = emp.getUsuario().getFoto();
-            obj[4] = emp.getUsuario().getId_usuario();
-            this.modelo.addRow(obj);  
-        this.jTDatos.setModel(modelo);*/
+
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnInsertarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsertarMouseClicked
